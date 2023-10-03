@@ -6,10 +6,10 @@
 --create table Carreras (id int primary key not null, inicio date not null, fin date not null, fecha date not null, descr varchar(32), check(inicio<=fin), check(fin<fecha));
 
 
-delete table Participa;
-delete table Atleta;
-delete table Competicion
-delete table Categoria;
+--delete table Participa;
+---delete table Atleta;
+--delete table Competicion
+--delete table Categoria;
 
 drop table Competicion;
 create table Competicion(id int primary key not null,inicio date not null, fin date not null, fecha date not null, descr varchar(32), 
