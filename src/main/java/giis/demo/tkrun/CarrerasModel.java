@@ -24,14 +24,14 @@ public class CarrerasModel {
 	//SQL para obtener la lista de carreras activas para una fecha dada,
 	//se incluye aqui porque se usara en diferentes versiones de los metodos bajo prueba
 	public static final String SQL_LISTA_CARRERAS=
-			"SELECT id,descr,"
+			"SELECT id,descr,cuota,distancia"
 			+" case when ?<inicio then ''" //antes de inscripcion
 			+"   when ?<=fin then '(Abierta)'" //fase 1
 			+"   when ?<fecha then '(Abierta)'" //fase 2
 			+"   when ?=fecha then '(Abierta)'" //fase 3
 			+"   else '' " //despues de fin carrera
 			+" end as abierta"
-			+" from carreras  where fecha>=? order by id";
+			+" from Competicion where fecha>=? order by id";
 	/**
 	 * Obtiene la lista de carreras futuras (posteriores a una fecha dada) con el id, descripcion
 	 * y la indicacion de si tienen inscripcion abierta.
@@ -58,7 +58,7 @@ public class CarrerasModel {
 				+"   when ?=fecha then '(Abierta)'" //fase 3
 				+"   else '' " //despues de fin carrera
 				+" end as abierta"
-				+" from carreras  where fecha>=? order by id";
+				+" from competicion  where fecha>=? order by id";
 		String d=Util.dateToIsoString(fechaInscripcion);
 		return db.executeQueryPojo(CarreraDisplayDTO.class, sql, d, d, d, d, d);
 	}
@@ -79,7 +79,7 @@ public class CarrerasModel {
 				+"   when ?=fecha then 50" //fase 3
 				+"   else NULL "
 				+" end as descuentoRecargo"
-				+" from carreras where id=? order by id";			
+				+" from competicion where id=? order by id";			
 		String d=Util.dateToIsoString(fechaInscripcion);
 		List<Object[]>rows=db.executeQueryArray(sql, d, d, d, d, idCarrera);
 		//determina el valor a devolver o posibles excepciones
@@ -95,7 +95,7 @@ public class CarrerasModel {
 	 * Obtiene todos los datos de la carrera con el id indicado
 	 */
 	public CarreraEntity getCarrera(int id) {
-		String sql="SELECT id,inicio,fin,fecha,descr from carreras where id=?";
+		String sql="SELECT id,inicio,fin,fecha,descr from competicion where id=?";
 		List<CarreraEntity> carreras=db.executeQueryPojo(CarreraEntity.class, sql, id);
 		validateCondition(!carreras.isEmpty(),"Id de carrera no encontrado: "+id);
 		return carreras.get(0);
@@ -107,7 +107,7 @@ public class CarrerasModel {
 	public void updateFechasInscripcion(int id, Date inicio, Date fin) {
 		CarreraEntity carrera=this.getCarrera(id);
 		validateFechasInscripcion(inicio, fin, Util.isoStringToDate(carrera.getFecha()));
-		String sql="UPDATE carreras SET inicio=?, fin=? WHERE id=?";
+		String sql="UPDATE competicion SET inicio=?, fin=? WHERE id=?";
 		db.executeUpdate(sql, Util.dateToIsoString(inicio), Util.dateToIsoString(fin), id);
 	}
 	private void validateFechasInscripcion(Date inicio, Date fin, Date fecha) {
