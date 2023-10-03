@@ -21,4 +21,4 @@ insert into Atleta(dni,f_nacimiento,nombre,sexo) values
 insert into Participa(dni_at,id_c) values 
 (1,100),(2,103),(9,100),(7,102),(3,101);
 
-insert into Categoria(id_comp,tipo) values(100,'montaña'),(103,'plano'),(101,'montaña'),(102,'plano'),(104,'montaña')
+insert into Categoria(id_comp,tipo) values(100,'montaña'),(103,'ruta'),(101,'montaña'),(102,'ruta'),(104,'montaña')

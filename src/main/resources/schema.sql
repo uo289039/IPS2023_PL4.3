@@ -26,4 +26,4 @@ create table Participa(dni_at int not null, id_c int not null, constraint pk_Par
 
 drop table Categoria;
 create table Categoria(id_comp int not null,tipo varchar(20) not null, constraint pk_Categoria PRIMARY KEY(id_comp),
-constraint FK_Categoria_Competicion Foreign Key (id_comp) references "Competicion" (id),check(tipo in('Montaña','Plano')));
+constraint FK_Categoria_Competicion Foreign Key (id_comp) references "Competicion" (id),check(tipo in('montaña','ruta')));
