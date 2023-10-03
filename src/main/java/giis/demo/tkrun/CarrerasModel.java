@@ -58,7 +58,7 @@ public class CarrerasModel {
 				+"   when ?=fecha then '(Abierta)'" //fase 3
 				+"   else '' " //despues de fin carrera
 				+" end as abierta"
-				+" from competicion  where fecha>=? order by id";
+				+" from Competicion where fecha>=? order by id";
 		String d=Util.dateToIsoString(fechaInscripcion);
 		return db.executeQueryPojo(CarreraDisplayDTO.class, sql, d, d, d, d, d);
 	}
@@ -79,12 +79,12 @@ public class CarrerasModel {
 				+"   when ?=fecha then 50" //fase 3
 				+"   else NULL "
 				+" end as descuentoRecargo"
-				+" from competicion where id=? order by id";			
+				+" from Competicion where id=? order by id";			
 		String d=Util.dateToIsoString(fechaInscripcion);
 		List<Object[]>rows=db.executeQueryArray(sql, d, d, d, d, idCarrera);
 		//determina el valor a devolver o posibles excepciones
 		if (rows.isEmpty())
-			throw new ApplicationException("Id de carrera no encontrado: "+idCarrera);
+			throw new ApplicationException("Id de competicion no encontrado: "+idCarrera);
 		else if (rows.get(0)[0]==null)
 			throw new ApplicationException("No es posible la inscripcion en esta fecha");
 		else
@@ -95,9 +95,9 @@ public class CarrerasModel {
 	 * Obtiene todos los datos de la carrera con el id indicado
 	 */
 	public CarreraEntity getCarrera(int id) {
-		String sql="SELECT id,inicio,fin,fecha,descr from competicion where id=?";
+		String sql="SELECT id,inicio,fin,fecha,descr from Competicion where id=?";
 		List<CarreraEntity> carreras=db.executeQueryPojo(CarreraEntity.class, sql, id);
-		validateCondition(!carreras.isEmpty(),"Id de carrera no encontrado: "+id);
+		validateCondition(!carreras.isEmpty(),"Id de competicion no encontrado: "+id);
 		return carreras.get(0);
 	}
 
