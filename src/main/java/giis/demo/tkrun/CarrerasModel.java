@@ -24,7 +24,7 @@ public class CarrerasModel {
 	//SQL para obtener la lista de carreras activas para una fecha dada,
 	//se incluye aqui porque se usara en diferentes versiones de los metodos bajo prueba
 	public static final String SQL_LISTA_CARRERAS=
-			"SELECT id,descr,cuota,distancia"
+			"SELECT id,descr,cuota,distancia,"
 			+" case when ?<inicio then ''" //antes de inscripcion
 			+"   when ?<=fin then '(Abierta)'" //fase 1
 			+"   when ?<fecha then '(Abierta)'" //fase 2

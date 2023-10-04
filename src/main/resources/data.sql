@@ -7,6 +7,7 @@ delete from Participa;
 delete from Atleta;
 delete from Categoria;
 delete from Competicion;
+
 insert into Competicion(id,inicio,fin,fecha,descr,cuota,distancia) values 
 	(100,'2016-10-05','2016-10-25','2016-11-09','finalizada',50.0,5),
 	(101,'2016-10-05','2016-10-25','2016-11-10','en fase 3',50.5,5),
@@ -21,4 +22,4 @@ insert into Atleta(dni,f_nacimiento,nombre,sexo) values
 insert into Participa(dni_at,id_c) values 
 (1,100),(2,103),(9,100),(7,102),(3,101);
 
-insert into Categoria(id_comp,tipo) values(100,'montaña'),(103,'ruta'),(101,'montaña'),(102,'ruta'),(104,'montaña')
+insert into Categoria(id_categoria, id_comp,tipo) values(1,100,'montaña'),(2,103,'ruta'),(3,101,'montaña'),(4,102,'ruta'),(5,104,'montaña');
