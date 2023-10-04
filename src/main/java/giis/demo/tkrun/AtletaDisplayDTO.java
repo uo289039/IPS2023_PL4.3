@@ -16,24 +16,25 @@ public class AtletaDisplayDTO {
 	private String nombre;
 	private String categoria;
 	private Date fechaI;
-	private double distancia;
+	private String estadoI;
 	public AtletaDisplayDTO() {}
-	public AtletaDisplayDTO(String rowId, String rowDescripcion, String rowEstado, Date rowFecha) {
+	public AtletaDisplayDTO(String rowId, String rowDescripcion, String rowCategoria, Date rowFecha, String rowEstado) {
 		this.dni=rowId;
 		this.nombre=rowDescripcion;
-		this.categoria=rowEstado;
+		this.categoria=rowCategoria;
 		this.fechaI=rowFecha;
+		this.estadoI=rowEstado;
 	}
 	public String getDni() { return this.dni; }
 	public String getNombre() { return this.nombre; }
 	public String getCategoria() {return this.categoria; }
 	public Date getFechaI() {return this.fechaI;}
-	public double getDistancia() {return this.distancia;}
+	public String getEstadoI() {return this.estadoI;}
 	public void setDni(String value) { this.dni=value; }
 	public void setNombre(String value) { this.nombre=value; }
 	public void setCategoria(String value) { this.categoria=value; }
 	public void setFechaI(Date date) {this.fechaI=date;}
-	public void setDistancia(double d) {this.distancia=d;}
+	public void setEstadoI(String d) {this.estadoI=d;}
 	//NOTA: se pueden generar getters y setters de forma automatica usando lombok:  
 	//https://www.sitepoint.com/declutter-pojos-with-lombok-tutorial/
 	//http://www.baeldung.com/intro-to-project-lombok
