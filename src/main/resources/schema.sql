@@ -11,23 +11,23 @@
 --delete table Competicion
 --delete table Categoria;
 
-drop table Categoria;
-create table Categoria(id_categoria int not null, id_comp int not null,tipo varchar(20) not null, 
+drop table if exists Categoria;
+create table Categoria(id_categoria int not null,tipo varchar(20) not null, 
 constraint pk_Categoria PRIMARY KEY(id_categoria),
 check(tipo in('montaña','ruta')));
 
 
-drop table Competicion;
+drop table if exists Competicion;
 create table Competicion(id int primary key not null,inicio date not null, fin date not null, fecha date not null, descr varchar(32), 
-cuota decimal(4,2), distancia decimal(4,2),
-constraint FK_Competicion_Categoria Foreign Key (id) references "Categoria" (id_comp), check(inicio<=fin), check(fin<fecha));
+cuota decimal(4,2), distancia decimal(4,2), id_cat int not null,
+constraint FK_Competicion_Categoria Foreign Key (id_cat) references "Categoria" (id_categoria), 
+check(inicio<=fin),check(fin<fecha));
 
-drop table Atleta;
+drop table if exists Atleta;
 create table Atleta(dni int primary key not null,f_nacimiento date not null, nombre varchar(20) not null, sexo varchar(7) not null,
 check(sexo in ('hombre','mujer')));
 
-drop table Participa;
+drop table if exists Participa;
 create table Participa(dni_at int not null, id_c int not null, constraint pk_Participa PRIMARY KEY(dni_at,id_c), 
                         constraint FK_Participa_Competicion Foreign Key (id_c) references "Competicion" (id),
                         constraint FK_Participa_Atleta Foreign Key (dni_at) references "Competicion" (dni));
-
