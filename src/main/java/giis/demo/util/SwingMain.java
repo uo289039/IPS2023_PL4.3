@@ -80,6 +80,15 @@ public class SwingMain {
 			}
 		});
 		frame.getContentPane().add(btnCargarDatosIniciales);
+		
+		JButton btnDatosAtletas = new JButton("Muestra Datos Atletas");
+		btnDatosAtletas.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				AtletasController controller=new AtletasController(new AtletaModel(), new AtletasView());
+				controller.initController();
+			}
+		});
+		frame.getContentPane().add(btnDatosAtletas);
 	}
 
 	public JFrame getFrame() { return this.frame; }
