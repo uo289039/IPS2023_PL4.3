@@ -15,10 +15,12 @@ public class CarreraDisplayDTO {
 	private double cuota;
 	private double distancia;
 	public CarreraDisplayDTO() {}
-	public CarreraDisplayDTO(String rowId, String rowDescripcion, String rowEstado, String rowDistancia) {
+	public CarreraDisplayDTO(String rowId, String rowDescripcion, String rowEstado, String rowCuota, String rowDistancia) {
 		this.id=rowId;
 		this.descr=rowDescripcion;
 		this.abierta=rowEstado;
+		this.cuota=Double.parseDouble(rowCuota);
+		this.distancia=Double.parseDouble(rowDistancia);
 	}
 	public String getId() { return this.id; }
 	public String getDescr() { return this.descr; }
