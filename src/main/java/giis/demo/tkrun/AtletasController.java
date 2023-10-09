@@ -38,11 +38,11 @@ public class AtletasController {
 		//ActionListener define solo un metodo actionPerformed(), es un interfaz funcional que se puede invocar de la siguiente forma:
 		//view.getBtnTablaCarreras().addActionListener(e -> getListaCarreras());
 		//ademas invoco el metodo que responde al listener en el exceptionWrapper para que se encargue de las excepciones
-		view.getBtnTablaCarreras().addActionListener(e -> SwingUtil.exceptionWrapper(() -> getListaCarreras()));
+		view.getBtnTablaAtletas().addActionListener(e -> SwingUtil.exceptionWrapper(() -> getListaAtletas()));
 	
 		//En el caso del mouse listener (para detectar seleccion de una fila) no es un interfaz funcional puesto que tiene varios metodos
 		//ver discusion: https://stackoverflow.com/questions/21833537/java-8-lambda-expressions-what-about-multiple-methods-in-nested-class
-		view.getTablaCarreras().addMouseListener(new MouseAdapter() {
+		view.getTablaAtletas().addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				//no usa mouseClicked porque al establecer seleccion simple en la tabla de carreras
@@ -56,7 +56,7 @@ public class AtletasController {
 		//Inicializa la fecha de hoy a un valor que permitira mostrar carreras en diferentes fases 
 		//y actualiza los datos de la vista
 		view.setId("100");
-		this.getListaCarreras();
+		this.getListaAtletas();
 		
 		//Abre la ventana (sustituye al main generado por WindowBuilder)
 		view.getFrame().setVisible(true); 
@@ -65,11 +65,11 @@ public class AtletasController {
 	 * La obtencion de la lista de carreras solo necesita obtener la lista de objetos del modelo 
 	 * y usar metodo de SwingUtil para crear un tablemodel que se asigna finalmente a la tabla.
 	 */
-	public void getListaCarreras() {
-		List<CarreraDisplayDTO> carreras=model.getListaAtletas((view.getId()));
-		TableModel tmodel=SwingUtil.getTableModelFromPojos(carreras, new String[] {"id", "descr", "estado","cuota","distancia"});
-		view.getTablaCarreras().setModel(tmodel);
-		SwingUtil.autoAdjustColumns(view.getTablaCarreras());
+	public void getListaAtletas() {
+		List<AtletaDisplayDTO> carreras=model.getListaAtletas((view.getId()));
+		TableModel tmodel=SwingUtil.getTableModelFromPojos(carreras, new String[] {"dni", "nombre", "categoria","fechaI","estadoI"});
+		view.getTablaAtletas().setModel(tmodel);
+		SwingUtil.autoAdjustColumns(view.getTablaAtletas());
 		
 		//Como se guarda la clave del ultimo elemento seleccionado, restaura la seleccion de los detalles
 		this.restoreDetail();
@@ -77,7 +77,7 @@ public class AtletasController {
 		//A modo de demo, se muestra tambien la misma informacion en forma de lista en un combobox
 		List<Object[]> carrerasList=model.getListaAtletasArray((view.getId()));
 		ComboBoxModel<Object> lmodel=SwingUtil.getComboModelFromList(carrerasList);
-		view.getListaCarreras().setModel(lmodel);
+		view.getListaAtletas().setModel(lmodel);
 	}
 	/**
 	 * Restaura la informacion del detalle de la carrera para visualizar los valores correspondientes
@@ -85,7 +85,7 @@ public class AtletasController {
 	 */
 	public void restoreDetail() {
 		//Utiliza la ultimo valor de la clave (que se reiniciara si ya no existe en la tabla)
-		this.lastSelectedKey=SwingUtil.selectAndGetSelectedKey(view.getTablaCarreras(), this.lastSelectedKey);
+		this.lastSelectedKey=SwingUtil.selectAndGetSelectedKey(view.getTablaAtletas(), this.lastSelectedKey);
 		//Si hay clave para seleccionar en la tabla muestra el detalle, si no, lo reinicia
 		if ("".equals(this.lastSelectedKey)) { 
 			view.setDescuentoNoAplicable();
@@ -100,7 +100,7 @@ public class AtletasController {
 	 */
 	public void updateDetail() {
 		//Obtiene la clave seleccinada y la guarda para recordar la seleccion en futuras interacciones
-		this.lastSelectedKey=SwingUtil.getSelectedKey(view.getTablaCarreras());
+		this.lastSelectedKey=SwingUtil.getSelectedKey(view.getTablaAtletas());
 		int idCarrera=Integer.parseInt(this.lastSelectedKey);
 		
 		//Detalle de descuento/recargo:

@@ -15,9 +15,9 @@ import java.awt.SystemColor;
 import javax.swing.UIManager;
 
 /**
- * Vista de la pantalla que muestra las carreras activas y permite interactuar con ellas.
+ * Vista de la pantalla que muestra las  activas y permite interactuar con ellas.
  * <br/>Se ha generado con WindowBulder y modificado para ser conforme a MVC teniendo en cuenta:
- * - Se elimina main (es invocada desde CarrerasMain) y se incluye Title en el frame
+ * - Se elimina main (es invocada desde Main) y se incluye Title en el frame
  * - No se incluye ningun handler de eventos pues estos van en el controlador
  * - Las tablas se encierran en JOptionPane para que se puedan visualizar las cabeceras
  * - Se asinga nombre a las tablas si se van a automatizar la ejecucion de pruebas
@@ -45,8 +45,8 @@ public class AtletasView {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setTitle("Carreras");
-		frame.setName("Carreras");
+		frame.setTitle("Atletas");
+		frame.setName("Atletas");
 		frame.setBounds(0, 0, 492, 422);
 		frame.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new MigLayout("", "[grow]", "[][][grow][][][][][][][][]"));
@@ -55,10 +55,10 @@ public class AtletasView {
 		final JLabel lblFechaHoy;
 		final JLabel lblLstAtletas;
 
-		lblSimulacion = new JLabel("Simulación de la fecha de hoy para mostrar las carreras");
+		lblSimulacion = new JLabel("Simulación de la fecha de hoy para mostrar las ");
 		frame.getContentPane().add(lblSimulacion, "cell 0 1");
 		
-		lblFechaHoy = new JLabel("Fecha de hoy (formato ISO):");
+		lblFechaHoy = new JLabel("Atletas de competicion (formato ISO):");
 		frame.getContentPane().add(lblFechaHoy, "flowx,cell 0 3");
 		
 		txtId = new JTextField();
@@ -70,7 +70,7 @@ public class AtletasView {
 		lblFechaHoy.setLabelFor(btnTabAtletas);
 		frame.getContentPane().add(btnTabAtletas, "cell 0 3");
 		
-		JLabel lblLbltable = new JLabel("Proximas carreras:");
+		JLabel lblLbltable = new JLabel("Proximas :");
 		frame.getContentPane().add(lblLbltable, "cell 0 4");
 		
 		//Incluyo la tabla en un JScrollPane y anyado este en vez de la tabla para poder ver los headers de la tabla
@@ -113,9 +113,9 @@ public class AtletasView {
 	public JFrame getFrame() { return this.frame; }
 	public String getId()  { return this.txtId.getText(); }
 	public void setId(String fechaIso)  { this.txtId.setText(fechaIso); }
-	public JButton getBtnTablaCarreras() { return this.btnTabAtletas; }
-	public JTable getTablaCarreras() { return this.tabAtletas; }
-	public JComboBox<Object> getListaCarreras() { return this.lstAtletas; }
+	public JButton getBtnTablaAtletas() { return this.btnTabAtletas; }
+	public JTable getTablaAtletas() { return this.tabAtletas; }
+	public JComboBox<Object> getListaAtletas() { return this.lstAtletas; }
 	public void setDescuento(String descuento) { this.descuento.setText(descuento+"%"); }
 	public void setDescuentoNoAplicable() { this.descuento.setText("N/A"); }
 	public JTable getDetalleCarrera() { return this.tabDetalle; }

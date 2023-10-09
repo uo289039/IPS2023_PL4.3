@@ -24,9 +24,9 @@ public class AtletaModel {
 	//SQL para obtener la lista de carreras activas para una fecha dada,
 	//se incluye aqui porque se usara en diferentes versiones de los metodos bajo prueba
 	public static final String SQL_LISTA_DATOS_ATLETAS=
-			"Select distinct a.dni, a.nombre, a.inscripcion, c.id_cat "
-			+ "from Atleta a, Participa p, Competicion c, \n"
-			+ "where a.dni=p.dni and p.id=c.id  and c.id='?'";
+			"Select distinct a.dni, a.nombre, c.id_cat as categoria, a.inscripcion as fechaI, p.estadoI"
+			+ " from Atleta a, Participa p, Competicion c, Categoria ct \n"
+			+ "where a.dni=p.dni_at and p.id_c=c.id  and c.id=?";
 	/**
 	 * Obtiene la lista de carreras futuras (posteriores a una fecha dada) con el id, descripcion
 	 * y la indicacion de si tienen inscripcion abierta.
@@ -36,7 +36,7 @@ public class AtletaModel {
 	public List<Object[]> getListaAtletasArray(String idCategoria) {
 		//validateNotNull(fechaInscripcion,MSG_FECHA_INSCRIPCION_NO_NULA);
 		//concatena los campos deseados en una unica columna pues el objetivo es devolver una lista de strings
-		String sql="SELECT dni || '-' || nombre || ' ' || inscripcion || '' || id_cat "
+		String sql="SELECT dni || '-' || nombre || ' ' || categoria || '' || fechaI || '' || estadoI"
 				+ " from (" + SQL_LISTA_DATOS_ATLETAS + ")";
 		
 		return db.executeQueryArray(sql, idCategoria);
@@ -44,14 +44,14 @@ public class AtletaModel {
 	/**
 	 * Obtiene la lista de carreras activas en forma objetos para una fecha de inscripcion dada
 	 */
-	public List<CarreraDisplayDTO> getListaAtletas(String idCategoria) {
+	public List<AtletaDisplayDTO> getListaAtletas(String idCategoria) {
 		//validateNotNull(fechaInscripcion,MSG_FECHA_INSCRIPCION_NO_NULA);
 		String sql=
-				"Select distinct a.dni, a.nombre, a.inscripcion, c.id_cat "
-						+ "from Atleta a, Participa p, Competicion c, \n"
-						+ "where a.dni=p.dni and p.id=c.id  and c.id='?'";
+				"Select distinct a.dni, a.nombre, c.id_cat as categoria, a.inscripcion as fechaI, p.estadoI \n"
+				+" from Atleta a, Participa p, Competicion c \n "
+				+ " where a.dni=p.dni_at and p.id_c=c.id  and c.id=?";
 		//String d=Util.dateToIsoString(fechaInscripcion);
-		return db.executeQueryPojo(CarreraDisplayDTO.class, sql, idCategoria);
+		return db.executeQueryPojo(AtletaDisplayDTO.class, sql, idCategoria);
 	}
 	/** 
 	 * Obtiene el porcentaje de descuento (valor negativo) o recargo aplicable a una carrera dada por su id cuando se
