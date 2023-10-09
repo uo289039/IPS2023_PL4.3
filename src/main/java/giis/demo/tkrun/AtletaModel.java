@@ -17,7 +17,7 @@ import giis.demo.util.Database;
  * a los Servicios, Repositorios y DAOs.
  */
 public class AtletaModel {
-	private static final String MSG_FECHA_INSCRIPCION_NO_NULA = "La fecha de inscripcion no puede ser nula";
+	//private static final String MSG_FECHA_INSCRIPCION_NO_NULA = "La fecha de inscripcion no puede ser nula";
 
 	private Database db=new Database();
 	
@@ -36,7 +36,7 @@ public class AtletaModel {
 	public List<Object[]> getListaAtletasArray(String idCategoria) {
 		//validateNotNull(fechaInscripcion,MSG_FECHA_INSCRIPCION_NO_NULA);
 		//concatena los campos deseados en una unica columna pues el objetivo es devolver una lista de strings
-		String sql="SELECT dni || '-' || nombre || ' ' || categoria || '' || fechaI || '' || estadoI"
+		String sql="SELECT dni || '-' || nombre || ' ' || categoria || ' ' || fechaI || ' ' || estadoI"
 				+ " from (" + SQL_LISTA_DATOS_ATLETAS + ")";
 		
 		return db.executeQueryArray(sql, idCategoria);

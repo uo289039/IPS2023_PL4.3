@@ -89,6 +89,13 @@ public class SwingMain {
 			}
 		});
 		frame.getContentPane().add(btnDatosAtletas);
+		
+		JButton btnPreinscripcion = new JButton("Inscripcion");
+		btnPreinscripcion.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		frame.getContentPane().add(btnPreinscripcion);
 	}
 
 	public JFrame getFrame() { return this.frame; }
