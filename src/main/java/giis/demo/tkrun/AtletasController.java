@@ -55,7 +55,7 @@ public class AtletasController {
 	public void initView() {
 		//Inicializa la fecha de hoy a un valor que permitira mostrar carreras en diferentes fases 
 		//y actualiza los datos de la vista
-		view.setId("100");
+		view.setId("San Silvestre");
 		this.getListaAtletas();
 		
 		//Abre la ventana (sustituye al main generado por WindowBuilder)

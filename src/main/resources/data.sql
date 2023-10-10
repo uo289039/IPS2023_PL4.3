@@ -8,12 +8,12 @@ delete from Atleta;
 delete from Categoria;
 delete from Competicion;
 
-insert into Competicion(id,inicio,fin,fecha,descr,cuota,distancia, id_cat,nPlazas) values 
-	(100,'2016-10-05','2016-10-25','2016-11-09','finalizada',50.0,5,1,40),
-	(101,'2016-10-05','2016-10-25','2016-11-10','en fase 3',50.5,5,2,30),
-	(102,'2016-11-05','2016-11-09','2016-11-20','en fase 2',50.0,5,3,50),
-	(103,'2016-11-10','2016-11-15','2016-11-21','en fase 1',50.0,5,5,33),
-	(104,'2016-11-11','2016-11-15','2016-11-22','antes inscripcion',50.0,5,4,42);
+insert into Competicion(id,nombre_c,inicio,fin,fecha,descr,cuota,distancia, id_cat,nPlazas) values 
+	(100,'San Silvestre','2016-10-05','2016-10-25','2016-11-09','finalizada',50.0,5,1,40),
+	(101,'Media Maraton','2016-10-05','2016-10-25','2016-11-10','en fase 3',50.5,5,2,30),
+	(102,'Vuelta Ciclista','2016-11-05','2016-11-09','2016-11-20','en fase 2',50.0,5,3,50),
+	(103,'Carrera Solidaria','2016-11-10','2016-11-15','2016-11-21','en fase 1',50.0,5,5,33),
+	(104,'Subida al Cristo','2016-11-11','2016-11-15','2016-11-22','antes inscripcion',50.0,5,4,42);
 
 insert into Atleta(dni,f_nacimiento,nombre,sexo,inscripcion,formaPago,correoE) values
 (1,'2004-11-03','Alexander','hombre','2016-10-10','transferencia','alex@gmail.com'),

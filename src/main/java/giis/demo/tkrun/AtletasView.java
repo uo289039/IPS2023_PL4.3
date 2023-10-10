@@ -58,7 +58,7 @@ public class AtletasView {
 		lblSimulacion = new JLabel("Simulación de la fecha de hoy para mostrar las ");
 		frame.getContentPane().add(lblSimulacion, "cell 0 1");
 		
-		lblFechaHoy = new JLabel("Atletas de competicion (formato ISO):");
+		lblFechaHoy = new JLabel("Atletas de competicion:");
 		frame.getContentPane().add(lblFechaHoy, "flowx,cell 0 3");
 		
 		txtId = new JTextField();
