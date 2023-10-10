@@ -18,7 +18,7 @@ check(tipo in('montaña','ruta')));
 
 
 drop table if exists Competicion;
-create table Competicion(id int primary key not null,inicio date not null, fin date not null, fecha date not null, descr varchar(32), 
+create table Competicion(id int primary key not null, inicio date not null, fin date not null, fecha date not null, descr varchar(32), 
 cuota decimal(4,2), distancia decimal(4,2), id_cat int not null, nPlazas int not null,
 constraint FK_Competicion_Categoria Foreign Key (id_cat) references "Categoria" (id_categoria), 
 check(inicio<=fin),check(fin<fecha));
@@ -30,7 +30,7 @@ check(sexo in ('hombre','mujer')), check(formaPago in ('transferencia','tarjeta'
 
 drop table if exists Participa;
 <<<<<<< HEAD
-create table Participa(dni_at int not null, id_c int not null, categoria varchar(20), constraint pk_Participa PRIMARY KEY(dni_at,id_c), 
+create table Participa(dni_at int not null, id_c int not null, estadoI varchar(15), categoria varchar(20), constraint pk_Participa PRIMARY KEY(dni_at,id_c), 
 >>>>>>> branch 'main' of https://github.com/uo289039/IPS2023_PL4.3
                         constraint FK_Participa_Competicion Foreign Key (id_c) references "Competicion" (id),
                         constraint FK_Participa_Atleta Foreign Key (dni_at) references "Competicion" (dni),
