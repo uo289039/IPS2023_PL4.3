@@ -17,6 +17,7 @@ public class CarreraEntity {
 	private String descr;
 	private double cuota;
 	private double distancia;
+	
 
 	public String getId() { return this.id; }
 	public String getInicio() { return this.inicio; }
@@ -25,11 +26,11 @@ public class CarreraEntity {
 	public String getDescr() { return this.descr; }
 	public double getCuota() {return this.cuota;}
 	public double getDistancia() {return this.distancia;}
-	public void setId(String value) { this.id=value; }
-	public void setInicio(String value) { this.inicio=value; }
-	public void setFin(String value) { this.fin=value; }
-	public void setFecha(String value) { this.fecha=value; }
-	public void setDescr(String value) { this.descr=value; }
+	public void setId(String value) { this.id=value;}
+	public void setInicio(String value) { this.inicio=value;}
+	public void setFin(String value) { this.fin=value;}
+	public void setFecha(String value) { this.fecha=value;}
+	public void setDescr(String value) { this.descr=value;}
 	public void setCuota(double c) {this.cuota=c;}
 	public void setDistancia(double d) {this.distancia=d;}
 	//NOTA: se pueden generar getters y setters de forma automatica usando lombok:  
