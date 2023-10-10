@@ -24,7 +24,7 @@ public class CarrerasModel {
 	//SQL para obtener la lista de carreras activas para una fecha dada,
 	//se incluye aqui porque se usara en diferentes versiones de los metodos bajo prueba
 	public static final String SQL_LISTA_CARRERAS=
-			"SELECT id,descr,cuota,distancia,"
+			"SELECT id,descr,cuota,distancia,inicio,fin,"
 			+" case when ?<inicio then ''" //antes de inscripcion
 			+"   when ?<=fin then '(Abierta)'" //fase 1
 			+"   when ?<fecha then '(Abierta)'" //fase 2
@@ -41,7 +41,7 @@ public class CarrerasModel {
 	public List<Object[]> getListaCarrerasArray(Date fechaInscripcion) {
 		validateNotNull(fechaInscripcion,MSG_FECHA_INSCRIPCION_NO_NULA);
 		//concatena los campos deseados en una unica columna pues el objetivo es devolver una lista de strings
-		String sql="SELECT id || '-' || descr || '-' || cuota || '-' || distancia || '-' || abierta as item "
+		String sql="SELECT id || '-' || descr || '-' || cuota || '-' || distancia || '-' || inicio || '-' || fin || '-' || abierta as item "
 				+ " from (" + SQL_LISTA_CARRERAS + ")";
 		String d=Util.dateToIsoString(fechaInscripcion);
 		return db.executeQueryArray(sql, d, d, d, d, d);
@@ -52,7 +52,7 @@ public class CarrerasModel {
 	public List<CarreraDisplayDTO> getListaCarreras(Date fechaInscripcion) {
 		validateNotNull(fechaInscripcion,MSG_FECHA_INSCRIPCION_NO_NULA);
 		String sql=
-				 "SELECT id,descr,cuota,distancia,case"
+				 "SELECT id,descr,cuota,distancia,inicio,fin,case"
 				+ " when ?<inicio then ''" //antes de inscripcion
 				+"   when ?<=fin then '(Abierta)'" //fase 1
 				+"   when ?<fecha then '(Abierta)'" //fase 2

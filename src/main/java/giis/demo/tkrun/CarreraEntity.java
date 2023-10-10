@@ -17,6 +17,7 @@ public class CarreraEntity {
 	private String descr;
 	private double cuota;
 	private double distancia;
+	
 
 	public String getId() { return this.id; }
 	public String getInicio() { return this.inicio; }
