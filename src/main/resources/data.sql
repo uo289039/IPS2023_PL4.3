@@ -22,7 +22,7 @@ insert into Atleta(dni,f_nacimiento,nombre,sexo,inscripcion,formaPago,correoE) v
 (2,'2003-01-12','Emilie','mujer','2016-10-10','tarjeta','emilie@gmail.com'),
 (9,'2000-10-11','Alexa','mujer','2016-10-12','tarjeta','alexa@gmail.com');
 
-insert into Participa(dni_at,id_c,estadoI,categoria) values 
-(1,100,'Inscrito', ''),(2,103,'Inscrito', ''),(9,100,'Preinscrito', ''),(7,102,'Inscrito', ''),(3,101,'Preinscrito', '');
+insert into Participa(dni_at,id_c,estadoI) values 
+(1,100,'Inscrito'),(2,103,'Inscrito'),(9,100,'Preinscrito'),(7,102,'Inscrito'),(3,101,'Preinscrito');
 
 insert into Categoria(id_categoria,tipo) values(1,'montaña'),(2,'ruta'),(3,'montaña'),(4,'ruta'),(5,'montaña');
