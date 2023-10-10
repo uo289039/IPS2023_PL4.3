@@ -101,6 +101,10 @@ public class CarrerasModel {
 		validateCondition(!carreras.isEmpty(),"Id de competicion no encontrado: "+id);
 		return carreras.get(0);
 	}
+	
+	public void asignarDorsales() {
+		
+	}
 
 	/**
 	 * Actualiza las fechas de inscripcion de una carrera
