@@ -30,20 +30,22 @@ check(sexo in ('hombre','mujer')), check(formaPago in ('transferencia','tarjeta'
 
 drop table if exists Participa;
 <<<<<<< HEAD
-create table Participa(dni_at int not null, id_c int not null, categoria varchar(20), constraint pk_Participa PRIMARY KEY(dni_at,id_c), 
+create table Participa(dni_at int not null, id_c int not null, estadoI varchar(15), categoria varchar(20), constraint pk_Participa PRIMARY KEY(dni_at,id_c), 
 >>>>>>> branch 'main' of https://github.com/uo289039/IPS2023_PL4.3
                         constraint FK_Participa_Competicion Foreign Key (id_c) references "Competicion" (id),
                         constraint FK_Participa_Atleta Foreign Key (dni_at) references "Competicion" (dni),
                         check(estadoI in ('No Inscrito','Preinscrito','Inscrito')));
 
 CREATE TRIGGER calcular_categoria
-AFTER INSERT ON Atleta
+AFTER INSERT ON Participa
 FOR EACH ROW
 BEGIN
+    DECLARE s varchar(7);
     DECLARE categoria varchar(20);
     DECLARE edad int;
+    SELECT sexo INTO s FROM Atleta WHERE dni = NEW.dni_at;
     SET edad = DATEDIFF(YEAR, @f_nacimiento, GETDATE());
-    IF NEW.sexo = 'hombre' THEN
+    IF s = 'hombre' THEN
         IF edad < 12 THEN
             SET categoria = 'Masculino sub-12';
         ELSEIF edad < 16 THEN
@@ -63,7 +65,7 @@ BEGIN
         ELSEIF edad >= 60 THEN
             SET categoria = 'Masculino veteranos';
         END IF;
-    ELSEIF NEW.sexo = 'mujer' THEN
+    ELSEIF s = 'mujer' THEN
         IF edad < 12 THEN
             SET categoria = 'Femenino sub-12';
         ELSEIF edad < 16 THEN
@@ -84,7 +86,7 @@ BEGIN
             SET categoria = 'Femenino veteranas';
         END IF;
     END IF;
-    INSERT INTO Participa (dni_at, id_c, categoria) VALUES (NEW.dni, null, categoria);
+    INSERT INTO Participa (dni_at, id_c, estadoI, categoria) VALUES (NEW.dni_at, NEW.id_c, NEW.estadoI, categoria);
 END;
 
                        
