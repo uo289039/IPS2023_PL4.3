@@ -29,10 +29,15 @@ sexo varchar(7) not null,inscripcion date not null, formaPago varchar(15) not nu
 check(sexo in ('hombre','mujer')), check(formaPago in ('transferencia','tarjeta')));
 
 drop table if exists Participa;
+<<<<<<< HEAD
 create table Participa(dni_at int not null, id_c int not null, estadoI varchar(15) not null, constraint pk_Participa PRIMARY KEY(dni_at,id_c), 
+=======
+create table Participa(dni_at int not null, id_c int not null, estadoI varchar(15), constraint pk_Participa PRIMARY KEY(dni_at,id_c), 
+>>>>>>> refs/remotes/origin/Categorias
                         constraint FK_Participa_Competicion Foreign Key (id_c) references "Competicion" (id),
                         constraint FK_Participa_Atleta Foreign Key (dni_at) references "Competicion" (dni),
                         check(estadoI in ('No Inscrito','Preinscrito','Inscrito')));
+<<<<<<< HEAD
                        
 
 CREATE TRIGGER calcular_categoria
@@ -86,4 +91,6 @@ BEGIN
     INSERT INTO Participa (dni_at, id_c, categoria) VALUES (NEW.dni, null, categoria);
 END;
 
+=======
+>>>>>>> refs/remotes/origin/Categorias
                        
