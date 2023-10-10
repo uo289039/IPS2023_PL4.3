@@ -30,6 +30,7 @@ check(sexo in ('hombre','mujer')), check(formaPago in ('transferencia','tarjeta'
 
 drop table if exists Participa;
 create table Participa(dni_at int not null, id_c int not null, estadoI varchar(15) not null, constraint pk_Participa PRIMARY KEY(dni_at,id_c), 
+                        dorsal NUMBER(3,0) UNIQUE,
                         constraint FK_Participa_Competicion Foreign Key (id_c) references "Competicion" (id),
                         constraint FK_Participa_Atleta Foreign Key (dni_at) references "Competicion" (dni),
                         check(estadoI in ('No Inscrito','Preinscrito','Inscrito')));
