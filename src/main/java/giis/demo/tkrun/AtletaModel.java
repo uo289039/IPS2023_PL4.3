@@ -33,13 +33,13 @@ public class AtletaModel {
 	 * Implementacion usando la utilidad que obtiene una lista de arrays de objetos 
 	 * resultado de la ejecucion de una query sql
 	 */
-	public List<Object[]> getListaAtletasArray(String idCategoria) {
+	public List<Object[]> getListaAtletasArray(String nombreCompeticion) {
 		//validateNotNull(fechaInscripcion,MSG_FECHA_INSCRIPCION_NO_NULA);
 		//concatena los campos deseados en una unica columna pues el objetivo es devolver una lista de strings
 		String sql="SELECT dni || '-' || nombre || ' ' || categoria || ' ' || fechaI || ' ' || estadoI"
 				+ " from (" + SQL_LISTA_DATOS_ATLETAS + ")";
 		
-		return db.executeQueryArray(sql, idCategoria);
+		return db.executeQueryArray(sql, nombreCompeticion);
 	}
 	/**
 	 * Obtiene la lista de carreras activas en forma objetos para una fecha de inscripcion dada
