@@ -24,7 +24,7 @@ public class AtletaModel {
 	//SQL para obtener la lista de carreras activas para una fecha dada,
 	//se incluye aqui porque se usara en diferentes versiones de los metodos bajo prueba
 	public static final String SQL_LISTA_DATOS_ATLETAS=
-			"Select distinct a.dni, a.nombre, c.id_cat as categoria, a.inscripcion as fechaI, p.estadoI"
+			"Select distinct a.dni, a.nombre, c.id_cat as categoria, a.inscripcion as fechaI, p.estadoI, p.dorsal"
 			+ " from Atleta a, Participa p, Competicion c, Categoria ct \n"
 			+ "where a.dni=p.dni_at and p.id_c=c.id  and c.id=?";
 	/**
@@ -36,7 +36,7 @@ public class AtletaModel {
 	public List<Object[]> getListaAtletasArray(String idCategoria) {
 		//validateNotNull(fechaInscripcion,MSG_FECHA_INSCRIPCION_NO_NULA);
 		//concatena los campos deseados en una unica columna pues el objetivo es devolver una lista de strings
-		String sql="SELECT dni || '-' || nombre || ' ' || categoria || ' ' || fechaI || ' ' || estadoI"
+		String sql="SELECT dni || '-' || nombre || ' ' || categoria || ' ' || fechaI || ' ' || estadoI|| ' ' || dorsal"
 				+ " from (" + SQL_LISTA_DATOS_ATLETAS + ")";
 		
 		return db.executeQueryArray(sql, idCategoria);
@@ -47,7 +47,7 @@ public class AtletaModel {
 	public List<AtletaDisplayDTO> getListaAtletas(String idCategoria) {
 		//validateNotNull(fechaInscripcion,MSG_FECHA_INSCRIPCION_NO_NULA);
 		String sql=
-				"Select distinct a.dni, a.nombre, c.id_cat as categoria, a.inscripcion as fechaI, p.estadoI \n"
+				"Select distinct a.dni, a.nombre, c.id_cat as categoria, a.inscripcion as fechaI, p.estadoI, p.dorsal \n"
 				+" from Atleta a, Participa p, Competicion c \n "
 				+ " where a.dni=p.dni_at and p.id_c=c.id  and c.id=?";
 		//String d=Util.dateToIsoString(fechaInscripcion);

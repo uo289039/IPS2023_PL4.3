@@ -67,7 +67,7 @@ public class AtletasController {
 	 */
 	public void getListaAtletas() {
 		List<AtletaDisplayDTO> carreras=model.getListaAtletas((view.getId()));
-		TableModel tmodel=SwingUtil.getTableModelFromPojos(carreras, new String[] {"dni", "nombre", "categoria","fechaI","estadoI"});
+		TableModel tmodel=SwingUtil.getTableModelFromPojos(carreras, new String[] {"dni", "nombre", "categoria","fechaI","estadoI","dorsal"});
 		view.getTablaAtletas().setModel(tmodel);
 		SwingUtil.autoAdjustColumns(view.getTablaAtletas());
 		

@@ -102,13 +102,18 @@ public class CarrerasModel {
 		return carreras.get(0);
 	}
 	
+	/**
+	 * Asigna los dorsales a los participantes de una carrera especificada
+	 * por parametro. 
+	 * @param id
+	 */
 	public void asignarDorsales(int id) {
 		String sql = "SELECT dni FROM Participa WHERE id = ?";
 		List<AtletaEntity> atletas =  db.executeQueryPojo(AtletaEntity.class, sql, id);
 		
 		String sent;
 		AtletaEntity a;
-		for(int i = 0; i < atletas.size(); i++) {
+		for(int i = 2; i < atletas.size(); i++) {
 			a = atletas.get(i);
 			sent ="UPDATE Participa SET dorsal=? WHERE id=? AND dni=?";
 			db.executeUpdate(sent, i+1, id, a.getDni());

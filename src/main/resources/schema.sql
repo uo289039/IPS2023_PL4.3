@@ -29,13 +29,13 @@ sexo varchar(7) not null,inscripcion date not null, formaPago varchar(15) not nu
 check(sexo in ('hombre','mujer')), check(formaPago in ('transferencia','tarjeta')));
 
 drop table if exists Participa;
-create table Participa(dni_at int not null, id_c int not null, estadoI varchar(15) not null, constraint pk_Participa PRIMARY KEY(dni_at,id_c), 
-                        dorsal NUMBER(3,0) UNIQUE,
+create table Participa(dni_at int not null, id_c int not null, estadoI varchar(15) not null, dorsal NUMBER(3,0) UNIQUE, constraint pk_Participa PRIMARY KEY(dni_at,id_c), 
                         constraint FK_Participa_Competicion Foreign Key (id_c) references "Competicion" (id),
                         constraint FK_Participa_Atleta Foreign Key (dni_at) references "Competicion" (dni),
                         check(estadoI in ('No Inscrito','Preinscrito','Inscrito')));
-                       
+                      
 
+/*
 CREATE TRIGGER calcular_categoria
 AFTER INSERT ON Atleta
 FOR EACH ROW
@@ -86,5 +86,6 @@ BEGIN
     END IF;
     INSERT INTO Participa (dni_at, id_c, categoria) VALUES (NEW.dni, null, categoria);
 END;
+*/
 
                        
