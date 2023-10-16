@@ -104,7 +104,8 @@ public class CarrerasModel {
 	
 	/**
 	 * Asigna los dorsales a los participantes de una carrera especificada
-	 * por parametro. 
+	 * por parametro. Como se indica en los criterios de aceptación, a los
+	 * primeros atletas no se les asigna.
 	 * @param id
 	 */
 	public void asignarDorsales(int id) {
