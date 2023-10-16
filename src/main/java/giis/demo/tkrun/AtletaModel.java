@@ -26,7 +26,7 @@ public class AtletaModel {
 	public static final String SQL_LISTA_DATOS_ATLETAS=
 			"Select distinct a.dni, a.nombre, c.id_cat as categoria, a.inscripcion as fechaI, p.estadoI"
 			+ " from Atleta a, Participa p, Competicion c, Categoria ct \n"
-			+ "where a.dni=p.dni_at and p.id_c=c.id  and c.nombre_c=?";
+			+ "where a.correoE=p.correoElec and p.id_c=c.id  and c.nombre_c=?";
 	/**
 	 * Obtiene la lista de carreras futuras (posteriores a una fecha dada) con el id, descripcion
 	 * y la indicacion de si tienen inscripcion abierta.
@@ -49,7 +49,7 @@ public class AtletaModel {
 		String sql=
 				"Select distinct a.dni, a.nombre, c.id_cat as categoria, a.inscripcion as fechaI, p.estadoI \n"
 				+" from Atleta a, Participa p, Competicion c \n "
-				+ " where a.dni=p.dni_at and p.id_c=c.id  and c.nombre_c=?";
+				+ " where a.correoE=p.correoElec and p.id_c=c.id  and c.nombre_c=?";
 		//String d=Util.dateToIsoString(fechaInscripcion);
 		return db.executeQueryPojo(AtletaDisplayDTO.class, sql, idCategoria);
 	}

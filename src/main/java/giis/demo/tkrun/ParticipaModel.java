@@ -1,5 +1,8 @@
 package giis.demo.tkrun;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.*;
 import giis.demo.util.Util;
 import giis.demo.util.ApplicationException;
@@ -24,34 +27,31 @@ public class ParticipaModel {
 	//SQL para obtener la lista de carreras activas para una fecha dada,
 	//se incluye aqui porque se usara en diferentes versiones de los metodos bajo prueba
 	public static final String SQL_LISTA_PARTICIPA=
-			"Select distinct a.dni, a.nombre, c.id_cat as categoria, a.inscripcion as fechaI, p.estadoI"
-			+ " from Atleta a, Participa p, Competicion c, Categoria ct \n"
-			+ "where a.dni=p.dni_at and p.id_c=c.id  and c.nombre_c=?";
+			"Select nombre_c from Competicion";
+	
+	//public static final String SQL_LISTA_COMPETICIONES="Select distinct nombre_c from Competicion";
 	/**
 	 * Obtiene la lista de carreras futuras (posteriores a una fecha dada) con el id, descripcion
 	 * y la indicacion de si tienen inscripcion abierta.
 	 * Implementacion usando la utilidad que obtiene una lista de arrays de objetos 
 	 * resultado de la ejecucion de una query sql
 	 */
-	public List<Object[]> getListaAtletasArray(String nombreCompeticion) {
+	public List<Object[]> getListaCompeticionArray() {
 		//validateNotNull(fechaInscripcion,MSG_FECHA_INSCRIPCION_NO_NULA);
 		//concatena los campos deseados en una unica columna pues el objetivo es devolver una lista de strings
-		String sql="SELECT dni || '-' || nombre || ' ' || categoria || ' ' || fechaI || ' ' || estadoI"
-				+ " from (" + SQL_LISTA_PARTICIPA + ")";
+		String sql=SQL_LISTA_PARTICIPA;
 		
-		return db.executeQueryArray(sql, nombreCompeticion);
+		return db.executeQueryArray(sql);
 	}
 	/**
 	 * Obtiene la lista de carreras activas en forma objetos para una fecha de inscripcion dada
 	 */
-	public List<AtletaDisplayDTO> getListaAtletas(String idCategoria) {
+	public List<CarreraDisplayDTO> getListaParticipa() {
 		//validateNotNull(fechaInscripcion,MSG_FECHA_INSCRIPCION_NO_NULA);
 		String sql=
-				"Select distinct a.dni, a.nombre, c.id_cat as categoria, a.inscripcion as fechaI, p.estadoI \n"
-				+" from Atleta a, Participa p, Competicion c \n "
-				+ " where a.dni=p.dni_at and p.id_c=c.id  and c.nombre_c=?";
+				"Select distinct nombre_c from Competicion";
 		//String d=Util.dateToIsoString(fechaInscripcion);
-		return db.executeQueryPojo(AtletaDisplayDTO.class, sql, idCategoria);
+		return db.executeQueryPojo(CarreraDisplayDTO.class, sql);
 	}
 	/** 
 	 * Obtiene el porcentaje de descuento (valor negativo) o recargo aplicable a una carrera dada por su id cuando se
@@ -85,38 +85,71 @@ public class ParticipaModel {
 	/**
 	 * Obtiene todos los datos de la carrera con el id indicado
 	 */
-	public CarreraEntity getAtletas(int id) {
-		String sql="SELECT dni,f_nacimiento,nombre,sexo,inscripcion from Atleta where dni=?";
-		List<CarreraEntity> atletas=db.executeQueryPojo(CarreraEntity.class, sql, id);
-		validateCondition(!atletas.isEmpty(),"Id de competicion no encontrado: "+id);
+	public CarreraEntity getParticipa() {
+		String sql="Select distinct nombre_c from Competicion";
+		List<CarreraEntity> atletas=db.executeQueryPojo(CarreraEntity.class, sql);
+		//validateCondition(!atletas.isEmpty(),"Id de competicion no encontrado: ");
 		return atletas.get(0);
+	}
+	
+	public CarreraDisplayDTO[] getNombresCompeticiones() {
+		StringBuilder query=new StringBuilder();
+		String sentencia="Select distinct nombre_c, id from Competicion";
+		query.append(sentencia);
+		
+		return db.executeQueryPojo(CarreraDisplayDTO.class,query.toString()).toArray(new CarreraDisplayDTO[0]);
 	}
 
 	/**
 	 * Actualiza las fechas de inscripcion de una carrera
 	 */
 	public void updateFechasInscripcion(int id, Date inicio, Date fin) {
-		CarreraEntity carrera=this.getAtletas(id);
-		validateFechasInscripcion(inicio, fin, Util.isoStringToDate(carrera.getFecha()));
+		CarreraEntity carrera=this.getParticipa();
+		//validateFechasInscripcion(inicio, fin, Util.isoStringToDate(carrera.getFecha()));
 		String sql="UPDATE competicion SET inicio=?, fin=? WHERE id=?";
 		db.executeUpdate(sql, Util.dateToIsoString(inicio), Util.dateToIsoString(fin), id);
 	}
-	private void validateFechasInscripcion(Date inicio, Date fin, Date fecha) {
-		validateNotNull(inicio,"La fecha de inicio de inscripcion no puede ser nula");
-		validateNotNull(fin,"La fecha de fin de inscripcion no puede ser nula");
-		validateNotNull(fecha,"La fecha de fin de carrera no puede ser nula");
-		validateCondition(inicio.compareTo(fin)<=0, "La fecha de inicio no puede ser posterior a la de fin");
-		validateCondition(fin.compareTo(fecha)<=0, "La fecha de fin no puede ser posterior a la de la carrera");
-	}
+//	private void validateFechasInscripcion(Date inicio, Date fin, Date fecha) {
+//		validateNotNull(inicio,"La fecha de inicio de inscripcion no puede ser nula");
+//		validateNotNull(fin,"La fecha de fin de inscripcion no puede ser nula");
+//		validateNotNull(fecha,"La fecha de fin de carrera no puede ser nula");
+//		validateCondition(inicio.compareTo(fin)<=0, "La fecha de inicio no puede ser posterior a la de fin");
+//		validateCondition(fin.compareTo(fecha)<=0, "La fecha de fin no puede ser posterior a la de la carrera");
+//	}
 
 	/* De uso general para validacion de objetos */
-	private void validateNotNull(Object obj, String message) {
-		if (obj==null)
-			throw new ApplicationException(message);
+//	private void validateNotNull(Object obj, String message) {
+//		if (obj==null)
+//			throw new ApplicationException(message);
+//	}
+//	private void validateCondition(boolean condition, String message) {
+//		if (!condition)
+//			throw new ApplicationException(message);
+//	}
+	
+	protected void insertaData(String info1, String info2,String info3) {
+		String sql="insert into participa(correoElec,id_c,estadoI) values(?,?,?)";
+		db.executeUpdate(sql, info1, info2, info3);
 	}
-	private void validateCondition(boolean condition, String message) {
-		if (!condition)
-			throw new ApplicationException(message);
+	
+	protected boolean yaInscrito(String id_c, String correo) {
+		String sql="Select id_c, correoElec from Participa where id_c=? and correoElec=?";
+		if(db.executeQueryPojo(ParticipaDisplayDTO.class, sql, id_c,correo).isEmpty())
+			return false;
+		
+		return true;
 	}
+	
+	
+	public String getInfoParticipa(String correo) {
+		String sql="Select distinct a.nombre, c.nombre_c, c2.tipo, "
+				+ "a.inscripcion, c.cuota  from Atleta a,"
+				+ "Participa p, Competicion c, Categoria c2 "
+				+ "where a.correoE=p.correoElec and p.id_c=c.id and c.id_cat=c2.id_categoria and a.correoE=?";
+		
+		return db.executeQueryPojo(CarreraDisplayDTO.class, sql, correo).toString();
+		
+	}
+	
 	
 }

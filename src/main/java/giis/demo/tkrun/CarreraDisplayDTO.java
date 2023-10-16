@@ -36,8 +36,20 @@ public class CarreraDisplayDTO {
 	public void setCuota(double c) {this.cuota=c;}
 	public void setDistancia(double d) {this.distancia=d;}
 	public void setNombre_c(String nombre_c) {this.nombre_c = nombre_c;}
+	@Override
+	public String toString() {
+		return this.getNombre_c()+" - "+this.getId();
+	}
+	
+	
+	public String toString2() {
+		return this.getNombre_c()+" - "+this.getId()+" - "+this.getCuota()
+		+" - "+this.getDescr()+" - "+this.abierta;
+	}
 	
 	//NOTA: se pueden generar getters y setters de forma automatica usando lombok:  
 	//https://www.sitepoint.com/declutter-pojos-with-lombok-tutorial/
 	//http://www.baeldung.com/intro-to-project-lombok
+	
+	
 }
