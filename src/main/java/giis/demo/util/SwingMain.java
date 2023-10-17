@@ -90,7 +90,7 @@ public class SwingMain {
 		});
 		frame.getContentPane().add(btnDatosAtletas);
 		
-		JButton btnPreinscripcion = new JButton("Inscripcion");
+		JButton btnPreinscripcion = new JButton("Preinscripcion");
 		btnPreinscripcion.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ParticipaController iA=new ParticipaController(new ParticipaModel(), new ParticipaView());

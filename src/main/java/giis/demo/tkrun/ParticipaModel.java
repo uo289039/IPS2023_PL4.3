@@ -146,8 +146,12 @@ public class ParticipaModel {
 				+ "a.inscripcion, c.cuota  from Atleta a,"
 				+ "Participa p, Competicion c, Categoria c2 "
 				+ "where a.correoE=p.correoElec and p.id_c=c.id and c.id_cat=c2.id_categoria and a.correoE=?";
+		List<CarreraDisplayDTO> data=db.executeQueryPojo(CarreraDisplayDTO.class, sql, correo);
+		String datos="";
+		for(int i=0;i<data.size();i++)
+			datos+=data.get(i).toString2()+" ";
 		
-		return db.executeQueryPojo(CarreraDisplayDTO.class, sql, correo).toString();
+		return datos;
 		
 	}
 	
