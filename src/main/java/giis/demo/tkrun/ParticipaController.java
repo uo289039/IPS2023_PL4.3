@@ -5,6 +5,7 @@ import java.awt.event.MouseEvent;
 import java.util.List;
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
@@ -41,7 +42,7 @@ public class ParticipaController {
 		//ActionListener define solo un metodo actionPerformed(), es un interfaz funcional que se puede invocar de la siguiente forma:
 		view.getBtnOk().addActionListener(e -> saveData());
 		
-		view.getBtnOk().addActionListener(e -> muestraInfo());
+		
 		//ademas invoco el metodo que responde al listener en el exceptionWrapper para que se encargue de las excepciones
 		view.getBtnCancelar().addActionListener(e -> reinicia());
 		
@@ -61,6 +62,7 @@ public class ParticipaController {
 	private void muestraInfo() {
 		JOptionPane.showMessageDialog(null, 
 				model.getInfoParticipa(view.getTextFieldCorreo().getText()));
+		this.getListaAtletas();
 		
 	}
 	public void initView() {
@@ -69,6 +71,7 @@ public class ParticipaController {
 		//view.setFechaHoy("2016-11-10");
 		this.getListaParticipa();
 		view.setVisible(true);
+		this.getListaAtletas();
 		//Abre la ventana (sustituye al main generado por WindowBuilder)
 		//view.getFrame().setVisible(true); 
 	}
@@ -78,11 +81,18 @@ public class ParticipaController {
 	 */
 	public void getListaParticipa() {
 		//List<ParticipaDisplayDTO> carreras=model.getListaParticipa();
-		CarreraDisplayDTO[] carrerasList=model.getNombresCompeticiones() ;
-		ComboBoxModel<CarreraDisplayDTO> lmodel=new DefaultComboBoxModel<CarreraDisplayDTO>(carrerasList);
-		view.getComboBoxCompeticiones().setModel(lmodel);
+//		List<CarreraDisplayDTO> carrerasList=model.getNombresCompeticiones() ;
+//		TableModel lmodel=SwingUtil.getTableModelFromPojos(carrerasList,new String[]{"nombre_c","id"});
+		//view.getTablaCompeticiones().setModel(lmodel);
 		//SwingUtil.autoAdjustColumns(view.getTablaCarreras());
+//		CarreraDisplayDTO[] carrerasList=model.getNombresCompeticiones() ;
+//		ComboBoxModel<CarreraDisplayDTO> cmodel=new DefaultComboBoxModel<CarreraDisplayDTO>(carrerasList);
+		//view.getComboBoxCompeticiones().setModel(cmodel); //,new String[]{"nombre_c","id"}
 		
+		List<CarreraDisplayDTO> lCarreras=model.getListaNombresCompeticiones();
+		TableModel lmodel=SwingUtil.getTableModelFromPojos(lCarreras,new String[]{"id","nombre_c"});
+		view.getTable().setModel(lmodel);
+		SwingUtil.autoAdjustColumns(view.getTable());
 		//Como se guarda la clave del ultimo elemento seleccionado, restaura la seleccion de los detalles
 		//this.restoreDetail();
 
@@ -91,6 +101,33 @@ public class ParticipaController {
 //		ComboBoxModel<Object> lmodel=SwingUtil.getComboModelFromList(carrerasList);
 //		view.getComboBoxCompeticiones().setModel(lmodel);
 	}
+	
+	public void getListaAtletas() {
+		
+		
+//		String correo=view.getTextFieldCorreo().getText();
+//		
+//		List<CarreraDisplayDTO> carreras=model.getListaParticipa((correo));
+//		TableModel tmodel=SwingUtil.getTableModelFromPojos(carreras, new String[] {"nombre_c", "inicio","fin"});//,"nPlazas"
+//		
+//		
+		
+		
+//		view.getTablaCompeticiones().setModel(tmodel);
+//		SwingUtil.autoAdjustColumns(view.getTablaCompeticiones());
+
+		
+		//Como se guarda la clave del ultimo elemento seleccionado, restaura la seleccion de los detalles
+		this.restoreDetail();
+
+		//A modo de demo, se muestra tambien la misma informacion en forma de lista en un combobox
+//		List<Object[]> carrerasList=model.getListaAtletasArray((view.getId()));
+//		ComboBoxModel<Object> lmodel=SwingUtil.getComboModelFromList(carrerasList);
+//		view.getListaAtletas().setModel(lmodel);
+	}
+	
+	
+	
 	/**
 	 * Restaura la informacion del detalle de la carrera para visualizar los valores correspondientes
 	 * a la ultima clave almacenada.
@@ -114,12 +151,30 @@ public class ParticipaController {
 		//Obtiene la clave seleccinada y la guarda para recordar la seleccion en futuras interacciones
 //		this.lastSelectedKey=SwingUtil.getSelectedKey(view.getTablaCarreras());
 		//this.lastSelectedKey=(String)view.getComboBoxCompeticiones().getSelectedItem();
-		String id=((CarreraDisplayDTO) view.getComboBoxCompeticiones().getSelectedItem()).getId();
+		//int indexCbox=view.getTable().getSelectedRow();
+		//view.getComboBoxCompeticiones().setSelectedIndex(indexCbox);
+		String id=SwingUtil.getSelectedKey(view.getTable());
+		//String id=((CarreraDisplayDTO) view.getComboBoxCompeticiones().getSelectedItem()).getId(); //((CarreraDisplayDTO) view.getTablaCompeticiones().getSelectedRow()).getId();
 		String correo=view.getTextFieldCorreo().getText();
 		
-		if(!model.yaInscrito(id, correo))
+		if(!model.yaInscrito(id, correo) && model.hayPlazas(id) && model.isCorreoValido(correo))
 			model.insertaData(correo, id, "Preinscrito");
+		
+		else if(model.yaInscrito(id, correo)){
+			JOptionPane.showMessageDialog(null, 
+					"No puede reinscribirse en una competición en la que ya lo está");
+		}
+		else if(!model.hayPlazas(id))
+			JOptionPane.showMessageDialog(null, 
+					"No puede reinscribirse en una competición en la que ya no hay plazas");
+		
+		else if(!model.isCorreoValido(correo))
+			JOptionPane.showMessageDialog(null, 
+					"No puede inscribirse con un correo no validado por la organización, por favor introduzca uno valido");
+		muestraInfo();
 		//Detalle de descuento/recargo:
+		
+		model.datosAtletaInscrito(correo);
 		//Controla excepcion porque el modelo causa excepcion cuando no se puede calcular el descuento
 		//y debe indicarse esto en la vista para evitar mostrar datos falsos que se veian antes
 		try { 

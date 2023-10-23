@@ -18,6 +18,7 @@ public class CarreraEntity {
 	private double cuota;
 	private double distancia;
 	private String nombre_c;
+	private int nPlazas;
 
 	public String getId() { return this.id; }
 	public String getInicio() { return this.inicio; }
@@ -35,6 +36,13 @@ public class CarreraEntity {
 	public void setCuota(double c) {this.cuota=c;}
 	public void setDistancia(double d) {this.distancia=d;}
 	public void setNombre_c(String nombre_c) {this.nombre_c = nombre_c;}
+	public int getnPlazas() {
+		return nPlazas;
+	}
+	public void setnPlazas(int nPlazas) {
+		this.nPlazas = nPlazas;
+	}
+	
 	//NOTA: se pueden generar getters y setters de forma automatica usando lombok:  
 	//https://www.sitepoint.com/declutter-pojos-with-lombok-tutorial/
 	//http://www.baeldung.com/intro-to-project-lombok

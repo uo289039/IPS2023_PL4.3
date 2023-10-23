@@ -17,8 +17,9 @@ public class CarreraDisplayDTO {
 	private String nombre_c;
 	private String inicio;
 	private String fin;
+	private int nPlazas;
 	public CarreraDisplayDTO() {}
-	public CarreraDisplayDTO(String rowId, String rowDescripcion, String rowEstado, String rowCuota,String rowDistancia, String rowNombre_c, String rowInicio, String rowFin) {
+	public CarreraDisplayDTO(String rowId, String rowDescripcion, String rowEstado, String rowCuota,String rowDistancia, String rowNombre_c, String rowInicio, String rowFin, String rowPlazas) {
 		this.id=rowId;
 		this.descr=rowDescripcion;
 		this.abierta=rowEstado;
@@ -27,6 +28,7 @@ public class CarreraDisplayDTO {
 		this.inicio=rowInicio;
 		this.fin=rowFin;
 		this.nombre_c=rowNombre_c;
+		this.nPlazas=Integer.parseInt(rowPlazas);
 	}
 	public String getId() { return this.id; }
 	public String getDescr() { return this.descr; }
@@ -40,6 +42,9 @@ public class CarreraDisplayDTO {
 	public void setCuota(double c) {this.cuota=c;}
 	public void setDistancia(double d) {this.distancia=d;}
 	public void setNombre_c(String nombre_c) {this.nombre_c = nombre_c;}
+	public void setnPlazas(int nPlazas) {this.nPlazas = nPlazas;}
+	
+	
 	
 	
 	
@@ -65,6 +70,11 @@ public class CarreraDisplayDTO {
 		return this.getNombre_c()+" - "+this.getId()+" - "+this.getCuota()
 		+" - "+this.getDescr()+" - "+this.abierta;
 	}
+	public int getnPlazas() {
+		return nPlazas;
+	}
+	
+	
 	
 	//NOTA: se pueden generar getters y setters de forma automatica usando lombok:  
 	//https://www.sitepoint.com/declutter-pojos-with-lombok-tutorial/

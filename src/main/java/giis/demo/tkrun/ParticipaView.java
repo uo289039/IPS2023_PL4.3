@@ -12,11 +12,19 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 import javax.swing.JRadioButton;
 import javax.swing.ButtonGroup;
+import javax.swing.JTable;
+import javax.swing.JScrollPane;
+import net.miginfocom.swing.MigLayout;
+import java.awt.Component;
+import javax.swing.ListSelectionModel;
 
 public class ParticipaView extends JFrame {
 
@@ -31,28 +39,35 @@ public class ParticipaView extends JFrame {
 	private JPanel panelB;
 	private JButton btnOk;
 	private JButton btnCancelar;
-	private JLabel lblTitulo;
-	private JPanel panelPideInfo;
-	private JLabel lblE1;
-	private JLabel lblSelecCompet;
-	private JLabel lblIntroduceCorreo;
-	private JPanel panelDatos;
-	private JLabel lblE2;
-	private JComboBox<CarreraDisplayDTO> comboBoxCompeticiones;
+//	private JComboBox<CarreraDisplayDTO> comboBoxCompeticiones;
 	private JTextField textFieldCorreo;
-	private JLabel lblPago;
 	private JPanel panelRBotones;
 	private JRadioButton rdbtnTarjeta;
 	private JRadioButton rdbtnTransferencia;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
+	private JLabel lblIntro;
+	private JLabel lblCorreo;
+	private JLabel lblCompeticiones;
+	private JScrollPane tablePanel;
+	private JTable table;
+//	private JLabel lblCbox;
+	
 
 	public ParticipaView() {
+		
+		setTitle("Preinscripcion");
 		getContentPane().setBackground(Color.WHITE);
-		getContentPane().add(getPanelBotones(), BorderLayout.SOUTH);
-		getContentPane().add(getLblTitulo(), BorderLayout.NORTH);
-		getContentPane().add(getPanelPideInfo(), BorderLayout.WEST);
-		getContentPane().add(getPanelDatos(), BorderLayout.CENTER);
-		setBounds(100, 100, 747, 422);
+		getContentPane().setLayout(new MigLayout("", "[grow][grow]", "[][][grow][][][][][][][][]"));
+		getContentPane().add(getTextFieldCorreo(), "cell 1 1");
+		getContentPane().add(getPanelBotones(), "cell 0 7 3 1,growx,aligny top");
+//		getContentPane().add(getComboBoxCompeticiones(), "cell 0 5 3 1,growx,aligny top");
+		getContentPane().add(getPanelRBotones(), "cell 0 6,alignx left,aligny top");
+		getContentPane().add(getLblIntro(), "cell 0 0,alignx left,aligny top");
+		getContentPane().add(getLblCorreo(), "cell 0 1,alignx left,aligny center");
+		getContentPane().add(getLblCompeticiones(), "cell 0 2 3 1,alignx left,aligny top");
+		getContentPane().add(getTablePanel(), "cell 0 3 3 1,grow");
+//		getContentPane().add(getLblCbox(), "cell 0 4 3 1,alignx left,aligny top");
+		setBounds(100, 100, 720, 432);
 
 	}
 
@@ -86,68 +101,14 @@ public class ParticipaView extends JFrame {
 		}
 		return btnCancelar;
 	}
-	private JLabel getLblTitulo() {
-		if (lblTitulo == null) {
-			lblTitulo = new JLabel("PREINSCRIPCIÓN");
-			lblTitulo.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		}
-		return lblTitulo;
-	}
-	private JPanel getPanelPideInfo() {
-		if (panelPideInfo == null) {
-			panelPideInfo = new JPanel();
-			panelPideInfo.setBackground(Color.WHITE);
-			panelPideInfo.setLayout(new GridLayout(5, 1, 0, 0));
-			panelPideInfo.add(getLblE1());
-			panelPideInfo.add(getLblSelecCompet());
-			panelPideInfo.add(getLblIntroduceCorreo());
-			panelPideInfo.add(getLblPago());
-		}
-		return panelPideInfo;
-	}
-	private JLabel getLblE1() {
-		if (lblE1 == null) {
-			lblE1 = new JLabel("");
-		}
-		return lblE1;
-	}
-	private JLabel getLblSelecCompet() {
-		if (lblSelecCompet == null) {
-			lblSelecCompet = new JLabel("Seleccione la competición para preinscribirse: ");
-		}
-		return lblSelecCompet;
-	}
-	private JLabel getLblIntroduceCorreo() {
-		if (lblIntroduceCorreo == null) {
-			lblIntroduceCorreo = new JLabel("Introduzca su correo electrónico para registrarse:");
-		}
-		return lblIntroduceCorreo;
-	}
-	private JPanel getPanelDatos() {
-		if (panelDatos == null) {
-			panelDatos = new JPanel();
-			panelDatos.setBackground(Color.WHITE);
-			panelDatos.setLayout(new GridLayout(5, 1, 0, 0));
-			panelDatos.add(getLblE2());
-			panelDatos.add(getComboBoxCompeticiones());
-			panelDatos.add(getTextFieldCorreo());
-			panelDatos.add(getPanelRBotones());
-		}
-		return panelDatos;
-	}
-	private JLabel getLblE2() {
-		if (lblE2 == null) {
-			lblE2 = new JLabel("");
-		}
-		return lblE2;
-	}
-	public JComboBox<CarreraDisplayDTO> getComboBoxCompeticiones() {
-		if (comboBoxCompeticiones == null) {
-			comboBoxCompeticiones = new JComboBox<CarreraDisplayDTO>();
-			comboBoxCompeticiones.setBackground(Color.WHITE);
-		}
-		return comboBoxCompeticiones;
-	}
+//	public JComboBox<CarreraDisplayDTO> getComboBoxCompeticiones() {
+//		if (comboBoxCompeticiones == null) {
+//			comboBoxCompeticiones = new JComboBox<CarreraDisplayDTO>();
+//			comboBoxCompeticiones.setEditable(true);
+//			comboBoxCompeticiones.setBackground(Color.WHITE);
+//		}
+//		return comboBoxCompeticiones;
+//	}
 	public JTextField getTextFieldCorreo() {
 		if (textFieldCorreo == null) {
 			textFieldCorreo = new JTextField();
@@ -157,18 +118,11 @@ public class ParticipaView extends JFrame {
 	}
 
 	public void reiniciar() {
-		this.getComboBoxCompeticiones().setSelectedIndex(0);
+//		this.getComboBoxCompeticiones().setSelectedIndex(0);
 		this.getTextFieldCorreo().setText("");
 		this.setVisible(false);
 		
-	}
-	
-	
-	private JLabel getLblPago() {
-		if (lblPago == null) {
-			lblPago = new JLabel("Seleccione su forma de pago:");
-		}
-		return lblPago;
+		
 	}
 	private JPanel getPanelRBotones() {
 		if (panelRBotones == null) {
@@ -197,4 +151,47 @@ public class ParticipaView extends JFrame {
 		}
 		return rdbtnTransferencia;
 	}
+	private JLabel getLblIntro() {
+		if (lblIntro == null) {
+			lblIntro = new JLabel("Introduccion del correo electrónico para preinscribirse");
+		}
+		return lblIntro;
+	}
+	private JLabel getLblCorreo() {
+		if (lblCorreo == null) {
+			lblCorreo = new JLabel("Su correo eletrónico validado:");
+		}
+		return lblCorreo;
+	}
+	private JLabel getLblCompeticiones() {
+		if (lblCompeticiones == null) {
+			lblCompeticiones = new JLabel("Competiciones actuales, pinche en la fila para seleccionar la competición a la que desea apuntarse:");
+		}
+		return lblCompeticiones;
+	}
+	private JScrollPane getTablePanel() {
+		if (tablePanel == null) {
+			tablePanel = new JScrollPane((Component) null);
+			tablePanel.setViewportView(getTable());
+		}
+		return tablePanel;
+	}
+	public JTable getTable() {
+		if (table == null) {
+			table = new JTable();
+			table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+			table.setBackground(Color.WHITE);
+		}
+		return table;
+	}
+//	private JLabel getLblCbox() {
+//		if (lblCbox == null) {
+//			lblCbox = new JLabel("Puede seleccionar su competicion, también en esta lista despegable:");
+//		}
+//		return lblCbox;
+//	}
+	
+	
+	
+	
 }

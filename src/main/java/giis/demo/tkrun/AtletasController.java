@@ -75,10 +75,12 @@ public class AtletasController {
 		this.restoreDetail();
 
 		//A modo de demo, se muestra tambien la misma informacion en forma de lista en un combobox
-		List<Object[]> carrerasList=model.getListaAtletasArray((view.getId()));
-		ComboBoxModel<Object> lmodel=SwingUtil.getComboModelFromList(carrerasList);
-		view.getListaAtletas().setModel(lmodel);
+//		List<Object[]> carrerasList=model.getListaAtletasArray((view.getId()));
+//		ComboBoxModel<Object> lmodel=SwingUtil.getComboModelFromList(carrerasList);
+//		view.getListaAtletas().setModel(lmodel);
 	}
+	
+
 	/**
 	 * Restaura la informacion del detalle de la carrera para visualizar los valores correspondientes
 	 * a la ultima clave almacenada.
@@ -87,12 +89,12 @@ public class AtletasController {
 		//Utiliza la ultimo valor de la clave (que se reiniciara si ya no existe en la tabla)
 		this.lastSelectedKey=SwingUtil.selectAndGetSelectedKey(view.getTablaAtletas(), this.lastSelectedKey);
 		//Si hay clave para seleccionar en la tabla muestra el detalle, si no, lo reinicia
-		if ("".equals(this.lastSelectedKey)) { 
-			view.setDescuentoNoAplicable();
-			view.getDetalleCarrera().setModel(new DefaultTableModel());		
-		} else {
-			this.updateDetail();
-		}
+//		if ("".equals(this.lastSelectedKey)) { 
+//			view.setDescuentoNoAplicable();
+//			view.getDetalleCarrera().setModel(new DefaultTableModel());		
+//		} else {
+//			this.updateDetail();
+		//}
 	}
 	/**
 	 * Al seleccionar un item de la tabla muestra el detalle con el valor del porcentaje de descuento
@@ -110,14 +112,14 @@ public class AtletasController {
 			//int descuento=model.getDescuentoRecargo(idCarrera, Util.isoStringToDate(view.getFechaHoy()));
 			//view.setDescuento(String.valueOf(descuento));
 		} catch (ApplicationException e) {
-			view.setDescuentoNoAplicable();
+//			view.setDescuentoNoAplicable();
 		}
 		
 		//Detalles de la carrera seleccionada
-		CarreraEntity carrera=model.getAtletas(idCarrera);
-		TableModel tmodel=SwingUtil.getRecordModelFromPojo(carrera, new String[] {"id", "inicio", "fin", "fecha", "descr"});
-		view.getDetalleCarrera().setModel(tmodel);
-		SwingUtil.autoAdjustColumns(view.getDetalleCarrera());
+//		CarreraEntity carrera=model.getAtletas(idCarrera);
+//		TableModel tmodel=SwingUtil.getRecordModelFromPojo(carrera, new String[] {"id", "inicio", "fin", "fecha", "descr"});
+//		view.getDetalleCarrera().setModel(tmodel);
+//		SwingUtil.autoAdjustColumns(view.getDetalleCarrera());
 	}
 
 }

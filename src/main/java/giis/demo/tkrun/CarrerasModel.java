@@ -24,7 +24,7 @@ public class CarrerasModel {
 	//SQL para obtener la lista de carreras activas para una fecha dada,
 	//se incluye aqui porque se usara en diferentes versiones de los metodos bajo prueba
 	public static final String SQL_LISTA_CARRERAS=
-			"SELECT id,descr,cuota,distancia,"
+			"SELECT nombre_c,descr,cuota,distancia,"
 			+" case when ?<inicio then ''" //antes de inscripcion
 			+"   when ?<=fin then '(Abierta)'" //fase 1
 			+"   when ?<fecha then '(Abierta)'" //fase 2
@@ -41,7 +41,7 @@ public class CarrerasModel {
 	public List<Object[]> getListaCarrerasArray(Date fechaInscripcion) {
 		validateNotNull(fechaInscripcion,MSG_FECHA_INSCRIPCION_NO_NULA);
 		//concatena los campos deseados en una unica columna pues el objetivo es devolver una lista de strings
-		String sql="SELECT id || '-' || descr || '-' || cuota || '-' || distancia || '-' || abierta as item "
+		String sql="SELECT nombre_c as nombre || '-' || descr || '-' || cuota || '-' || distancia || '-' || abierta as item "
 				+ " from (" + SQL_LISTA_CARRERAS + ")";
 		String d=Util.dateToIsoString(fechaInscripcion);
 		return db.executeQueryArray(sql, d, d, d, d, d);
@@ -52,7 +52,7 @@ public class CarrerasModel {
 	public List<CarreraDisplayDTO> getListaCarreras(Date fechaInscripcion) {
 		validateNotNull(fechaInscripcion,MSG_FECHA_INSCRIPCION_NO_NULA);
 		String sql=
-				 "SELECT id,descr,cuota,distancia, inicio, fin,case"
+				 "SELECT nombre_c,descr,cuota,distancia, inicio, fin,case"
 				+ " when ?<inicio then ''" //antes de inscripcion
 				+"   when ?<=fin then '(Abierta)'" //fase 1
 				+"   when ?<fecha then '(Abierta)'" //fase 2
@@ -96,7 +96,7 @@ public class CarrerasModel {
 	 * Obtiene todos los datos de la carrera con el id indicado
 	 */
 	public CarreraEntity getCarrera(int id) {
-		String sql="SELECT id,inicio,fin,fecha,descr from Competicion where id=?";
+		String sql="SELECT nombre_c,inicio,fin,fecha,descr from Competicion where id=?";
 		List<CarreraEntity> carreras=db.executeQueryPojo(CarreraEntity.class, sql, id);
 		validateCondition(!carreras.isEmpty(),"Id de competicion no encontrado: "+id);
 		return carreras.get(0);

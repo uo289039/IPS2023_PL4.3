@@ -13,6 +13,7 @@ import javax.swing.JComboBox;
 import java.awt.Dimension;
 import java.awt.SystemColor;
 import javax.swing.UIManager;
+import java.awt.Color;
 
 /**
  * Vista de la pantalla que muestra las  activas y permite interactuar con ellas.
@@ -29,9 +30,6 @@ public class AtletasView {
 	private JTextField txtId;
 	private JButton btnTabAtletas;
 	private JTable tabAtletas;
-	private JComboBox<Object> lstAtletas;
-	private JLabel descuento;
-	private JTable tabDetalle;
 
 	/**
 	 * Create the application.
@@ -45,6 +43,7 @@ public class AtletasView {
 	 */
 	private void initialize() {
 		frame = new JFrame();
+		frame.getContentPane().setBackground(Color.WHITE);
 		frame.setTitle("Atletas");
 		frame.setName("Atletas");
 		frame.setBounds(0, 0, 492, 422);
@@ -53,9 +52,8 @@ public class AtletasView {
 		
 		final JLabel lblSimulacion;
 		final JLabel lblFechaHoy;
-		final JLabel lblLstAtletas;
 
-		lblSimulacion = new JLabel("Simulación de la fecha de hoy para mostrar las ");
+		lblSimulacion = new JLabel("Simulación de las competiciones para mostrar las ");
 		frame.getContentPane().add(lblSimulacion, "cell 0 1");
 		
 		lblFechaHoy = new JLabel("Atletas de competicion:");
@@ -80,33 +78,6 @@ public class AtletasView {
 		tabAtletas.setDefaultEditor(Object.class, null); //readonly
 		JScrollPane tablePanel = new JScrollPane(tabAtletas);
 		frame.getContentPane().add(tablePanel, "cell 0 5,grow");
-		
-		lblLstAtletas = new JLabel("La misma informacion que en la tabla, pero en forma de lista/combo");
-		frame.getContentPane().add(lblLstAtletas, "cell 0 6");
-		
-		lstAtletas = new JComboBox<>();
-		frame.getContentPane().add(lstAtletas, "cell 0 7,growx");
-		
-		JLabel lblAlSeleccionarLa = new JLabel("Al seleccionar la tabla (no el combo) muestra detalles");
-		frame.getContentPane().add(lblAlSeleccionarLa, "cell 0 8");
-		
-		JLabel lblPorcentajeDescuento = new JLabel("Porcentaje de descuento: ");
-		frame.getContentPane().add(lblPorcentajeDescuento, "flowx,cell 0 9");
-		
-		descuento = new JLabel("##");
-		descuento.setName("descuento");
-		descuento.setFont(UIManager.getFont("TextField.font"));
-		frame.getContentPane().add(descuento, "cell 0 9");
-
-		tabDetalle = new JTable();
-		tabDetalle.setName("tabDetalle");
-		tabDetalle.setRowSelectionAllowed(false);
-		tabDetalle.setDefaultEditor(Object.class, null); //readonly
-		tabDetalle.setBackground(SystemColor.control);
-		JScrollPane tableDetallePanel = new JScrollPane(tabDetalle);
-		tableDetallePanel.setMinimumSize(new Dimension(200,95));
-		tableDetallePanel.setPreferredSize(new Dimension(300,95));
-		frame.getContentPane().add(tableDetallePanel, "cell 0 10");
 	}
 
 	//Getters y Setters anyadidos para acceso desde el controlador (repersentacion compacta)
@@ -115,9 +86,6 @@ public class AtletasView {
 	public void setId(String fechaIso)  { this.txtId.setText(fechaIso); }
 	public JButton getBtnTablaAtletas() { return this.btnTabAtletas; }
 	public JTable getTablaAtletas() { return this.tabAtletas; }
-	public JComboBox<Object> getListaAtletas() { return this.lstAtletas; }
-	public void setDescuento(String descuento) { this.descuento.setText(descuento+"%"); }
-	public void setDescuentoNoAplicable() { this.descuento.setText("N/A"); }
-	public JTable getDetalleCarrera() { return this.tabDetalle; }
+	
 	
 }

@@ -67,7 +67,7 @@ public class CarrerasController {
 	 */
 	public void getListaCarreras() {
 		List<CarreraDisplayDTO> carreras=model.getListaCarreras(Util.isoStringToDate(view.getFechaHoy()));
-		TableModel tmodel=SwingUtil.getTableModelFromPojos(carreras, new String[] {"id", "descr", "estado","cuota","distancia","inicio", "fin"});
+		TableModel tmodel=SwingUtil.getTableModelFromPojos(carreras, new String[] {"nombre_c", "descr", "estado","cuota","distancia","inicio", "fin"});
 		view.getTablaCarreras().setModel(tmodel);
 		SwingUtil.autoAdjustColumns(view.getTablaCarreras());
 		
@@ -75,9 +75,9 @@ public class CarrerasController {
 		this.restoreDetail();
 
 		//A modo de demo, se muestra tambien la misma informacion en forma de lista en un combobox
-		List<Object[]> carrerasList=model.getListaCarrerasArray(Util.isoStringToDate(view.getFechaHoy()));
-		ComboBoxModel<Object> lmodel=SwingUtil.getComboModelFromList(carrerasList);
-		view.getListaCarreras().setModel(lmodel);
+//		List<Object[]> carrerasList=model.getListaCarrerasArray(Util.isoStringToDate(view.getFechaHoy()));
+//		ComboBoxModel<Object> lmodel=SwingUtil.getComboModelFromList(carrerasList);
+//		view.getListaCarreras().setModel(lmodel);
 	}
 	/**
 	 * Restaura la informacion del detalle de la carrera para visualizar los valores correspondientes
@@ -87,12 +87,12 @@ public class CarrerasController {
 		//Utiliza la ultimo valor de la clave (que se reiniciara si ya no existe en la tabla)
 		this.lastSelectedKey=SwingUtil.selectAndGetSelectedKey(view.getTablaCarreras(), this.lastSelectedKey);
 		//Si hay clave para seleccionar en la tabla muestra el detalle, si no, lo reinicia
-		if ("".equals(this.lastSelectedKey)) { 
-			view.setDescuentoNoAplicable();
-			view.getDetalleCarrera().setModel(new DefaultTableModel());		
-		} else {
-			this.updateDetail();
-		}
+//		if ("".equals(this.lastSelectedKey)) { 
+//			view.setDescuentoNoAplicable();
+//			view.getDetalleCarrera().setModel(new DefaultTableModel());		
+//		} else {
+//			this.updateDetail();
+//		}
 	}
 	/**
 	 * Al seleccionar un item de la tabla muestra el detalle con el valor del porcentaje de descuento
@@ -106,18 +106,18 @@ public class CarrerasController {
 		//Detalle de descuento/recargo:
 		//Controla excepcion porque el modelo causa excepcion cuando no se puede calcular el descuento
 		//y debe indicarse esto en la vista para evitar mostrar datos falsos que se veian antes
-		try { 
-			int descuento=model.getDescuentoRecargo(idCarrera, Util.isoStringToDate(view.getFechaHoy()));
-			view.setDescuento(String.valueOf(descuento));
-		} catch (ApplicationException e) {
-			view.setDescuentoNoAplicable();
-		}
+//		try { 
+//			int descuento=model.getDescuentoRecargo(idCarrera, Util.isoStringToDate(view.getFechaHoy()));
+//			view.setDescuento(String.valueOf(descuento));
+//		} catch (ApplicationException e) {
+//			view.setDescuentoNoAplicable();
+//		}
 		
 		//Detalles de la carrera seleccionada
-		CarreraEntity carrera=model.getCarrera(idCarrera);
-		TableModel tmodel=SwingUtil.getRecordModelFromPojo(carrera, new String[] {"id", "inicio", "fin", "fecha", "descr"});
-		view.getDetalleCarrera().setModel(tmodel);
-		SwingUtil.autoAdjustColumns(view.getDetalleCarrera());
+//		CarreraEntity carrera=model.getCarrera(idCarrera);
+//		TableModel tmodel=SwingUtil.getRecordModelFromPojo(carrera, new String[] {"id", "inicio", "fin", "fecha", "descr"});
+//		view.getDetalleCarrera().setModel(tmodel);
+//		SwingUtil.autoAdjustColumns(view.getDetalleCarrera());
 	}
 
 }

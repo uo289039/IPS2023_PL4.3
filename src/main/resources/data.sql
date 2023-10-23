@@ -17,7 +17,7 @@ insert into Competicion(id,nombre_c,inicio,fin,fecha,descr,cuota,distancia, id_c
 
 insert into Atleta(dni,f_nacimiento,nombre,sexo,inscripcion,formaPago,correoE) values
 (1,'2004-11-03','Alexander','hombre','2016-10-10','transferencia','alex@gmail.com'),
-(3,'2004-1-04','Marta','mujer','2016-10-9','tarjeta','marta@gmail.com'),
+(3,'2004-1-04','Marta','mujer','2016-10-09','tarjeta','marta@gmail.com'),
 (7,'2002-12-09','Hunter','hombre','2016-11-01','transferencia','hunter@gmail.com'),
 (2,'2003-01-12','Emilie','mujer','2016-10-10','tarjeta','emilie@gmail.com'),
 (9,'2000-10-11','Alexa','mujer','2016-10-12','tarjeta','alexa@gmail.com');
