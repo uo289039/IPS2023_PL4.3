@@ -15,7 +15,7 @@ public class AtletaEntity {
 	private String sexo;
 	private String fecha_nacimiento;
 	private String fecha_insc;
-	
+	private String correoE;
 
 	public String getDni() { return this.dni; }
 	public String getNombre() { return this.nombre; }
@@ -27,9 +27,16 @@ public class AtletaEntity {
 	public void setSexo(String value) { this.sexo=value; }
 	public void setFecha_Nac(String value) { this.fecha_nacimiento=value; }
 	public void setFecha_insc(String value) { this.fecha_insc=value;}
-	
+	public String getCorreoE() {
+		return correoE;
+	}
+	public void setCorreoE(String correoE) {
+		this.correoE = correoE;
+	}
+//	
 	//NOTA: se pueden generar getters y setters de forma automatica usando lombok:  
 	//https://www.sitepoint.com/declutter-pojos-with-lombok-tutorial/
 	//http://www.baeldung.com/intro-to-project-lombok
 	//En un fichero con este mismo nombre, pero con extension .txt se muestra un ejemplo
+	
 }

@@ -23,7 +23,10 @@ import giis.demo.util.Util;
 public class ParticipaController {
 	private ParticipaModel model;
 	private ParticipaView view;
+	private VentanaRegistro vr;
+	private MuestraInformacion mI=new MuestraInformacion();
 	private String lastSelectedKey=""; //recuerda la ultima fila seleccionada para restaurarla cuando cambie la tabla de carreras
+	//private VentanaTablaInfo vTi=new VentanaTablaInfo();
 
 	public ParticipaController(ParticipaModel m, ParticipaView v) {
 		this.model = m;
@@ -40,12 +43,16 @@ public class ParticipaController {
 	 */
 	public void initController() {
 		//ActionListener define solo un metodo actionPerformed(), es un interfaz funcional que se puede invocar de la siguiente forma:
-		view.getBtnOk().addActionListener(e -> saveData());
+		view.getBtnOk().addActionListener(e -> ventanaRegistro());
 		
 		
 		//ademas invoco el metodo que responde al listener en el exceptionWrapper para que se encargue de las excepciones
 		view.getBtnCancelar().addActionListener(e -> reinicia());
 		
+//		validateFormulario();
+//		saveData();
+//		JOptionPane.showMessageDialog(null, "Datos guardados");
+//		dispose();
 		initView();
 		//En el caso del mouse listener (para detectar seleccion de una fila) no es un interfaz funcional puesto que tiene varios metodos
 		//ver discusion: https://stackoverflow.com/questions/21833537/java-8-lambda-expressions-what-about-multiple-methods-in-nested-class
@@ -59,12 +66,48 @@ public class ParticipaController {
 		//});
 	}
 	
-	private void muestraInfo() {
-		JOptionPane.showMessageDialog(null, 
-				model.getInfoParticipa(view.getTextFieldCorreo().getText()));
-		this.getListaAtletas();
+	
+	private void iniciaControlVR() {
+		vr.getBtBorrar().addActionListener(e -> reiniciaVr());
 		
+		vr.getBtPagar().addActionListener(e -> validaGuarda());
 	}
+	
+	
+	private void validaGuarda() {
+		// TODO Auto-generated method stub
+		vr.validateFormulario();
+		vr.saveData();
+		saveData();
+		JOptionPane.showMessageDialog(null, "Datos guardados");
+		String id=SwingUtil.getSelectedKey(view.getTable());
+		String correo=view.getTextFieldCorreo().getText();
+		String nombre=vr.getTfNombre().getText();
+		String nombre_c=model.getNombreCompeticion(id);
+		double cuota=model.getCuotaCompeticion(id).getCuota();
+		String categoria=model.getCategoria(id);
+		String inscripcion=model.getInscripcion(correo);
+		model.insertaDataAtleta(nombre,nombre_c,categoria,inscripcion,cuota,id,correo); //Modificar, añadir metodos para conseguir el nombre,nombre_c,categoria,inscripcion,cuota 
+		List<DatosAtleta> info=model.datosAtletaInscrito(correo,id);
+		TableModel tmodel=SwingUtil.getTableModelFromPojos(info, new String[] {"nombre","nombre_c","categoria","inscripcion","cuota"});
+		mI.setVisible(true);
+		mI.getTable().setModel(tmodel);
+		SwingUtil.autoAdjustColumns(mI.getTable());
+//		view.getTablaAtletas().setModel(tmodel);
+//		SwingUtil.autoAdjustColumns(view.getTablaAtletas());
+		
+		vr.dispose();
+	}
+	private void reiniciaVr() {
+		// TODO Auto-generated method stub
+		vr.reiniciar();
+	}
+//	private void muestraInfo() {
+//		JOptionPane.showMessageDialog(null, 
+//				model.getInfoParticipa(view.getTextFieldCorreo().getText()));
+//		this.getListaAtletas();
+//		
+//	}
 	public void initView() {
 		//Inicializa la fecha de hoy a un valor que permitira mostrar carreras en diferentes fases 
 		//y actualiza los datos de la vista
@@ -156,25 +199,12 @@ public class ParticipaController {
 		String id=SwingUtil.getSelectedKey(view.getTable());
 		//String id=((CarreraDisplayDTO) view.getComboBoxCompeticiones().getSelectedItem()).getId(); //((CarreraDisplayDTO) view.getTablaCompeticiones().getSelectedRow()).getId();
 		String correo=view.getTextFieldCorreo().getText();
-		
-		if(!model.yaInscrito(id, correo) && model.hayPlazas(id) && model.isCorreoValido(correo))
+		if(checkData(id,correo)) {
 			model.insertaData(correo, id, "Preinscrito");
+			//model.datosAtletaInscrito(correo,id);
+			}
 		
-		else if(model.yaInscrito(id, correo)){
-			JOptionPane.showMessageDialog(null, 
-					"No puede reinscribirse en una competición en la que ya lo está");
-		}
-		else if(!model.hayPlazas(id))
-			JOptionPane.showMessageDialog(null, 
-					"No puede reinscribirse en una competición en la que ya no hay plazas");
 		
-		else if(!model.isCorreoValido(correo))
-			JOptionPane.showMessageDialog(null, 
-					"No puede inscribirse con un correo no validado por la organización, por favor introduzca uno valido");
-		muestraInfo();
-		//Detalle de descuento/recargo:
-		
-		model.datosAtletaInscrito(correo);
 		//Controla excepcion porque el modelo causa excepcion cuando no se puede calcular el descuento
 		//y debe indicarse esto en la vista para evitar mostrar datos falsos que se veian antes
 		try { 
@@ -184,8 +214,6 @@ public class ParticipaController {
 //			view.setDescuentoNoAplicable();
 		}
 		
-		
-		
 		//Detalles de la carrera seleccionada
 //		CarreraEntity carrera=model.getCarrera(idCarrera);
 //		TableModel tmodel=SwingUtil.getRecordModelFromPojo(carrera, new String[] {"id", "inicio", "fin", "fecha", "descr"});
@@ -193,8 +221,38 @@ public class ParticipaController {
 //		SwingUtil.autoAdjustColumns(view.getDetalleCarrera());
 	}
 	
+	private boolean checkData(String id, String correo) {
+		
+		if(!model.yaInscrito(id, correo) && model.hayPlazas(id)) //&& model.isCorreoValido(correo)
+			return true;
+		
+		else if(model.yaInscrito(id, correo)){
+			JOptionPane.showMessageDialog(null, 
+					"No puede reinscribirse en una competición en la que ya lo está");return false;
+		}
+		else if(!model.hayPlazas(id)) {
+			JOptionPane.showMessageDialog(null, 
+					"No puede reinscribirse en una competición en la que ya no hay plazas");return false;}
+		
+//		else if(!model.isCorreoValido(correo)) {
+//			JOptionPane.showMessageDialog(null, 
+//			"No puede inscribirse con un correo no validado por la organización, por favor introduzca uno valido");return false;}
+		
+		return true;
+	}
+	
+	
+	
 	public void reinicia() {
 		view.reiniciar();
+	}
+	
+	private void ventanaRegistro() {
+		if(view.getRdbtnTransferencia().isSelected()) {
+			this.vr=new VentanaRegistro(view);
+			iniciaControlVR();
+			vr.setVisible(true);
+		}
 	}
 
 }

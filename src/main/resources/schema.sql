@@ -29,11 +29,25 @@ sexo varchar(7) not null,inscripcion date not null, formaPago varchar(15) not nu
 check(sexo in ('hombre','mujer')), check(formaPago in ('transferencia','tarjeta')));
 
 drop table if exists Participa;
-create table Participa(correoElec varchar(15) not null, id_c int not null, estadoI varchar(15) not null, constraint pk_Participa PRIMARY KEY(correoElec,id_c), 
+create table Participa(correoElec varchar(15) not null, id_c int not null, estadoI varchar(15) not null,dorsal INTEGER unique,
+						constraint pk_Participa PRIMARY KEY(correoElec,id_c), 
                         constraint FK_Participa_Competicion Foreign Key (id_c) references "Competicion" (id),
                         constraint FK_Participa_Atleta Foreign Key (correoElec) references "Atleta" (correoE),
                         check(estadoI in ('No Inscrito','Preinscrito','Inscrito')));
                        
+
+drop table if exists PagosTransferencia;
+create table PagosTransferencia(nombre_Completo varchar(40) not null, correoElec varchar(25) not null, iban varchar(35) not null,
+                        banco varchar(15) not null, sucursal varchar(40) not null, importe decimal(4,2),
+                        constraint pk_PagosTransferencia PRIMARY KEY(iban,correoElec), 
+                        constraint FK_PagosTransferencia_Atleta Foreign Key (correoElec) references "Atleta" (correoE));
+                       
+                       
+drop table if exists DatosAtleta;
+create table DatosAtleta(nombre varchar(40) not null,nombre_c varchar(40) not null,
+categoria varchar(40) not null, inscripcion date not null, cuota decimal(4,2) not null, id_c int not null, correoE varchar(15) not null,
+constraint FK_DatosAtleta_Participa Foreign Key (id_c) references "Participa" (id_c),
+constraint FK_DatosAtleta_Participa Foreign Key (correoE) references "Participa" (correoElec));
 
 CREATE TRIGGER calcular_categoria
 AFTER INSERT ON Atleta

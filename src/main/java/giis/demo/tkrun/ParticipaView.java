@@ -143,7 +143,7 @@ public class ParticipaView extends JFrame {
 		}
 		return rdbtnTarjeta;
 	}
-	private JRadioButton getRdbtnTransferencia() {
+	public JRadioButton getRdbtnTransferencia() {
 		if (rdbtnTransferencia == null) {
 			rdbtnTransferencia = new JRadioButton("Transferencia\r\n");
 			buttonGroup.add(rdbtnTransferencia);

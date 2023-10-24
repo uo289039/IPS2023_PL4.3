@@ -4,6 +4,7 @@ import java.util.*;
 import giis.demo.util.Util;
 import giis.demo.util.ApplicationException;
 import giis.demo.util.Database;
+
 /**
  * Acceso a los datos de carreras e inscripciones, 
  * utilizado como modelo para el ejemplo de swing y para las pruebas unitarias y de interfaz de usuario.
@@ -102,6 +103,20 @@ public class CarrerasModel {
 		return carreras.get(0);
 	}
 
+	
+	public void asignarDorsal(String id) {
+		String sql="Select correoElec from Participa where id_c=? and estadoI='Inscrito'";
+		List<AtletaEntity> correos=db.executeQueryPojo(AtletaEntity.class, sql, id);
+		
+		String sentencia="";
+		AtletaEntity a;
+		for(int i=2;i<correos.size();i++) {
+			a=correos.get(i);
+			sentencia="Update Participa set dorsal=? and id_c=? and correoElec=?";
+			db.executeUpdate(sentencia, i+1,id,a.getCorreoE());
+		}
+	}
+	
 	/**
 	 * Actualiza las fechas de inscripcion de una carrera
 	 */

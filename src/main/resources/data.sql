@@ -7,6 +7,8 @@ delete from Participa;
 delete from Atleta;
 delete from Categoria;
 delete from Competicion;
+delete from PagosTransferencia;
+
 
 insert into Competicion(id,nombre_c,inicio,fin,fecha,descr,cuota,distancia, id_cat,nPlazas) values 
 	(100,'San Silvestre','2016-10-05','2016-10-25','2016-11-09','finalizada',50.0,5,1,40),
@@ -27,3 +29,6 @@ insert into Participa(correoElec,id_c,estadoI) values
 ('alexa@gmail.com',100,'Preinscrito'),('hunter@gmail.com',102,'Inscrito'),('marta@gmail.com',101,'Preinscrito');
 
 insert into Categoria(id_categoria,tipo) values(1,'montaña'),(2,'ruta'),(3,'montaña'),(4,'ruta'),(5,'montaña');
+
+insert into DatosAtleta(nombre,nombre_c,categoria,inscripcion,cuota,id_c,correoE) values('Alexander','San Silvestre','ruta','2016-10-05',50.0,100,'alex@gmail.com'),
+('Alexa','San Silvestre','ruta','2016-10-15',50.0,100,'alexa@gmail.com'),('Emilie','Carrera Solidaria','rura','2016-10-08',50.0,103,'emilie@gmail.com');
