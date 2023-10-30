@@ -134,7 +134,7 @@ public class ParticipaView extends JFrame {
 		}
 		return panelRBotones;
 	}
-	private JRadioButton getRdbtnTarjeta() {
+	public JRadioButton getRdbtnTarjeta() {
 		if (rdbtnTarjeta == null) {
 			rdbtnTarjeta = new JRadioButton("Tarjeta");
 			buttonGroup.add(rdbtnTarjeta);

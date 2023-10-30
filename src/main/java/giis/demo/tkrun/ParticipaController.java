@@ -43,7 +43,7 @@ public class ParticipaController {
 	 */
 	public void initController() {
 		//ActionListener define solo un metodo actionPerformed(), es un interfaz funcional que se puede invocar de la siguiente forma:
-		view.getBtnOk().addActionListener(e -> ventanaRegistro());
+		view.getBtnOk().addActionListener(e -> muestraSiguiente());
 		
 		
 		//ademas invoco el metodo que responde al listener en el exceptionWrapper para que se encargue de las excepciones
@@ -67,6 +67,15 @@ public class ParticipaController {
 	}
 	
 	
+	private void muestraSiguiente() {
+		if(this.view.getRdbtnTransferencia().isSelected())
+			ventanaRegistro();
+		else
+			validaGuardaTarjeta();
+			
+		
+	}
+	
 	private void iniciaControlVR() {
 		vr.getBtBorrar().addActionListener(e -> reiniciaVr());
 		
@@ -85,7 +94,7 @@ public class ParticipaController {
 		String nombre=vr.getTfNombre().getText();
 		String nombre_c=model.getNombreCompeticion(id);
 		double cuota=model.getCuotaCompeticion(id).getCuota();
-		String categoria=model.getCategoria(id);
+		String categoria=model.getCategoria(id).getTipo();
 		String inscripcion=model.getInscripcion(correo);
 		model.insertaDataAtleta(nombre,nombre_c,categoria,inscripcion,cuota,id,correo); //Modificar, añadir metodos para conseguir el nombre,nombre_c,categoria,inscripcion,cuota 
 		List<DatosAtleta> info=model.datosAtletaInscrito(correo,id);
@@ -102,6 +111,29 @@ public class ParticipaController {
 		// TODO Auto-generated method stub
 		vr.reiniciar();
 	}
+	
+	
+	private void validaGuardaTarjeta() {
+		saveData();
+		JOptionPane.showMessageDialog(null, "Datos guardados");
+		String id=SwingUtil.getSelectedKey(view.getTable());
+		String correo=view.getTextFieldCorreo().getText();
+		String nombre=model.getTfNombre(correo);
+		String nombre_c=model.getNombreCompeticion(id);
+		double cuota=model.getCuotaCompeticion(id).getCuota();
+		String categoria=model.getCategoria(id).getTipo();
+		String inscripcion=model.getInscripcion(correo);
+		model.insertaDataAtleta(nombre,nombre_c,categoria,inscripcion,cuota,id,correo); //Modificar, añadir metodos para conseguir el nombre,nombre_c,categoria,inscripcion,cuota 
+		List<DatosAtleta> info=model.datosAtletaInscrito(correo,id);
+		TableModel tmodel=SwingUtil.getTableModelFromPojos(info, new String[] {"nombre","nombre_c","categoria","inscripcion","cuota"});
+		mI.setVisible(true);
+		mI.getTable().setModel(tmodel);
+		SwingUtil.autoAdjustColumns(mI.getTable());
+		
+	}
+	
+	
+	
 //	private void muestraInfo() {
 //		JOptionPane.showMessageDialog(null, 
 //				model.getInfoParticipa(view.getTextFieldCorreo().getText()));

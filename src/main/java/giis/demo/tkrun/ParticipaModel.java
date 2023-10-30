@@ -235,6 +235,8 @@ public class ParticipaModel {
 		String sql="insert into DatosAtleta(nombre,nombre_c,categoria,inscripcion,cuota,id_c,correoE) values(?,?,?,?,?,?,?)";
 		db.executeUpdate(sql,nombre,nombre_c,categoria,inscripcion,cuota,correo,id);
 		
+		String sql2="insert into DatosInscripciones (nombre_c,estadoI,fecha_cambio_estado,correoE) values(?,?,?,?)";
+		db.executeUpdate(sql2,nombre_c,"Preinscrito",inscripcion,correo);
 	}
 	public String getNombreCompeticion(String id) {
 		String sql="Select nombre_c from Competicion where "
@@ -243,10 +245,10 @@ public class ParticipaModel {
 		
 		return datos.get(0).getNombre_c();
 	}
-	public String getCategoria(String id) {
-		String sql="Select tipo from Categoria cat, Competicion c where "
+	public Categoria getCategoria(String id) {
+		String sql="Select * from Categoria cat, Competicion c where "
 				+ "c.id=? and c.id_cat=cat.id_categoria";
-		List<String> datos=db.executeQueryPojo(String.class, sql,id);
+		List<Categoria> datos=db.executeQueryPojo(Categoria.class, sql,id);
 		
 		return datos.get(0);
 	}
@@ -256,6 +258,13 @@ public class ParticipaModel {
 		List<AtletaDisplayDTO> datos=db.executeQueryPojo(AtletaDisplayDTO.class, sql,correo);
 		
 		return datos.get(0).getFechaI();
+	}
+	public String getTfNombre(String correo) {
+		String sql="Select a.nombre from Atleta a where "
+				+ "a.correoE=? ";
+		List<AtletaDisplayDTO> datos=db.executeQueryPojo(AtletaDisplayDTO.class, sql,correo);
+		
+		return datos.get(0).getNombre();
 	}
 	
 

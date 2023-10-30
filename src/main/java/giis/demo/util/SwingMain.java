@@ -100,6 +100,15 @@ public class SwingMain {
 			}
 		});
 		frame.getContentPane().add(btnPreinscripcion);
+		
+		JButton btnMisCompeticiones = new JButton("Mis Competiciones");
+		btnMisCompeticiones.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				DatosInscripcionController dic=new DatosInscripcionController(new DatosInscripcionModel(), new DatosInscripcionView());
+				dic.initController();
+			}
+		});
+		frame.getContentPane().add(btnMisCompeticiones);
 	}
 
 	public JFrame getFrame() { return this.frame; }

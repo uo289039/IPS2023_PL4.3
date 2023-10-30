@@ -9,7 +9,7 @@ public class DatosAtleta {
 	private String inscripcion;
 	private String cuota;
 	
-	
+	public DatosAtleta() {}
 	public DatosAtleta(String nombre, String nombre_c, String tipo, String inscripcion, String cuota) {
 		super();
 		this.nombre = nombre;

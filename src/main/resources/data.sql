@@ -32,3 +32,9 @@ insert into Categoria(id_categoria,tipo) values(1,'montaña'),(2,'ruta'),(3,'mon
 
 insert into DatosAtleta(nombre,nombre_c,categoria,inscripcion,cuota,id_c,correoE) values('Alexander','San Silvestre','ruta','2016-10-05',50.0,100,'alex@gmail.com'),
 ('Alexa','San Silvestre','ruta','2016-10-15',50.0,100,'alexa@gmail.com'),('Emilie','Carrera Solidaria','rura','2016-10-08',50.0,103,'emilie@gmail.com');
+
+insert into DatosInscripciones (nombre_c, estadoI, fecha_cambio_estado, correoE) values
+('San Silvestre','Inscrito','2016-10-10','alex@gmail.com'),
+('San Silvestre','Preinscrito','2016-10-12','alexa@gmail.com')
+,('Carrera Solidaria','Inscrito','2016-10-10','emilie@gmail.com'),
+('Media Maraton','Preinscrito','2016-10-09','marta@gmail.com'), ('Vuelta Ciclista','Inscrito','2016-11-01','hunter@gmail.com');

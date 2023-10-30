@@ -16,17 +16,15 @@ import giis.demo.util.Database;
  * <br/>Si utilizase algún otro framework para manejar la persistencia, la funcionalidad proporcionada por esta clase sería la asignada
  * a los Servicios, Repositorios y DAOs.
  */
-public class AtletaModel {
+public class DatosInscripcionModel {
 	//private static final String MSG_FECHA_INSCRIPCION_NO_NULA = "La fecha de inscripcion no puede ser nula";
 
 	private Database db=new Database();
 	
 	//SQL para obtener la lista de carreras activas para una fecha dada,
 	//se incluye aqui porque se usara en diferentes versiones de los metodos bajo prueba
-	public static final String SQL_LISTA_DATOS_ATLETAS=
-			"Select distinct a.dni, a.nombre, c.id_cat as categoria, a.inscripcion as fechaI, p.estadoI, p.dorsal"
-			+ " from Atleta a, Participa p, Competicion c, Categoria ct "
-			+ "where a.correoE=p.correoElec and p.id_c=c.id  and c.nombre_c=? order by a.inscripcion,p.estadoI";
+	public static final String SQL_LISTA_DATOS_INSCRIPCIONES=
+			"Select nombre_c, estadoI, fecha_cambio_estado from DatosInscripciones where correoE=?";
 	/**
 	 * Obtiene la lista de carreras futuras (posteriores a una fecha dada) con el id, descripcion
 	 * y la indicacion de si tienen inscripcion abierta.
@@ -36,22 +34,20 @@ public class AtletaModel {
 	public List<Object[]> getListaAtletasArray(String nombreCompeticion) {
 		//validateNotNull(fechaInscripcion,MSG_FECHA_INSCRIPCION_NO_NULA);
 		//concatena los campos deseados en una unica columna pues el objetivo es devolver una lista de strings
-		String sql="SELECT dni || '-' || nombre || ' ' || categoria || ' ' || fechaI || ' ' || estadoI || ' ' || dorsal"
-				+ " from (" + SQL_LISTA_DATOS_ATLETAS + ")";
+		String sql="SELECT nombre_c || '-' || estadoI || ' ' || fecha_cambio_estado "
+				+ " from (" + SQL_LISTA_DATOS_INSCRIPCIONES + ")";
 		
 		return db.executeQueryArray(sql, nombreCompeticion);
 	}
 	/**
 	 * Obtiene la lista de carreras activas en forma objetos para una fecha de inscripcion dada
 	 */
-	public List<AtletaDisplayDTO> getListaAtletas(String idCategoria) {
+	public List<DatosInscripcionesDTO> getListaAtletas(String idCategoria) {
 		//validateNotNull(fechaInscripcion,MSG_FECHA_INSCRIPCION_NO_NULA);
 		String sql=
-				"Select distinct a.dni, a.nombre, c.id_cat as categoria, a.inscripcion as fechaI, p.estadoI, p.dorsal \n"
-				+" from Atleta a, Participa p, Competicion c \n "
-				+ " where a.correoE=p.correoElec and p.id_c=c.id  and c.nombre_c=? order by a.inscripcion,p.estadoI";
+				"Select nombre_c, estadoI, fecha_cambio_estado from DatosInscripciones where correoE=?";
 		//String d=Util.dateToIsoString(fechaInscripcion);
-		return db.executeQueryPojo(AtletaDisplayDTO.class, sql, idCategoria);
+		return db.executeQueryPojo(DatosInscripcionesDTO.class, sql, idCategoria);
 	}
 	/** 
 	 * Obtiene el porcentaje de descuento (valor negativo) o recargo aplicable a una carrera dada por su id cuando se
@@ -86,7 +82,7 @@ public class AtletaModel {
 	 * Obtiene todos los datos de la carrera con el id indicado
 	 */
 	public CarreraEntity getAtletas(int id) {
-		String sql="SELECT dni,f_nacimiento,nombre,sexo,inscripcion from Atleta where dni=?";
+		String sql="Select nombre_c, estadoI, fecha_cambio_estado from DatosInscripciones where correoE=?";
 		List<CarreraEntity> atletas=db.executeQueryPojo(CarreraEntity.class, sql, id);
 		validateCondition(!atletas.isEmpty(),"Id de competicion no encontrado: "+id);
 		return atletas.get(0);
@@ -117,11 +113,6 @@ public class AtletaModel {
 	private void validateCondition(boolean condition, String message) {
 		if (!condition)
 			throw new ApplicationException(message);
-	}
-	
-	
-	private void updateInscritos() {
-		String sql="UPDATE participa SET inicio=?, fin=? WHERE id=?";
 	}
 	
 }

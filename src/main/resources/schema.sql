@@ -49,55 +49,9 @@ categoria varchar(40) not null, inscripcion date not null, cuota decimal(4,2) no
 constraint FK_DatosAtleta_Participa Foreign Key (id_c) references "Participa" (id_c),
 constraint FK_DatosAtleta_Participa Foreign Key (correoE) references "Participa" (correoElec));
 
-CREATE TRIGGER calcular_categoria
-AFTER INSERT ON Atleta
-FOR EACH ROW
-BEGIN
-    DECLARE categoria varchar(20);
-    DECLARE edad int;
-    SET edad = DATEDIFF(YEAR, @f_nacimiento, GETDATE());
-    IF NEW.sexo = 'hombre' THEN
-        IF edad < 12 THEN
-            SET categoria = 'Masculino sub-12';
-        ELSEIF edad < 16 THEN
-            SET categoria = 'Masculino sub-16';
-        ELSEIF edad < 18 THEN
-            SET categoria = 'Masculino sub-18';
-        ELSEIF edad < 23 THEN
-            SET categoria = 'Masculino sub-23';
-        ELSEIF edad < 30 THEN
-            SET categoria = 'Masculino senior-30';
-        ELSEIF edad < 40 THEN
-            SET categoria = 'Masculino senior-40';
-        ELSEIF edad < 50 THEN
-            SET categoria = 'Masculino senior-50';
-        ELSEIF edad < 60 THEN
-            SET categoria = 'Masculino senior-60';
-        ELSEIF edad >= 60 THEN
-            SET categoria = 'Masculino veteranos';
-        END IF;
-    ELSEIF NEW.sexo = 'mujer' THEN
-        IF edad < 12 THEN
-            SET categoria = 'Femenino sub-12';
-        ELSEIF edad < 16 THEN
-            SET categoria = 'Femenino sub-16';
-        ELSEIF edad < 18 THEN
-            SET categoria = 'Femenino sub-18';
-        ELSEIF edad < 23 THEN
-            SET categoria = 'Femenino sub-23';
-        ELSEIF edad < 30 THEN
-            SET categoria = 'Femenino senior-30';
-        ELSEIF edad < 40 THEN
-            SET categoria = 'Femenino senior-40';
-        ELSEIF edad < 50 THEN
-            SET categoria = 'Femenino senior-50';
-        ELSEIF edad < 60 THEN
-            SET categoria = 'Femenino senior-60';
-        ELSEIF edad >= 60 THEN
-            SET categoria = 'Femenino veteranas';
-        END IF;
-    END IF;
-    INSERT INTO Participa (dni_at, id_c, categoria) VALUES (NEW.dni, null, categoria);
-END;
 
-                       
+
+drop table if exists DatosInscripciones;
+create table DatosInscripciones(nombre_c varchar(40) not null,
+estadoI varchar(40) not null, fecha_cambio_estado date not null, correoE varchar(15) not null,
+constraint FK_DatosAtleta_Participa Foreign Key (correoE) references "Participa" (correoElec));
