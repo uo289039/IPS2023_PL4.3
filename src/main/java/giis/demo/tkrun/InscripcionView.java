@@ -1,6 +1,5 @@
 package giis.demo.tkrun;
 import java.awt.BorderLayout;
-import java.awt.FlowLayout;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -15,7 +14,7 @@ import javax.swing.JRadioButton;
 
 import javax.swing.ButtonGroup;
 
-public class VentanaInscripcion extends JDialog {
+public class InscripcionView extends JDialog {
 
 	/**
 	 * 
@@ -25,8 +24,6 @@ public class VentanaInscripcion extends JDialog {
 	private JLabel lblICorreo;
 	private JLabel lblIDNI;
 	private JLabel lblINombre;
-	private JLabel lblIntroduzcaSuSexo;
-	private JLabel lblIntroduzcaSuFecha;
 	private JLabel lblIntroduzcaSuLocalidad;
 	private JLabel lblIntroduzcaSuNumero;
 	private JLabel lblIntroduzcaSuPais;
@@ -35,50 +32,51 @@ public class VentanaInscripcion extends JDialog {
 	private JTextField textCorreo;
 	private JTextField textDni;
 	private JTextField textNombre;
-	private JPanel panel;
-	private JRadioButton rdbtnMasculino;
-	private JRadioButton rdbtnFemenino;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
-	private JTextField textFecha;
 	private JTextField textLocalidad;
 	private JTextField textTelefono;
 	private JTextField textPais;
+	private JLabel lblSexo;
+	private JPanel panel;
+	private JRadioButton rdbtnMasculino;
+	private JRadioButton rdbtnFemenino;
+	private JLabel lblIntroduzcaSuFecha;
+	private JTextField textFecha;
 	
 
 	
-	public VentanaInscripcion() {
+	public InscripcionView() {
 		setTitle("Crear Cuenta");
 		setBounds(100, 100, 653, 436);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBackground(Color.WHITE);
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
-		contentPanel.setLayout(null);
-		contentPanel.add(getLblICorreo());
-		contentPanel.add(getLblIDNI());
-		contentPanel.add(getLblINombre());
-		contentPanel.add(getLblIntroduzcaSuSexo());
-		contentPanel.add(getLblIntroduzcaSuFecha());
-		contentPanel.add(getLblIntroduzcaSuLocalidad());
-		contentPanel.add(getLblIntroduzcaSuNumero());
-		contentPanel.add(getLblIntroduzcaSuPais());
-		contentPanel.add(getBtnRegistrarse());
-		contentPanel.add(getBtnCancelar());
-		contentPanel.add(getTextCorreo());
-		contentPanel.add(getTextDni());
-		contentPanel.add(getTextNombre());
-		contentPanel.add(getPanel());
-		contentPanel.add(getTextFecha());
-		contentPanel.add(getTextLocalidad());
-		contentPanel.add(getTextTelefono());
-		contentPanel.add(getTextPais());
+		contentPanel.setLayout(new MigLayout("", "[grow][grow][grow]", "[grow][grow][grow][grow][grow][][][grow][][][][][][][][][]"));
+		contentPanel.add(getLblICorreo(), "cell 0 4,growx,aligny center");
+		contentPanel.add(getTextCorreo(), "cell 1 4,growx,aligny top");
+		contentPanel.add(getLblIDNI(), "cell 0 5,growx,aligny center");
+		contentPanel.add(getTextDni(), "cell 1 5,growx,aligny top");
+		contentPanel.add(getLblINombre(), "cell 0 6,growx,aligny center");
+		contentPanel.add(getTextNombre(), "cell 1 6,growx,aligny top");
+		contentPanel.add(getLblSexo(), "cell 0 7");
+		contentPanel.add(getPanel(), "cell 1 7,grow");
+		contentPanel.add(getLblIntroduzcaSuLocalidad(), "cell 0 8,growx,aligny center");
+		contentPanel.add(getTextLocalidad(), "cell 1 8,growx,aligny top");
+		contentPanel.add(getLblIntroduzcaSuNumero(), "cell 0 9,growx,aligny center");
+		contentPanel.add(getTextPais(), "cell 1 9,growx,aligny top");
+		contentPanel.add(getLblIntroduzcaSuPais(), "cell 0 10,growx,aligny center");
+		contentPanel.add(getTextTelefono(), "cell 1 10,growx,aligny top");
+		contentPanel.add(getLblIntroduzcaSuFecha(), "cell 0 11,alignx left");
+		contentPanel.add(getTextFecha(), "cell 1 11,growx");
+		contentPanel.add(getBtnRegistrarse(), "cell 1 16,alignx right,aligny top");
+		contentPanel.add(getBtnCancelar(), "cell 2 16,growx,aligny top");
 	}
 	private JLabel getLblICorreo() {
 		if (lblICorreo == null) {
 			lblICorreo = new JLabel("Introduzca el correo para las competiciones:");
 			lblICorreo.setFont(new Font("Tahoma", Font.PLAIN, 12));
 			lblICorreo.setBackground(Color.WHITE);
-			lblICorreo.setBounds(10, 42, 250, 14);
 		}
 		return lblICorreo;
 	}
@@ -87,7 +85,6 @@ public class VentanaInscripcion extends JDialog {
 			lblIDNI = new JLabel("Introduzca su dni:");
 			lblIDNI.setFont(new Font("Tahoma", Font.PLAIN, 12));
 			lblIDNI.setBackground(Color.WHITE);
-			lblIDNI.setBounds(10, 78, 250, 14);
 		}
 		return lblIDNI;
 	}
@@ -96,34 +93,14 @@ public class VentanaInscripcion extends JDialog {
 			lblINombre = new JLabel("Introduzca su nombre completo:");
 			lblINombre.setFont(new Font("Tahoma", Font.PLAIN, 12));
 			lblINombre.setBackground(Color.WHITE);
-			lblINombre.setBounds(10, 109, 250, 14);
 		}
 		return lblINombre;
-	}
-	private JLabel getLblIntroduzcaSuSexo() {
-		if (lblIntroduzcaSuSexo == null) {
-			lblIntroduzcaSuSexo = new JLabel("Introduzca/Seleccione su sexo:");
-			lblIntroduzcaSuSexo.setFont(new Font("Tahoma", Font.PLAIN, 12));
-			lblIntroduzcaSuSexo.setBackground(Color.WHITE);
-			lblIntroduzcaSuSexo.setBounds(10, 145, 250, 14);
-		}
-		return lblIntroduzcaSuSexo;
-	}
-	private JLabel getLblIntroduzcaSuFecha() {
-		if (lblIntroduzcaSuFecha == null) {
-			lblIntroduzcaSuFecha = new JLabel("Introduzca su fecha de nacimiento:");
-			lblIntroduzcaSuFecha.setFont(new Font("Tahoma", Font.PLAIN, 12));
-			lblIntroduzcaSuFecha.setBackground(Color.WHITE);
-			lblIntroduzcaSuFecha.setBounds(10, 177, 250, 14);
-		}
-		return lblIntroduzcaSuFecha;
 	}
 	private JLabel getLblIntroduzcaSuLocalidad() {
 		if (lblIntroduzcaSuLocalidad == null) {
 			lblIntroduzcaSuLocalidad = new JLabel("Introduzca su localidad:");
 			lblIntroduzcaSuLocalidad.setFont(new Font("Tahoma", Font.PLAIN, 12));
 			lblIntroduzcaSuLocalidad.setBackground(Color.WHITE);
-			lblIntroduzcaSuLocalidad.setBounds(10, 215, 250, 14);
 		}
 		return lblIntroduzcaSuLocalidad;
 	}
@@ -132,7 +109,6 @@ public class VentanaInscripcion extends JDialog {
 			lblIntroduzcaSuNumero = new JLabel("Introduzca su número de telefono:");
 			lblIntroduzcaSuNumero.setFont(new Font("Tahoma", Font.PLAIN, 12));
 			lblIntroduzcaSuNumero.setBackground(Color.WHITE);
-			lblIntroduzcaSuNumero.setBounds(10, 248, 250, 14);
 		}
 		return lblIntroduzcaSuNumero;
 	}
@@ -141,105 +117,120 @@ public class VentanaInscripcion extends JDialog {
 			lblIntroduzcaSuPais = new JLabel("Introduzca su pais:");
 			lblIntroduzcaSuPais.setFont(new Font("Tahoma", Font.PLAIN, 12));
 			lblIntroduzcaSuPais.setBackground(Color.WHITE);
-			lblIntroduzcaSuPais.setBounds(10, 278, 250, 14);
 		}
 		return lblIntroduzcaSuPais;
 	}
-	private JButton getBtnRegistrarse() {
+	public JButton getBtnRegistrarse() {
 		if (btnRegistrarse == null) {
 			btnRegistrarse = new JButton("Registrarse");
-			btnRegistrarse.setBounds(435, 363, 89, 23);
 		}
 		return btnRegistrarse;
 	}
-	private JButton getBtnCancelar() {
+	public JButton getBtnCancelar() {
 		if (btnCancelar == null) {
 			btnCancelar = new JButton("Cancelar");
-			btnCancelar.setBounds(538, 363, 89, 23);
 		}
 		return btnCancelar;
 	}
-	private JTextField getTextCorreo() {
+	public JTextField getTextCorreo() {
 		if (textCorreo == null) {
 			textCorreo = new JTextField();
-			textCorreo.setBounds(293, 40, 177, 20);
 			textCorreo.setColumns(10);
 		}
 		return textCorreo;
 	}
-	private JTextField getTextDni() {
+	public JTextField getTextDni() {
 		if (textDni == null) {
 			textDni = new JTextField();
 			textDni.setColumns(10);
-			textDni.setBounds(293, 76, 177, 20);
 		}
 		return textDni;
 	}
-	private JTextField getTextNombre() {
+	public JTextField getTextNombre() {
 		if (textNombre == null) {
 			textNombre = new JTextField();
 			textNombre.setColumns(10);
-			textNombre.setBounds(293, 107, 177, 20);
 		}
 		return textNombre;
+	}
+	public JTextField getTextLocalidad() {
+		if (textLocalidad == null) {
+			textLocalidad = new JTextField();
+			textLocalidad.setColumns(10);
+		}
+		return textLocalidad;
+	}
+	public JTextField getTextTelefono() {
+		if (textTelefono == null) {
+			textTelefono = new JTextField();
+			textTelefono.setColumns(10);
+		}
+		return textTelefono;
+	}
+	public JTextField getTextPais() {
+		if (textPais == null) {
+			textPais = new JTextField();
+			textPais.setColumns(10);
+		}
+		return textPais;
+	}
+	public JLabel getLblSexo() {
+		if (lblSexo == null) {
+			lblSexo = new JLabel("Introduzca/Seleccione su sexo");
+			lblSexo.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		}
+		return lblSexo;
 	}
 	private JPanel getPanel() {
 		if (panel == null) {
 			panel = new JPanel();
 			panel.setBackground(Color.WHITE);
-			panel.setBounds(293, 138, 183, 33);
+
 			panel.add(getRdbtnMasculino());
 			panel.add(getRdbtnFemenino());
 		}
 		return panel;
 	}
-	private JRadioButton getRdbtnMasculino() {
+	public JRadioButton getRdbtnMasculino() {
 		if (rdbtnMasculino == null) {
 			rdbtnMasculino = new JRadioButton("Masculino");
-			buttonGroup.add(rdbtnMasculino);
 			rdbtnMasculino.setBackground(Color.WHITE);
+			buttonGroup.add(rdbtnMasculino);
 		}
 		return rdbtnMasculino;
 	}
-	private JRadioButton getRdbtnFemenino() {
+	public JRadioButton getRdbtnFemenino() {
 		if (rdbtnFemenino == null) {
 			rdbtnFemenino = new JRadioButton("Femenino");
-			buttonGroup.add(rdbtnFemenino);
 			rdbtnFemenino.setSelected(true);
 			rdbtnFemenino.setBackground(Color.WHITE);
+			buttonGroup.add(rdbtnFemenino);
 		}
 		return rdbtnFemenino;
 	}
-	private JTextField getTextFecha() {
+	public void reset() {
+		this.getTextCorreo().setText("");
+		this.getTextDni().setText("");
+		this.getTextLocalidad().setText("");
+		this.getTextNombre().setText("");
+		this.getTextPais().setText("");
+		this.getTextTelefono().setText("");
+		this.setVisible(false);
+		
+	}
+	private JLabel getLblIntroduzcaSuFecha() {
+		if (lblIntroduzcaSuFecha == null) {
+			lblIntroduzcaSuFecha = new JLabel("Introduzca su fecha de nacimiento:");
+			lblIntroduzcaSuFecha.setFont(new Font("Tahoma", Font.PLAIN, 12));
+			lblIntroduzcaSuFecha.setBackground(Color.WHITE);
+		}
+		return lblIntroduzcaSuFecha;
+	}
+	public JTextField getTextFecha() {
 		if (textFecha == null) {
 			textFecha = new JTextField();
 			textFecha.setColumns(10);
-			textFecha.setBounds(293, 177, 177, 20);
 		}
 		return textFecha;
-	}
-	private JTextField getTextLocalidad() {
-		if (textLocalidad == null) {
-			textLocalidad = new JTextField();
-			textLocalidad.setColumns(10);
-			textLocalidad.setBounds(293, 213, 177, 20);
-		}
-		return textLocalidad;
-	}
-	private JTextField getTextTelefono() {
-		if (textTelefono == null) {
-			textTelefono = new JTextField();
-			textTelefono.setColumns(10);
-			textTelefono.setBounds(293, 246, 177, 20);
-		}
-		return textTelefono;
-	}
-	private JTextField getTextPais() {
-		if (textPais == null) {
-			textPais = new JTextField();
-			textPais.setColumns(10);
-			textPais.setBounds(293, 276, 177, 20);
-		}
-		return textPais;
 	}
 }
