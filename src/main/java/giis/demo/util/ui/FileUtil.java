@@ -11,6 +11,8 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
+import giis.demo.util.argumentchecks.ArgumentChecks;
+
 /**
  * A utility class to read/write text lines from/to a text file
  */
@@ -18,7 +20,8 @@ public class FileUtil {
 
 	public List<String> readLines(String inFileName) throws FileNotFoundException {
 		
-		// Falta validar parámetros.
+		ArgumentChecks.isNotNull(inFileName, "File cannot be null!");
+		ArgumentChecks.isTrue(!inFileName.isEmpty(), "File cannot be empty!");
 		
 		List<String> res = new LinkedList<>();
 		
