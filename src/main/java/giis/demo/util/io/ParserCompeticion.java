@@ -24,7 +24,7 @@ public class ParserCompeticion {
 		try {
 			return Integer.parseInt(value);
 		} catch(NumberFormatException e) {
-			throw new LineFormatException("No se pudo parsear el dato " + value +" a precisi�n doble");
+			throw new LineFormatException("No se pudo parsear el dato " + value +" a precisión doble");
 		}
 	}
 	
@@ -33,7 +33,7 @@ public class ParserCompeticion {
 		try {
 			return Double.parseDouble(value);
 		} catch(NumberFormatException e) {
-			throw new LineFormatException("No se pudo parsear el dato " + value +" a precisi�n doble");
+			throw new LineFormatException("No se pudo parsear el dato " + value +" a precisión doble");
 		}
 		
 	}
