@@ -19,8 +19,9 @@ check(tipo in('montaña','ruta')));
 
 drop table if exists Competicion;
 create table Competicion(id int primary key not null, nombre_c varchar(20) not null,inicio date not null, fin date not null, fecha date not null, descr varchar(32), 
-cuota decimal(4,2), distancia decimal(4,2), id_cat int not null, nPlazas int not null,
+cuota decimal(4,2), distancia decimal(4,2), id_cat int not null, nPlazas int not null, iban_c varchar(40) unique,
 constraint FK_Competicion_Categoria Foreign Key (id_cat) references "Categoria" (id_categoria), 
+constraint FK_Competicion_PagosTransferencia Foreign Key (iban_c) references "PagosTransferencia" (iban), 
 check(inicio<=fin),check(fin<fecha));
 
 drop table if exists Atleta;
