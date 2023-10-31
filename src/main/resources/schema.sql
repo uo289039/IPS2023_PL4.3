@@ -27,6 +27,7 @@ check(inicio<=fin),check(fin<fecha));
 drop table if exists Atleta;
 create table Atleta(dni int primary key not null,f_nacimiento date not null, nombre varchar(20) not null,
 sexo varchar(7) not null,inscripcion date not null, formaPago varchar(15) not null, correoE varchar(15) not null,
+poblacion varchar(25) not null, telefono varchar(12) not null, pais varchar(30) not null,
 check(sexo in ('hombre','mujer')), check(formaPago in ('transferencia','tarjeta')));
 
 drop table if exists Participa;
