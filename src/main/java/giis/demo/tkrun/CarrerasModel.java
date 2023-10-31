@@ -21,7 +21,7 @@ public class CarrerasModel {
 	private static final String MSG_FECHA_INSCRIPCION_NO_NULA = "La fecha de inscripcion no puede ser nula";
 
 	private Database db=new Database();
-	
+	private int indiceActual=2;
 	//SQL para obtener la lista de carreras activas para una fecha dada,
 	//se incluye aqui porque se usara en diferentes versiones de los metodos bajo prueba
 	public static final String SQL_LISTA_CARRERAS=
@@ -105,15 +105,18 @@ public class CarrerasModel {
 
 	
 	public void asignarDorsal(String id) {
-		String sql="Select correoElec from Participa where id_c=? and estadoI='Inscrito'";
+		String sql="Select correoE from Participa p, Atleta a"
+				+ " where id_c=? and estadoI='Inscrito' and a.correoE=p.correoElec";
 		List<AtletaEntity> correos=db.executeQueryPojo(AtletaEntity.class, sql, id);
 		
 		String sentencia="";
 		AtletaEntity a;
-		for(int i=2;i<correos.size();i++) {
+		
+		for(int i=0;i<correos.size();i++) {
 			a=correos.get(i);
-			sentencia="Update Participa set dorsal=? and id_c=? and correoElec=?";
-			db.executeUpdate(sentencia, i+1,id,a.getCorreoE());
+			sentencia="Update Participa set dorsal=? where id_c=? and correoElec=?";
+			db.executeUpdate(sentencia, indiceActual+1,id,a.getCorreoE());
+			indiceActual++;
 		}
 	}
 	
@@ -142,6 +145,11 @@ public class CarrerasModel {
 	private void validateCondition(boolean condition, String message) {
 		if (!condition)
 			throw new ApplicationException(message);
+	}
+	public String idCompeticion(String nombre) {
+		String sql="Select id from Competicion where nombre_c=?";
+		List<CarreraDisplayDTO>lista=db.executeQueryPojo(CarreraDisplayDTO.class, sql,nombre);
+		return lista.get(0).getId();
 	}
 	
 }

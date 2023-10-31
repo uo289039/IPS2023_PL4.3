@@ -20,6 +20,7 @@ import giis.demo.util.Util;
 public class AtletasController {
 	private AtletaModel model;
 	private AtletasView view;
+	private CarrerasModel cmodel=new CarrerasModel();
 	private String lastSelectedKey=""; //recuerda la ultima fila seleccionada para restaurarla cuando cambie la tabla de carreras
 
 	public AtletasController(AtletaModel m, AtletasView v) {
@@ -56,6 +57,7 @@ public class AtletasController {
 		//Inicializa la fecha de hoy a un valor que permitira mostrar carreras en diferentes fases 
 		//y actualiza los datos de la vista
 		view.setId("San Silvestre");
+		
 		this.getListaAtletas();
 		
 		//Abre la ventana (sustituye al main generado por WindowBuilder)
@@ -66,6 +68,8 @@ public class AtletasController {
 	 * y usar metodo de SwingUtil para crear un tablemodel que se asigna finalmente a la tabla.
 	 */
 	public void getListaAtletas() {
+		String id=cmodel.idCompeticion(view.getId());
+		cmodel.asignarDorsal(id);
 		List<AtletaDisplayDTO> carreras=model.getListaAtletas((view.getId()));
 		TableModel tmodel=SwingUtil.getTableModelFromPojos(carreras, new String[] {"dni", "nombre", "categoria","fechaI","estadoI","dorsal"});
 		view.getTablaAtletas().setModel(tmodel);
