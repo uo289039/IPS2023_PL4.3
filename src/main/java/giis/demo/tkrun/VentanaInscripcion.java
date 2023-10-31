@@ -12,7 +12,7 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JRadioButton;
-import javax.swing.JCheckBox;
+
 import javax.swing.ButtonGroup;
 
 public class VentanaInscripcion extends JDialog {

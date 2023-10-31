@@ -109,6 +109,13 @@ public class SwingMain {
 			}
 		});
 		frame.getContentPane().add(btnMisCompeticiones);
+		
+		JButton btnRegistrarse = new JButton("Crear cuenta");
+		btnRegistrarse.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		frame.getContentPane().add(btnRegistrarse);
 	}
 
 	public JFrame getFrame() { return this.frame; }
