@@ -34,8 +34,8 @@ public class InscripcionView extends JDialog {
 	private JTextField textNombre;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
 	private JTextField textLocalidad;
-	private JTextField textTelefono;
 	private JTextField textPais;
+	private JTextField textTelefono;
 	private JLabel lblSexo;
 	private JPanel panel;
 	private JRadioButton rdbtnMasculino;
@@ -54,7 +54,7 @@ public class InscripcionView extends JDialog {
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(new MigLayout("", "[grow][grow][grow]", "[grow][grow][grow][grow][grow][][][grow][][][][][][][][][]"));
 		contentPanel.add(getLblICorreo(), "cell 0 4,growx,aligny center");
-		contentPanel.add(getTextCorreo(), "cell 1 4,growx,aligny top");
+		contentPanel.add(getTextCorreo(), "cell 1 4,growx");
 		contentPanel.add(getLblIDNI(), "cell 0 5,growx,aligny center");
 		contentPanel.add(getTextDni(), "cell 1 5,growx,aligny top");
 		contentPanel.add(getLblINombre(), "cell 0 6,growx,aligny center");
@@ -64,9 +64,9 @@ public class InscripcionView extends JDialog {
 		contentPanel.add(getLblIntroduzcaSuLocalidad(), "cell 0 8,growx,aligny center");
 		contentPanel.add(getTextLocalidad(), "cell 1 8,growx,aligny top");
 		contentPanel.add(getLblIntroduzcaSuNumero(), "cell 0 9,growx,aligny center");
-		contentPanel.add(getTextPais(), "cell 1 9,growx,aligny top");
+		contentPanel.add(getTextTelefono(), "cell 1 9,growx,aligny top");
 		contentPanel.add(getLblIntroduzcaSuPais(), "cell 0 10,growx,aligny center");
-		contentPanel.add(getTextTelefono(), "cell 1 10,growx,aligny top");
+		contentPanel.add(getTextPais(), "cell 1 10,growx,aligny top");
 		contentPanel.add(getLblIntroduzcaSuFecha(), "cell 0 11,alignx left");
 		contentPanel.add(getTextFecha(), "cell 1 11,growx");
 		contentPanel.add(getBtnRegistrarse(), "cell 1 16,alignx right,aligny top");
@@ -160,19 +160,19 @@ public class InscripcionView extends JDialog {
 		}
 		return textLocalidad;
 	}
-	public JTextField getTextTelefono() {
-		if (textTelefono == null) {
-			textTelefono = new JTextField();
-			textTelefono.setColumns(10);
-		}
-		return textTelefono;
-	}
 	public JTextField getTextPais() {
 		if (textPais == null) {
 			textPais = new JTextField();
 			textPais.setColumns(10);
 		}
 		return textPais;
+	}
+	public JTextField getTextTelefono() {
+		if (textTelefono == null) {
+			textTelefono = new JTextField();
+			textTelefono.setColumns(10);
+		}
+		return textTelefono;
 	}
 	public JLabel getLblSexo() {
 		if (lblSexo == null) {
@@ -213,8 +213,8 @@ public class InscripcionView extends JDialog {
 		this.getTextDni().setText("");
 		this.getTextLocalidad().setText("");
 		this.getTextNombre().setText("");
-		this.getTextPais().setText("");
 		this.getTextTelefono().setText("");
+		this.getTextPais().setText("");
 		this.setVisible(false);
 		
 	}

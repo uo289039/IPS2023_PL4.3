@@ -50,6 +50,7 @@ public class ParticipaView extends JFrame {
 	private JLabel lblCompeticiones;
 	private JScrollPane tablePanel;
 	private JTable table;
+	private JButton btnCrearCuenta;
 //	private JLabel lblCbox;
 	
 
@@ -59,6 +60,7 @@ public class ParticipaView extends JFrame {
 		getContentPane().setBackground(Color.WHITE);
 		getContentPane().setLayout(new MigLayout("", "[grow][grow]", "[][][grow][][][][][][][][]"));
 		getContentPane().add(getTextFieldCorreo(), "cell 1 1");
+		getContentPane().add(getBtnCrearCuenta(), "cell 1 6");
 		getContentPane().add(getPanelBotones(), "cell 0 7 3 1,growx,aligny top");
 //		getContentPane().add(getComboBoxCompeticiones(), "cell 0 5 3 1,growx,aligny top");
 		getContentPane().add(getPanelRBotones(), "cell 0 6,alignx left,aligny top");
@@ -194,4 +196,10 @@ public class ParticipaView extends JFrame {
 	
 	
 	
+	public JButton getBtnCrearCuenta() {
+		if (btnCrearCuenta == null) {
+			btnCrearCuenta = new JButton("¿No tiene una cuenta validada? Pulse aquí para crearla");
+		}
+		return btnCrearCuenta;
+	}
 }

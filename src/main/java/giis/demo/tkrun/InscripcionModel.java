@@ -61,9 +61,9 @@ private Database db=new Database();
 	 * Obtiene todos los datos de la carrera con el id indicado
 	 */
 	public void updateAtletas(String correo, String dni, String nombre, String sexo,String f_nacim,String poblacion, String telefono, String pais) {
-		String sql="insert into Atletas (dni,f_nacimiento,nombre,sexo,correoE,poblacion,telefono,pais) values (?,?,?,?,?,?,?,?)";
+		String sql="insert into Atleta (dni,f_nacimiento,nombre,sexo,inscripcion,formaPago,correoE,poblacion,telefono,pais) values (?,?,?,?,?,?,?,?,?,?)";
 		if(!inCorreos(correo))
-			db.executeQueryPojo(CarreraEntity.class, sql,dni,nombre,sexo,f_nacim,poblacion,telefono,pais);
+			db.executeUpdate(sql,dni,f_nacim,nombre,sexo,"","",correo,poblacion,telefono,pais);
 		
 	}
 

@@ -16,7 +16,9 @@ public class AtletaEntity {
 	private String fecha_nacimiento;
 	private String fecha_insc;
 	private String correoE;
-
+	private String telefono;
+	private String pais;
+	private String poblacion;
 	public String getDni() { return this.dni; }
 	public String getNombre() { return this.nombre; }
 	public String getSexo() { return this.sexo; }
@@ -33,6 +35,35 @@ public class AtletaEntity {
 	public void setCorreoE(String correoE) {
 		this.correoE = correoE;
 	}
+	public String getFecha_nacimiento() {
+		return fecha_nacimiento;
+	}
+	public void setFecha_nacimiento(String fecha_nacimiento) {
+		this.fecha_nacimiento = fecha_nacimiento;
+	}
+	public String getTelefono() {
+		return telefono;
+	}
+	public void setTelefono(String telefono) {
+		this.telefono = telefono;
+	}
+	public String getPais() {
+		return pais;
+	}
+	public void setPais(String pais) {
+		this.pais = pais;
+	}
+	public String getPoblacion() {
+		return poblacion;
+	}
+	public void setPoblacion(String poblacion) {
+		this.poblacion = poblacion;
+	}
+	public void setDni(String dni) {
+		this.dni = dni;
+	}
+	
+	
 //	
 	//NOTA: se pueden generar getters y setters de forma automatica usando lombok:  
 	//https://www.sitepoint.com/declutter-pojos-with-lombok-tutorial/

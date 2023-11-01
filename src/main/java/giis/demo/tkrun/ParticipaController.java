@@ -50,7 +50,7 @@ public class ParticipaController {
 		view.getBtnCancelar().addActionListener(e -> reinicia());
 		
 //		validateFormulario();
-//		saveData();
+		view.getBtnCrearCuenta().addActionListener(e->crearCuenta());
 //		JOptionPane.showMessageDialog(null, "Datos guardados");
 //		dispose();
 		initView();
@@ -67,6 +67,10 @@ public class ParticipaController {
 	}
 	
 	
+	private void crearCuenta() {
+		InscripcionController ic=new InscripcionController(new InscripcionModel(), new InscripcionView());
+		ic.initController();
+	}
 	private void muestraSiguiente() {
 		if(this.view.getRdbtnTransferencia().isSelected())
 			ventanaRegistro();

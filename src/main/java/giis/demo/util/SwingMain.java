@@ -113,6 +113,8 @@ public class SwingMain {
 		JButton btnRegistrarse = new JButton("Crear cuenta");
 		btnRegistrarse.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				InscripcionController ic=new InscripcionController(new InscripcionModel(), new InscripcionView());
+				ic.initController();
 			}
 		});
 		frame.getContentPane().add(btnRegistrarse);

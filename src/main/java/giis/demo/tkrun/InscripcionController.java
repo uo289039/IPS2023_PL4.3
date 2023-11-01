@@ -50,12 +50,14 @@ public class InscripcionController {
 	public void actualizaAtletas() {
 		String sexo="";
 		if(view.getRdbtnFemenino().isSelected())
-			sexo="femenino";
+			sexo="mujer";
 		else
-			sexo="masculino";
+			sexo="hombre";
 		
 		model.updateAtletas(view.getTextCorreo().getText(), view.getTextDni().getText(), view.getTextNombre().getText(), sexo,
 				view.getTextFecha().getText(), view.getTextLocalidad().getText(), view.getTextTelefono().getText(), view.getTextPais().getText());
+		
+		view.reset();
 	}
 	
 
