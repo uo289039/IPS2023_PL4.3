@@ -5,7 +5,6 @@
 
 delete from Participa;
 delete from Atleta;
-delete from Categoria;
 delete from Competicion;
 delete from PagosTransferencia;
 
