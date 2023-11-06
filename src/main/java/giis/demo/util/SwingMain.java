@@ -51,7 +51,7 @@ public class SwingMain {
 		frame.setBounds(0, 0, 613, 281);
 		frame.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 		
-		JButton btnEjecutarTkrun = new JButton("Ejecutar para ver Competiciones");
+		JButton btnEjecutarTkrun = new JButton("Ver Competiciones");
 		btnEjecutarTkrun.addActionListener(new ActionListener() { //NOSONAR codigo autogenerado
 			public void actionPerformed(ActionEvent e) {
 				CarrerasController controller=new CarrerasController(new CarrerasModel(), new CarrerasView());
@@ -63,7 +63,6 @@ public class SwingMain {
 		
 			
 		JButton btnInicializarBaseDeDatos = new JButton("Inicializar Base de Datos en Blanco");
-		btnInicializarBaseDeDatos.setEnabled(false);
 		btnInicializarBaseDeDatos.addActionListener(new ActionListener() { //NOSONAR codigo autogenerado
 			public void actionPerformed(ActionEvent e) {
 				Database db=new Database();
@@ -73,7 +72,6 @@ public class SwingMain {
 		frame.getContentPane().add(btnInicializarBaseDeDatos);
 			
 		JButton btnCargarDatosIniciales = new JButton("Cargar Datos Iniciales para Pruebas");
-		btnCargarDatosIniciales.setEnabled(false);
 		btnCargarDatosIniciales.addActionListener(new ActionListener() { //NOSONAR codigo autogenerado
 			public void actionPerformed(ActionEvent e) {
 				Database db=new Database();
@@ -99,6 +97,15 @@ public class SwingMain {
 				iA.initController();
 			}
 		});
+		
+		JButton btnClasificaciones = new JButton("Ver Clasificaciones");
+		btnClasificaciones.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				TiemposController tA=new TiemposController(new TiemposModel(), new TiemposView());
+				tA.initController();
+			}
+		});
+		frame.getContentPane().add(btnClasificaciones);
 		frame.getContentPane().add(btnPreinscripcion);
 		
 		JButton btnMisCompeticiones = new JButton("Mis Competiciones");
