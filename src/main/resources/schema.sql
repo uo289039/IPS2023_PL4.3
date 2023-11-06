@@ -11,23 +11,16 @@
 --delete table Competicion
 --delete table Categoria;
 
-drop table if exists Categoria;
-create table Categoria(id_categoria int not null,tipo varchar(20) not null, 
-constraint pk_Categoria PRIMARY KEY(id_categoria),
-check(tipo in('montaña','ruta')));
-
-
 drop table if exists Competicion;
 create table Competicion(id int primary key not null, nombre_c varchar(20) not null,inicio date not null, fin date not null, fecha date not null, descr varchar(32), 
-cuota decimal(4,2), distancia decimal(4,2), id_cat int not null, nPlazas int not null, iban_c varchar(40) unique,
-constraint FK_Competicion_Categoria Foreign Key (id_cat) references "Categoria" (id_categoria), 
-constraint FK_Competicion_PagosTransferencia Foreign Key (iban_c) references "PagosTransferencia" (iban), 
+cuota decimal(4,2), distancia decimal(4,2), tipo varchar(20) not null, nPlazas int not null, iban_c varchar(40) unique,
+check(tipo in('Montaña','Ruta')),
 check(inicio<=fin),check(fin<fecha));
 
 drop table if exists Atleta;
 create table Atleta(dni int primary key not null,f_nacimiento date not null, nombre varchar(20) not null,
 sexo varchar(7) not null,inscripcion date not null, formaPago varchar(15) not null, correoE varchar(15) not null,
-poblacion varchar(25) not null, telefono varchar(12) not null, pais varchar(30) not null,
+poblacion varchar(25) not null, telefono varchar(12) not null, pais varchar(30) not null, categoria varchar(30) not null,
 check(sexo in ('hombre','mujer')), check(formaPago in ('transferencia','tarjeta','')));
 
 drop table if exists Participa;
@@ -40,8 +33,9 @@ create table Participa(correoElec varchar(15) not null, id_c int not null, estad
 
 drop table if exists PagosTransferencia;
 create table PagosTransferencia(nombre_Completo varchar(40) not null, correoElec varchar(25) not null, iban varchar(35) not null,
-                        banco varchar(15) not null, sucursal varchar(40) not null, importe decimal(4,2),
+                        dni int not null, importe decimal(4,2),
                         constraint pk_PagosTransferencia PRIMARY KEY(iban,correoElec), 
+                        constraint FK_Competicion_PagosTransferencia Foreign Key (iban) references "Competicion" (iban_c), 
                         constraint FK_PagosTransferencia_Atleta Foreign Key (correoElec) references "Atleta" (correoE));
                        
                        
@@ -50,7 +44,6 @@ create table DatosAtleta(nombre varchar(40) not null,nombre_c varchar(40) not nu
 categoria varchar(40) not null, inscripcion date not null, cuota decimal(4,2) not null, id_c int not null, correoE varchar(15) not null,
 constraint FK_DatosAtleta_Participa Foreign Key (id_c) references "Participa" (id_c),
 constraint FK_DatosAtleta_Participa Foreign Key (correoE) references "Participa" (correoElec));
-
 
 
 drop table if exists DatosInscripciones;

@@ -63,6 +63,7 @@ public class SwingMain {
 		
 			
 		JButton btnInicializarBaseDeDatos = new JButton("Inicializar Base de Datos en Blanco");
+		btnInicializarBaseDeDatos.setEnabled(false);
 		btnInicializarBaseDeDatos.addActionListener(new ActionListener() { //NOSONAR codigo autogenerado
 			public void actionPerformed(ActionEvent e) {
 				Database db=new Database();
@@ -72,6 +73,7 @@ public class SwingMain {
 		frame.getContentPane().add(btnInicializarBaseDeDatos);
 			
 		JButton btnCargarDatosIniciales = new JButton("Cargar Datos Iniciales para Pruebas");
+		btnCargarDatosIniciales.setEnabled(false);
 		btnCargarDatosIniciales.addActionListener(new ActionListener() { //NOSONAR codigo autogenerado
 			public void actionPerformed(ActionEvent e) {
 				Database db=new Database();
@@ -116,6 +118,18 @@ public class SwingMain {
 			}
 		});
 		frame.getContentPane().add(btnRegistrarse);
+		
+		
+		JButton btnCrearCompeticion = new JButton("Crear competición");
+		btnCrearCompeticion.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				CompeticionController cc=new CompeticionController(new CompeticionModel(), new CompeticionView());
+				cc.initController();
+			}
+		});
+		frame.getContentPane().add(btnCrearCompeticion);
+		
+		
 	}
 
 	public JFrame getFrame() { return this.frame; }

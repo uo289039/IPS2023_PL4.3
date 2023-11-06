@@ -24,7 +24,7 @@ public class AtletaModel {
 	//SQL para obtener la lista de carreras activas para una fecha dada,
 	//se incluye aqui porque se usara en diferentes versiones de los metodos bajo prueba
 	public static final String SQL_LISTA_DATOS_ATLETAS=
-			"Select distinct a.dni, a.nombre, c.id_cat as categoria, a.inscripcion as fechaI, p.estadoI, p.dorsal"
+			"Select distinct a.dni, a.nombre, c.tipo as categoria, a.inscripcion as fechaI, p.estadoI, p.dorsal"
 			+ " from Atleta a, Participa p, Competicion c, Categoria ct "
 			+ "where a.correoE=p.correoElec and p.id_c=c.id  and c.nombre_c=? order by a.inscripcion,p.estadoI";
 	/**
@@ -47,7 +47,7 @@ public class AtletaModel {
 	public List<AtletaDisplayDTO> getListaAtletas(String idCategoria) {
 		//validateNotNull(fechaInscripcion,MSG_FECHA_INSCRIPCION_NO_NULA);
 		String sql=
-				"Select distinct a.dni, a.nombre, c.id_cat as categoria, a.inscripcion as fechaI, p.estadoI, p.dorsal \n"
+				"Select distinct a.dni, a.nombre, c.tipo as categoria, a.inscripcion as fechaI, p.estadoI, p.dorsal \n"
 				+" from Atleta a, Participa p, Competicion c \n "
 				+ " where a.correoE=p.correoElec and p.id_c=c.id  and c.nombre_c=? order by a.inscripcion,p.estadoI";
 		//String d=Util.dateToIsoString(fechaInscripcion);
