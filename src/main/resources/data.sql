@@ -22,11 +22,14 @@ insert into Atleta(dni,f_nacimiento,nombre,sexo,inscripcion,formaPago,correoE,po
 (3,'2004-01-04','Marta','mujer','2016-10-09','tarjeta','marta@gmail.com','Aviles','623 198 813', 'España',"Femenino sub-23"),
 (7,'2002-12-09','Hunter','hombre','2016-11-01','transferencia','hunter@gmail.com','Madrid','612 122 803', 'España',"Masculino sub-23"),
 (2,'2003-01-12','Emilie','mujer','2016-10-10','tarjeta','emilie@gmail.com','Oviedo','656 197 891', 'España',"Femenino sub-23"),
-(9,'2000-10-11','Alexa','mujer','2016-10-12','tarjeta','alexa@gmail.com','Barcelona','655 185 821', 'España',"Femenino senior-30");
+(9,'2000-10-11','Alexa','mujer','2016-10-12','tarjeta','alexa@gmail.com','Barcelona','655 185 821', 'España',"Femenino senior-30"),
+(10,'2001-11-03','Manolo','hombre','2016-10-10','transferencia','manolin@gmail.com','Ibias','624 123 894', 'España', "Masculino sub-23"),
+(11,'2001-11-03','Mariluz','mujer','2016-10-10','transferencia','mariluz@gmail.com','Degaña','624 123 895', 'España', "Femenino sub-23");
 
 insert into Participa(correoElec,id_c,estadoI) values 
 ('alex@gmail.com',100,'Inscrito'),('emilie@gmail.com',103,'Inscrito'),
-('alexa@gmail.com',100,'Preinscrito'),('hunter@gmail.com',102,'Inscrito'),('marta@gmail.com',101,'Preinscrito');
+('alexa@gmail.com',100,'Preinscrito'),('hunter@gmail.com',102,'Inscrito'),('marta@gmail.com',101,'Preinscrito'),
+('manolin@gmail.com',100,'Inscrito'), ('mariluz@gmail.com',100,'Inscrito');
 
 insert into DatosAtleta(nombre,nombre_c,categoria,inscripcion,cuota,id_c,correoE) values('Alexander','San Silvestre','ruta','2016-10-05',50.0,100,'alex@gmail.com'),
 ('Alexa','San Silvestre','ruta','2016-10-15',50.0,100,'alexa@gmail.com'),('Emilie','Carrera Solidaria','ruta','2016-10-08',50.0,103,'emilie@gmail.com');

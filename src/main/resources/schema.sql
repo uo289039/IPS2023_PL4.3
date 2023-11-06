@@ -50,3 +50,7 @@ drop table if exists DatosInscripciones;
 create table DatosInscripciones(nombre_c varchar(40) not null,
 estadoI varchar(40) not null, fecha_cambio_estado date not null, correoE varchar(15) not null,
 constraint FK_DatosAtleta_Participa Foreign Key (correoE) references "Participa" (correoElec));
+
+drop table if exists Tiempo;
+create table Tiempo(id_c int, dorsal int, tiempo varchar(6),
+                    constraint fk_tiempos_participa foreign key (dorsal, id_c) references "Participa" (dorsal, id_c));
