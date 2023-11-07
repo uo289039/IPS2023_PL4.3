@@ -3,11 +3,11 @@ package giis.demo.tkrun;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
-import javax.swing.ComboBoxModel;
-import javax.swing.table.DefaultTableModel;
+//import javax.swing.ComboBoxModel;
+//import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
-import giis.demo.util.ApplicationException;
+//import giis.demo.util.ApplicationException;
 import giis.demo.util.SwingUtil;
 import giis.demo.util.Util;
 
@@ -101,7 +101,7 @@ public class CarrerasController {
 	public void updateDetail() {
 		//Obtiene la clave seleccinada y la guarda para recordar la seleccion en futuras interacciones
 		this.lastSelectedKey=SwingUtil.getSelectedKey(view.getTablaCarreras());
-		int idCarrera=Integer.parseInt(this.lastSelectedKey);
+//		int idCarrera=Integer.parseInt(this.lastSelectedKey);
 		
 		//Detalle de descuento/recargo:
 		//Controla excepcion porque el modelo causa excepcion cuando no se puede calcular el descuento

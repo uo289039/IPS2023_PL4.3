@@ -1,11 +1,11 @@
 package giis.demo.tkrun;
 
-import java.util.Date;
+//import java.util.Date;
 import java.util.List;
 
-import giis.demo.util.ApplicationException;
+//import giis.demo.util.ApplicationException;
 import giis.demo.util.Database;
-import giis.demo.util.Util;
+//import giis.demo.util.Util;
 
 public class InscripcionModel {
 private Database db=new Database();

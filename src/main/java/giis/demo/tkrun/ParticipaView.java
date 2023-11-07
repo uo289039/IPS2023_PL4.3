@@ -1,8 +1,8 @@
 package giis.demo.tkrun;
 
-import java.awt.EventQueue;
-
-import javax.swing.JDialog;
+//import java.awt.EventQueue;
+//
+//import javax.swing.JDialog;
 import javax.swing.JFrame;
 
 import java.awt.Color;
@@ -10,12 +10,12 @@ import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import java.awt.Font;
-import java.awt.GridLayout;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.swing.JComboBox;
+//import java.awt.Font;
+//import java.awt.GridLayout;
+//import java.util.ArrayList;
+//import java.util.List;
+//
+//import javax.swing.JComboBox;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 import javax.swing.JRadioButton;

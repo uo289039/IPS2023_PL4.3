@@ -1,11 +1,11 @@
 package giis.demo.tkrun;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+//import java.sql.ResultSet;
+//import java.sql.SQLException;
+//import java.sql.Statement;
 import java.util.*;
 import giis.demo.util.Util;
-import giis.demo.util.ApplicationException;
+//import giis.demo.util.ApplicationException;
 import giis.demo.util.Database;
 /**
  * Acceso a los datos de carreras e inscripciones, 
@@ -132,7 +132,7 @@ public class ParticipaModel {
 	 * Actualiza las fechas de inscripcion de una carrera
 	 */
 	public void updateFechasInscripcion(int id, Date inicio, Date fin) {
-		CarreraEntity carrera=this.getParticipa();
+//		CarreraEntity carrera=this.getParticipa();
 		//validateFechasInscripcion(inicio, fin, Util.isoStringToDate(carrera.getFecha()));
 		String sql="UPDATE competicion SET inicio=?, fin=? WHERE id=?";
 		db.executeUpdate(sql, Util.dateToIsoString(inicio), Util.dateToIsoString(fin), id);

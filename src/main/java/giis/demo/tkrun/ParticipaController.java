@@ -1,18 +1,18 @@
 package giis.demo.tkrun;
 
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+//import java.awt.event.MouseAdapter;
+//import java.awt.event.MouseEvent;
 import java.util.List;
-import javax.swing.ComboBoxModel;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JDialog;
+//import javax.swing.ComboBoxModel;
+//import javax.swing.DefaultComboBoxModel;
+//import javax.swing.JDialog;
 import javax.swing.JOptionPane;
-import javax.swing.table.DefaultTableModel;
+//import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
 import giis.demo.util.ApplicationException;
 import giis.demo.util.SwingUtil;
-import giis.demo.util.Util;
+//import giis.demo.util.Util;
 
 /**
  * Controlador para la funcionalidad de visualizacion de carreras para la inscripcion.

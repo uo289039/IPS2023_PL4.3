@@ -120,8 +120,8 @@ public class AtletaModel {
 	}
 	
 	
-	private void updateInscritos() {
-		String sql="UPDATE participa SET inicio=?, fin=? WHERE id=?";
-	}
+//	private void updateInscritos() {
+//		String sql="UPDATE participa SET inicio=?, fin=? WHERE id=?";
+//	}
 	
 }
