@@ -72,8 +72,8 @@ public class CompeticionController {
 				tipo="Montaña";
 			Random rand = new Random(1000);
 			int id = rand.nextInt();
-			model.createCompeticion(id,view.getTextNombre().getText(), view.getTextInicio().getText(), view.getTextFin().getText(), view.getTextFecha().getText(),
-					view.getTextCuota().getText(), view.getTextDescripcion().getText(), tipo, view.getTextNPlazas().getText(), view.getTextIBAN().getText(), view.getTextDistancia().getText());
+//			model.createCompeticion(id,view.getTextNombre().getText(), view.getTextInicio().getText(), view.getTextFin().getText(), view.getTextFecha().getText(),
+//					view.getTextCuota().getText(), view.getTextDescripcion().getText(), tipo, view.getTextNPlazas().getText(), view.getTextIBAN().getText(), view.getTextDistancia().getText());
 			
 			view.reset();
 			view.dispose();

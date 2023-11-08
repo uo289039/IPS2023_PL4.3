@@ -2,6 +2,7 @@ package giis.demo.tkrun;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -17,6 +18,9 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import net.miginfocom.swing.MigLayout;
+import java.awt.FlowLayout;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class CompeticionView extends JDialog {
 
@@ -26,18 +30,12 @@ public class CompeticionView extends JDialog {
 	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
 	private JLabel lblNombre;
-	private JLabel lblInicio;
-	private JLabel lblIFin;
-	private JLabel lblCuota;
 	private JLabel lblDescripcion;
 	private JLabel lblTipo;
 	private JButton btnCrear;
 	private JButton btnCancelar;
 	private JTextField textNombre;
-	private JTextField textInicio;
-	private JTextField textFin;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
-	private JTextField textCuota;
 	private JTextField textIBAN;
 	private JTextField textDescripcion;
 	private JLabel lblFecha;
@@ -50,6 +48,10 @@ public class CompeticionView extends JDialog {
 	private JTextField textFecha;
 	private JLabel lblDistancia;
 	private JTextField textDistancia;
+	private JPanel pnPlazos;
+	private JButton btnAgregarPlazo;
+	private JButton btnAgregarCategoria;
+	private JPanel pnCategorias;
 
 	
 	public CompeticionView() {
@@ -59,29 +61,27 @@ public class CompeticionView extends JDialog {
 		contentPanel.setBackground(Color.WHITE);
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
-		contentPanel.setLayout(new MigLayout("", "[grow][grow][grow]", "[grow][grow][grow][grow][grow][][][grow][][][][][][][][][]"));
-		contentPanel.add(getLblNombre(), "cell 0 4,growx,aligny center");
-		contentPanel.add(getTextNombre(), "cell 1 4,growx");
-		contentPanel.add(getLblInicio(), "cell 0 5,growx,aligny center");
-		contentPanel.add(getTextInicio(), "cell 1 5,growx,aligny top");
-		contentPanel.add(getLblIFin(), "cell 0 6,growx,aligny center");
-		contentPanel.add(getTextFin(), "cell 1 6,growx,aligny top");
-		contentPanel.add(getLblFecha(), "cell 0 7,alignx left,aligny center");
-		contentPanel.add(getTextFecha(), "cell 1 7,growx");
-		contentPanel.add(getLblCuota(), "cell 0 8,growx,aligny center");
-		contentPanel.add(getTextCuota(), "cell 1 8,growx,aligny top");
-		contentPanel.add(getLblDescripcion(), "cell 0 9,growx,aligny center");
-		contentPanel.add(getTextDescripcion(), "cell 1 9,growx,aligny top");
-		contentPanel.add(getLblTipo(), "cell 0 10,growx,aligny center");
-		contentPanel.add(getPanel(), "cell 1 10,grow");
-		contentPanel.add(getLblNPlazas(), "cell 0 11,alignx left");
-		contentPanel.add(getTextNPlazas(), "cell 1 11,growx");
-		contentPanel.add(getLblDistancia(), "cell 0 12,alignx left");
-		contentPanel.add(getTextDistancia(), "cell 1 12,growx");
-		contentPanel.add(getLblIBAN(), "cell 0 13,alignx left");
-		contentPanel.add(getTextIBAN(), "cell 1 13,growx,aligny top");
-		contentPanel.add(getBtnCancelar(), "flowx,cell 1 16,alignx right,aligny top");
-		contentPanel.add(getBtnCrear(), "cell 2 16,growx,aligny top");
+		contentPanel.setLayout(new MigLayout("", "[grow][grow][grow]", "[][grow][grow][grow][][][][][][]"));
+		contentPanel.add(getLblNombre(), "cell 0 0,growx,aligny center");
+		contentPanel.add(getTextNombre(), "cell 1 0,growx");
+		contentPanel.add(getPnPlazos(), "cell 0 1 2 1,grow");
+		contentPanel.add(getBtnAgregarPlazo(), "cell 2 1");
+		contentPanel.add(getLblFecha(), "cell 0 2,alignx left,aligny center");
+		contentPanel.add(getTextFecha(), "cell 1 2,growx");
+		contentPanel.add(getPnCategorias(), "cell 0 3 2 1,grow");
+		contentPanel.add(getBtnAgregarCategoria(), "cell 2 3");
+		contentPanel.add(getLblDescripcion(), "cell 0 4,growx,aligny center");
+		contentPanel.add(getTextDescripcion(), "cell 1 4,growx,aligny top");
+		contentPanel.add(getLblTipo(), "cell 0 5,growx,aligny center");
+		contentPanel.add(getPanel(), "cell 1 5,grow");
+		contentPanel.add(getLblNPlazas(), "cell 0 6,alignx left");
+		contentPanel.add(getTextNPlazas(), "cell 1 6,growx");
+		contentPanel.add(getLblDistancia(), "cell 0 7,alignx left");
+		contentPanel.add(getTextDistancia(), "cell 1 7,growx");
+		contentPanel.add(getLblIBAN(), "cell 0 8,alignx left");
+		contentPanel.add(getTextIBAN(), "cell 1 8,growx,aligny top");
+		contentPanel.add(getBtnCancelar(), "flowx,cell 1 9,alignx right,aligny top");
+		contentPanel.add(getBtnCrear(), "cell 2 9,growx,aligny top");
 	}
 	private JLabel getLblNombre() {
 		if (lblNombre == null) {
@@ -90,30 +90,6 @@ public class CompeticionView extends JDialog {
 			lblNombre.setBackground(Color.WHITE);
 		}
 		return lblNombre;
-	}
-	private JLabel getLblInicio() {
-		if (lblInicio == null) {
-			lblInicio = new JLabel("Introduzca el inicio del plazo de inscripción: (YYYY-MM-DD)");
-			lblInicio.setFont(new Font("Tahoma", Font.PLAIN, 12));
-			lblInicio.setBackground(Color.WHITE);
-		}
-		return lblInicio;
-	}
-	private JLabel getLblIFin() {
-		if (lblIFin == null) {
-			lblIFin = new JLabel("Introduzca el fin del plazo de inscripción: (YYYY-MM-DD)");
-			lblIFin.setFont(new Font("Tahoma", Font.PLAIN, 12));
-			lblIFin.setBackground(Color.WHITE);
-		}
-		return lblIFin;
-	}
-	private JLabel getLblCuota() {
-		if (lblCuota == null) {
-			lblCuota = new JLabel("Introduzca la cuota de inscripción:");
-			lblCuota.setFont(new Font("Tahoma", Font.PLAIN, 12));
-			lblCuota.setBackground(Color.WHITE);
-		}
-		return lblCuota;
 	}
 	private JLabel getLblDescripcion() {
 		if (lblDescripcion == null) {
@@ -149,27 +125,6 @@ public class CompeticionView extends JDialog {
 			textNombre.setColumns(10);
 		}
 		return textNombre;
-	}
-	public JTextField getTextInicio() {
-		if (textInicio == null) {
-			textInicio = new JTextField();
-			textInicio.setColumns(10);
-		}
-		return textInicio;
-	}
-	public JTextField getTextFin() {
-		if (textFin == null) {
-			textFin = new JTextField();
-			textFin.setColumns(10);
-		}
-		return textFin;
-	}
-	public JTextField getTextCuota() {
-		if (textCuota == null) {
-			textCuota = new JTextField();
-			textCuota.setColumns(10);
-		}
-		return textCuota;
 	}
 	public JTextField getTextIBAN() {
 		if (textIBAN == null) {
@@ -221,10 +176,10 @@ public class CompeticionView extends JDialog {
 	}
 	public void reset() {
 		this.getTextNombre().setText("");
-		this.getTextInicio().setText("");
-		this.getTextFin().setText("");
+//		this.getTextInicio().setText("");
+//		this.getTextFin().setText("");
 		this.getTextFecha().setText("");
-		this.getTextCuota().setText("");
+//		this.getTextCategoria().setText("");
 		this.getTextDescripcion().setText("");
 		this.getTextNPlazas().setText("");
 		this.getTextIBAN().setText("");
@@ -266,33 +221,34 @@ public class CompeticionView extends JDialog {
 			JOptionPane.showMessageDialog(null, "Tienes que rellenar todos los campos para continuar");
 			return false;
 		}
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-		String inicio = getTextInicio().getText();
-		LocalDate fechaInicio = LocalDate.parse(inicio, formatter);
-		String fin = getTextFin().getText();
-		LocalDate fechaFin = LocalDate.parse(fin, formatter);
-		String fecha = getTextFecha().getText();
-		LocalDate fechaComp = LocalDate.parse(fecha, formatter);
-		if(!fechaFin.isAfter(fechaInicio)) {
-			JOptionPane.showMessageDialog(null, "La fecha de fin tiene que ser posterior a la de inicio");
-			return false;
-		} else if(!fechaComp.isAfter(fechaFin)) {
-			JOptionPane.showMessageDialog(null, "La fecha de la competición tiene que ser posterior a la de fin de inscripción");
-			return false;
-		}
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+//		String inicio = getTextInicio().getText();
+//		LocalDate fechaInicio = LocalDate.parse(inicio, formatter);
+//		String fin = getTextFin().getText();
+//		LocalDate fechaFin = LocalDate.parse(fin, formatter);
+//		String fecha = getTextFecha().getText();
+//		LocalDate fechaComp = LocalDate.parse(fecha, formatter);
+//		if(!fechaFin.isAfter(fechaInicio)) {
+//			JOptionPane.showMessageDialog(null, "La fecha de fin tiene que ser posterior a la de inicio");
+//			return false;
+//		} else if(!fechaComp.isAfter(fechaFin)) {
+//			JOptionPane.showMessageDialog(null, "La fecha de la competición tiene que ser posterior a la de fin de inscripción");
+//			return false;
+//		}
 		return true;
 	}
 	private boolean comprobarCampos() {
-		if(this.getTextCuota().getText().isBlank()) {
-			return false;
-		} else if(this.getTextDescripcion().getText().isBlank()) {
+//		if(this.getTextCategoria().getText().isBlank()) {
+//			return false;
+//		} else 
+		if(this.getTextDescripcion().getText().isBlank()) {
 			return false;
 		} else if(this.getTextFecha().getText().isBlank()) {
 			return false;
-		} else if(this.getTextFin().getText().isBlank()) {
-			return false;
-		} else if(this.getTextInicio().getText().isBlank()) {
-			return false;
+//		} else if(this.getTextFin().getText().isBlank()) {
+//			return false;
+//		} else if(this.getTextInicio().getText().isBlank()) {
+//			return false;
 		} else if(this.getTextIBAN().getText().isBlank()) {
 			return false;
 		} else if(this.getTextNombre().getText().isBlank()) {
@@ -318,5 +274,49 @@ public class CompeticionView extends JDialog {
 			textDistancia.setColumns(10);
 		}
 		return textDistancia;
+	}
+	private JPanel getPnPlazos() {
+		if (pnPlazos == null) {
+			pnPlazos = new JPanel();
+			pnPlazos.setBackground(Color.WHITE);
+			pnPlazos.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+			Dimension maxDimension = new Dimension(1400, Integer.MAX_VALUE);
+			pnPlazos.setMaximumSize(maxDimension);
+		}
+		return pnPlazos;
+	}
+	private JButton getBtnAgregarPlazo() {
+		if (btnAgregarPlazo == null) {
+			btnAgregarPlazo = new JButton("Añadir Plazo Inscripción");
+			btnAgregarPlazo.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					getPnPlazos().add(new PanelPlazoInscripcion());
+					validate();
+				}
+			});
+		}
+		return btnAgregarPlazo;
+	}
+	private JButton getBtnAgregarCategoria() {
+		if (btnAgregarCategoria == null) {
+			btnAgregarCategoria = new JButton("Añadir Categoría");
+			btnAgregarCategoria.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					getPnCategorias().add(new PanelCategorias());
+					validate();
+				}
+			});
+		}
+		return btnAgregarCategoria;
+	}
+	private JPanel getPnCategorias() {
+		if (pnCategorias == null) {
+			pnCategorias = new JPanel();
+			pnCategorias.setBackground(Color.WHITE);
+			pnCategorias.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+			Dimension maxDimension = new Dimension(1500, Integer.MAX_VALUE);
+			pnCategorias.setMaximumSize(maxDimension);
+		}
+		return pnCategorias;
 	}
 }
