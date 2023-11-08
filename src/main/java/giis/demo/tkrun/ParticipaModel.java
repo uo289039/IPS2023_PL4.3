@@ -257,7 +257,7 @@ public class ParticipaModel {
 				+ "p.correoElec=? and p.correoElec=a.correoE";
 		List<AtletaDisplayDTO> datos=db.executeQueryPojo(AtletaDisplayDTO.class, sql,correo);
 		
-		return datos.get(0).getFechaI();
+		return datos.get(0).getFechaInscripcionCambioEstado();
 	}
 	public String getTfNombre(String correo) {
 		String sql="Select a.nombre from Atleta a where "

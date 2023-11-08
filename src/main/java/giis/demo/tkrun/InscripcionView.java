@@ -8,6 +8,8 @@ import javax.swing.border.EmptyBorder;
 import net.miginfocom.swing.MigLayout;
 import java.awt.Color;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JRadioButton;
@@ -233,4 +235,41 @@ public class InscripcionView extends JDialog {
 		}
 		return textFecha;
 	}
+	
+	public boolean compruebaCampos() {
+		if(comprobarCampos())
+			return true;
+		return false;
+	}
+	
+	
+	
+	private boolean comprobarCampos() {
+		if(this.getTextCorreo().getText().isBlank()) {
+			return false;
+		} else if(this.getTextDni().getText().isBlank()) {
+			return false;
+		} else if(this.getTextFecha().getText().isBlank()) {
+			return false;
+		} else if(this.getTextLocalidad().getText().isBlank()) {
+			return false;
+		} else if(this.getTextNombre().getText().isBlank()) {
+			return false;
+		} else if(this.getTextPais().getText().isBlank()) {
+			return false;
+		} else if(this.getTextTelefono().getText().isBlank()) {
+			return false;
+		}
+		return true;
+	}
+	
+	public void camposEnBlanco() {
+		JOptionPane.showMessageDialog(null, "Ningún campo puede quedar en blanco");
+	}
+	
+	public void inscripcionRealizada() {
+		String info=getTextDni().getText()+" - "+getTextNombre().getText()+" - "+getTextCorreo().getText();
+		JOptionPane.showMessageDialog(null, info+" ha sido inscrito correctamente.");
+	}
+	
 }

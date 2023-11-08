@@ -118,10 +118,12 @@ public class VentanaRegistro extends JDialog {
 		return true;
 	}
 	
-	public void validateFormulario() {
+	public boolean validateFormulario() {
 		if(!comprobarCampos()) {
 			JOptionPane.showMessageDialog(null, "Tienes que rellenar todos los campos para continuar");
+			return false;
 		}
+		return true;
 	}
 
 	public JButton getBtPagar() {

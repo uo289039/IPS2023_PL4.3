@@ -24,7 +24,7 @@ public class AtletaModel {
 	//SQL para obtener la lista de carreras activas para una fecha dada,
 	//se incluye aqui porque se usara en diferentes versiones de los metodos bajo prueba
 	public static final String SQL_LISTA_DATOS_ATLETAS=
-			"Select distinct a.dni, a.nombre, c.tipo as categoria, a.inscripcion as fechaI, p.estadoI, p.dorsal"
+			"Select distinct a.dni, a.nombre, c.tipo as categoria, a.inscripcion as fechaInscripcionCambioEstado, p.estadoI as estadoInscripcion, p.dorsal"
 			+ " from Atleta a, Participa p, Competicion c, Categoria ct "
 			+ "where a.correoE=p.correoElec and p.id_c=c.id  and c.nombre_c=? order by a.inscripcion,p.estadoI";
 	/**
@@ -34,9 +34,9 @@ public class AtletaModel {
 	 * resultado de la ejecucion de una query sql
 	 */
 	public List<Object[]> getListaAtletasArray(String nombreCompeticion) {
-		//validateNotNull(fechaInscripcion,MSG_FECHA_INSCRIPCION_NO_NULA);
+		//validateNotNull(fechaInscripcionnscripcion,MSG_FECHA_INSCRIPCION_NO_NULA);
 		//concatena los campos deseados en una unica columna pues el objetivo es devolver una lista de strings
-		String sql="SELECT dni || '-' || nombre || ' ' || categoria || ' ' || fechaI || ' ' || estadoI || ' ' || dorsal"
+		String sql="SELECT dni || '-' || nombre || ' ' || categoria || ' ' || fechaInscripcionCambioEstado || ' ' || estadoInscripcion || ' ' || dorsal"
 				+ " from (" + SQL_LISTA_DATOS_ATLETAS + ")";
 		
 		return db.executeQueryArray(sql, nombreCompeticion);
@@ -45,12 +45,12 @@ public class AtletaModel {
 	 * Obtiene la lista de carreras activas en forma objetos para una fecha de inscripcion dada
 	 */
 	public List<AtletaDisplayDTO> getListaAtletas(String idCategoria) {
-		//validateNotNull(fechaInscripcion,MSG_FECHA_INSCRIPCION_NO_NULA);
+		//validateNotNull(fechaInscripcionnscripcion,MSG_FECHA_INSCRIPCION_NO_NULA);
 		String sql=
-				"Select distinct a.dni, a.nombre, c.tipo as categoria, a.inscripcion as fechaI, p.estadoI, p.dorsal \n"
+				"Select distinct a.dni, a.nombre, c.tipo as categoria, a.inscripcion as fechaInscripcionCambioEstado, p.estadoI as estadoInscripcion, p.dorsal \n"
 				+" from Atleta a, Participa p, Competicion c \n "
 				+ " where a.correoE=p.correoElec and p.id_c=c.id  and c.nombre_c=? order by a.inscripcion,p.estadoI";
-		//String d=Util.dateToIsoString(fechaInscripcion);
+		//String d=Util.dateToIsoString(fechaInscripcionnscripcion);
 		return db.executeQueryPojo(AtletaDisplayDTO.class, sql, idCategoria);
 	}
 	/** 
@@ -60,8 +60,8 @@ public class AtletaModel {
 	 * Implementacion usando la utilidad que obtiene una lista de arrays de objetos 
 	 * restultado de la ejecucion de una query sql
 	 */
-//	public int getDescuentoRecargo(long idCarrera, Date fechaInscripcion) {
-//		validateNotNull(fechaInscripcion,MSG_FECHA_INSCRIPCION_NO_NULA);
+//	public int getDescuentoRecargo(long idCarrera, Date fechaInscripcionnscripcion) {
+//		validateNotNull(fechaInscripcionnscripcion,MSG_FECHA_INSCRIPCION_NO_NULA);
 //		String sql=
 //				 "SELECT "
 //				+" case when ?<inicio then NULL" //antes de inscripcion
@@ -71,7 +71,7 @@ public class AtletaModel {
 //				+"   else NULL "
 //				+" end as descuentoRecargo"
 //				+" from Competicion where id=? order by id";			
-//		String d=Util.dateToIsoString(fechaInscripcion);
+//		String d=Util.dateToIsoString(fechaInscripcionnscripcion);
 //		List<Object[]>rows=db.executeQueryArray(sql, d, d, d, d, idCarrera);
 //		//determina el valor a devolver o posibles excepciones
 //		if (rows.isEmpty())

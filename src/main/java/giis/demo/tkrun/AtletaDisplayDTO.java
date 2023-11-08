@@ -44,13 +44,13 @@ public class AtletaDisplayDTO {
 	public String getDni() { return this.dni; }
 	public String getNombre() { return this.nombre; }
 	public String getCategoria() {return this.categoria; }
-	public String getFechaI() {return this.inscripcion;}
-	public String getEstadoI() {return this.estadoI;}
+	public String getFechaInscripcionCambioEstado() {return this.inscripcion;}
+	public String getEstadoInscripcion() {return this.estadoI;}
 	public void setDni(String value) { this.dni=value; }
 	public void setNombre(String value) { this.nombre=value; }
 	public void setCategoria(String value) { this.categoria=value; }
-	public void setFechaI(String date) {this.inscripcion=date;}
-	public void setEstadoI(String d) {this.estadoI=d;}
+	public void setFechaInscripcionCambioEstado(String date) {this.inscripcion=date;}
+	public void setEstadoInscripcion(String d) {this.estadoI=d;}
 	public String getInscripcion() {
 		return inscripcion;
 	}

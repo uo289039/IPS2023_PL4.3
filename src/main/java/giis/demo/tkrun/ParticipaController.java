@@ -89,7 +89,7 @@ public class ParticipaController {
 	
 	private void validaGuarda() {
 		// TODO Auto-generated method stub
-		vr.validateFormulario();
+		if(vr.validateFormulario()) {
 		vr.saveData();
 		saveData();
 		JOptionPane.showMessageDialog(null, "Datos guardados");
@@ -109,7 +109,7 @@ public class ParticipaController {
 //		view.getTablaAtletas().setModel(tmodel);
 //		SwingUtil.autoAdjustColumns(view.getTablaAtletas());
 		
-		vr.dispose();
+		vr.dispose();}
 	}
 	private void reiniciaVr() {
 		// TODO Auto-generated method stub

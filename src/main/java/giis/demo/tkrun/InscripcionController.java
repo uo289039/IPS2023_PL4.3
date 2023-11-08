@@ -54,10 +54,19 @@ public class InscripcionController {
 		else
 			sexo="hombre";
 		
-		model.updateAtletas(view.getTextCorreo().getText(), view.getTextDni().getText(), view.getTextNombre().getText(), sexo,
-				view.getTextFecha().getText(), view.getTextLocalidad().getText(), view.getTextTelefono().getText(), view.getTextPais().getText());
 		
-		view.reset();
+		String fecha=view.getTextFecha().getText();
+		String categoria="";
+		if(view.compruebaCampos()) {
+			model.updateAtletas(view.getTextCorreo().getText(), view.getTextDni().getText(), view.getTextNombre().getText(), sexo,
+				fecha, view.getTextLocalidad().getText(), view.getTextTelefono().getText(), view.getTextPais().getText(),categoria);
+			view.inscripcionRealizada();
+			view.reset();
+		}
+		else {
+			view.camposEnBlanco();
+		}
+		
 	}
 	
 

@@ -1,7 +1,12 @@
 package giis.demo.tkrun;
 
-//import java.util.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import java.util.List;
+
+import javax.swing.JOptionPane;
 
 //import giis.demo.util.ApplicationException;
 import giis.demo.util.Database;
@@ -23,8 +28,10 @@ private Database db=new Database();
 		
 		List<AtletaDisplayDTO>correos= db.executeQueryPojo(AtletaDisplayDTO.class, sql);
 		for(int i=0;i<correos.size();i++)
-			if(correos.get(i).getCorreoE().equals(correo))
-			return true;
+			if(correos.get(i).getCorreoE().equals(correo)) {
+				JOptionPane.showMessageDialog(null, "No puede usar el correo de otro atleta registrado para crear su cuenta");
+				return true;
+			}
 		
 		return false;
 	}
@@ -60,11 +67,44 @@ private Database db=new Database();
 	/**
 	 * Obtiene todos los datos de la carrera con el id indicado
 	 */
-	public void updateAtletas(String correo, String dni, String nombre, String sexo,String f_nacim,String poblacion, String telefono, String pais) {
-		String sql="insert into Atleta (dni,f_nacimiento,nombre,sexo,inscripcion,formaPago,correoE,poblacion,telefono,pais) values (?,?,?,?,?,?,?,?,?,?)";
-		if(!inCorreos(correo))
-			db.executeUpdate(sql,dni,f_nacim,nombre,sexo,"","",correo,poblacion,telefono,pais);
+	public void updateAtletas(String correo, String dni, String nombre, String sexo,String f_nacim,String poblacion, String telefono, String pais,String categoria) {
+		String sql="insert into Atleta (dni,f_nacimiento,nombre,sexo,inscripcion,formaPago,correoE,poblacion,telefono,pais,categoria) values (?,?,?,?,?,?,?,?,?,?,?)";
+		if(!inCorreos(correo) && compruebaDNI(dni) && compruebaFecha(f_nacim))
+			db.executeUpdate(sql,dni,f_nacim,nombre,sexo,"","",correo,poblacion,telefono,pais,categoria);
 		
+	}
+
+	@SuppressWarnings("deprecation")
+	private boolean compruebaFecha(String fecha) {
+		SimpleDateFormat sdf=new SimpleDateFormat();
+		try {
+			Date fechaN=sdf.parse(fecha);
+			Date fechaActual=new Date(); //fechaActual>fechaN &&
+			if(fechaActual.getYear()-fechaN.getYear()>=18) {
+				return true;
+			}
+			return false;
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+	
+
+	private boolean compruebaDNI(String dni) {
+String sql="Select distinct dni from Atleta";
+		
+		List<AtletaDisplayDTO>correos= db.executeQueryPojo(AtletaDisplayDTO.class, sql);
+		for(int i=0;i<correos.size();i++)
+			if(correos.get(i).getDni().equals(dni)) {
+				JOptionPane.showMessageDialog(null, "No puede usar el dni de otro atleta registrado para crear su cuenta");
+				return false;
+			}
+		
+		
+		return true;
 	}
 
 	/**

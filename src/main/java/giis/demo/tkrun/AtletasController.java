@@ -71,7 +71,7 @@ public class AtletasController {
 		String id=cmodel.idCompeticion(view.getId());
 		cmodel.asignarDorsal(id);
 		List<AtletaDisplayDTO> carreras=model.getListaAtletas((view.getId()));
-		TableModel tmodel=SwingUtil.getTableModelFromPojos(carreras, new String[] {"dni", "nombre", "categoria","fechaI","estadoI","dorsal"});
+		TableModel tmodel=SwingUtil.getTableModelFromPojos(carreras, new String[] {"dni", "nombre", "categoria","fechaInscripcionCambioEstado","estadoInscripcion","dorsal"});
 		view.getTablaAtletas().setModel(tmodel);
 		SwingUtil.autoAdjustColumns(view.getTablaAtletas());
 		
