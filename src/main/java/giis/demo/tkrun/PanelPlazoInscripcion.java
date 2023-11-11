@@ -37,6 +37,7 @@ public class PanelPlazoInscripcion extends JPanel {
 	private JTextField getTfInicio() {
 		if (tfInicio == null) {
 			tfInicio = new JTextField();
+			tfInicio.setName("tfInicio");
 			tfInicio.setFont(new Font("Tahoma", Font.PLAIN, 12));
 			tfInicio.setColumns(10);
 		}
@@ -59,6 +60,7 @@ public class PanelPlazoInscripcion extends JPanel {
 	private JTextField getTfFin() {
 		if (tfFin == null) {
 			tfFin = new JTextField();
+			tfFin.setName("tfFin");
 			tfFin.setFont(new Font("Tahoma", Font.PLAIN, 12));
 			tfFin.setColumns(10);
 		}

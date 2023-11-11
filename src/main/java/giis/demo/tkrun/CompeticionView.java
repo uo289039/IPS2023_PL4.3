@@ -2,6 +2,7 @@ package giis.demo.tkrun;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.time.LocalDate;
@@ -56,7 +57,7 @@ public class CompeticionView extends JDialog {
 	
 	public CompeticionView() {
 		setTitle("Crear competición");
-		setBounds(100, 100, 653, 436);
+		setBounds(100, 100, 794, 504);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBackground(Color.WHITE);
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -220,35 +221,89 @@ public class CompeticionView extends JDialog {
 		if(!comprobarCampos()) {
 			JOptionPane.showMessageDialog(null, "Tienes que rellenar todos los campos para continuar");
 			return false;
+		} else if(compruebaFecha()) {
+			
+		} else if(!compruebaPlazos()) {
+			return false;
+		} else if(!compruebaCategorias()){
+			
 		}
-//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-//		String inicio = getTextInicio().getText();
-//		LocalDate fechaInicio = LocalDate.parse(inicio, formatter);
-//		String fin = getTextFin().getText();
-//		LocalDate fechaFin = LocalDate.parse(fin, formatter);
-//		String fecha = getTextFecha().getText();
-//		LocalDate fechaComp = LocalDate.parse(fecha, formatter);
-//		if(!fechaFin.isAfter(fechaInicio)) {
-//			JOptionPane.showMessageDialog(null, "La fecha de fin tiene que ser posterior a la de inicio");
-//			return false;
-//		} else if(!fechaComp.isAfter(fechaFin)) {
-//			JOptionPane.showMessageDialog(null, "La fecha de la competición tiene que ser posterior a la de fin de inscripción");
-//			return false;
-//		}
 		return true;
 	}
+	private boolean compruebaFecha() {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		String fecha = getTextFecha().getText();
+		LocalDate fechaComp = LocalDate.parse(fecha, formatter);
+		LocalDate hoy = LocalDate.now();
+		if(!fechaComp.isAfter(hoy)) {
+			JOptionPane.showMessageDialog(null, "La fecha de la competición tiene que ser posterior a la fecha actual");
+			return false;
+		}
+		return true;
+	}
+	private boolean compruebaPlazos() {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		String fecha = getTextFecha().getText();
+		LocalDate fechaComp = LocalDate.parse(fecha, formatter);
+		LocalDate hoy = LocalDate.now();
+		
+		LocalDate ant = null;
+		for (Component c: getPnPlazos().getComponents()) {
+			if(c instanceof JPanel) {
+				JPanel panelSec = (JPanel) c;
+				JTextField compInicio = null, compFin = null;
+				for (Component comp : panelSec.getComponents()) {
+					if (comp instanceof JTextField) {
+						if (comp.getName().equals("tfInicio")) {
+			            	compInicio = (JTextField) comp;
+			            } else if(comp.getName().equals("tfFin")) {
+			            	compFin = (JTextField) comp;
+			            }
+					}
+		        }
+				// NO FUNCIONA
+				String inicio = compInicio.getText();
+	            LocalDate fechaInicio = LocalDate.parse(inicio, formatter);
+	            String fin = compFin.getText();
+	    		LocalDate fechaFin = LocalDate.parse(fin, formatter);
+	    		if(ant != null) {
+	    			if(!fechaInicio.isAfter(ant)) {
+		    			JOptionPane.showMessageDialog(null, "La fecha de inicio tiene que ser posterior a la fecha de fin del anterior plazo");
+		    			return false;
+		    		} else if (fechaInicio.isAfter(ant.plusDays(1))) {
+		    			JOptionPane.showMessageDialog(null, "No puede haber separación entre los plazos de inscripción");
+		    			return false;
+		    		}
+	    		}
+	            if(!fechaInicio.isAfter(hoy)) {
+	    			JOptionPane.showMessageDialog(null, "La fecha de inicio tiene que ser posterior a la fecha actual");
+	    			return false;
+	    		} else if(!fechaFin.isAfter(fechaInicio)) {
+	    			JOptionPane.showMessageDialog(null, "La fecha de fin tiene que ser posterior a la de inicio");
+	    			return false;
+	    		}
+	            ant = fechaFin;
+			}
+		}
+		if(!fechaComp.isAfter(ant)) {
+			JOptionPane.showMessageDialog(null, "La fecha de competición tiene que ser posterior a la fecha de fin del último plazo");
+			return false;
+		}
+		return true;
+	}
+	private boolean compruebaCategorias() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 	private boolean comprobarCampos() {
-//		if(this.getTextCategoria().getText().isBlank()) {
-//			return false;
-//		} else 
-		if(this.getTextDescripcion().getText().isBlank()) {
+		if(!compruebaPanel(getPnPlazos())) {
+			return false;
+		} else if(!compruebaPanel(getPnCategorias())) {
+			return false;
+		} else if(this.getTextDescripcion().getText().isBlank()) {
 			return false;
 		} else if(this.getTextFecha().getText().isBlank()) {
 			return false;
-//		} else if(this.getTextFin().getText().isBlank()) {
-//			return false;
-//		} else if(this.getTextInicio().getText().isBlank()) {
-//			return false;
 		} else if(this.getTextIBAN().getText().isBlank()) {
 			return false;
 		} else if(this.getTextNombre().getText().isBlank()) {
@@ -257,6 +312,24 @@ public class CompeticionView extends JDialog {
 			return false;
 		} else if(this.getTextDistancia().getText().isBlank()) {
 			return false;
+		}
+		return true;
+	}
+	private boolean compruebaPanel(JPanel panelComp) {
+		for (Component c: panelComp.getComponents()) {
+			if(c instanceof JPanel) {
+				JPanel panelSec = (JPanel) c;
+				
+				for (Component comp : panelSec.getComponents()) {
+		            if (comp instanceof JTextField) {
+		            	JTextField compTexto = (JTextField) comp;
+
+		                if (compTexto.getText().isBlank()) {
+		                    return false;
+		                }
+		            }
+		        }
+			}
 		}
 		return true;
 	}
@@ -282,6 +355,8 @@ public class CompeticionView extends JDialog {
 			pnPlazos.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 			Dimension maxDimension = new Dimension(1400, Integer.MAX_VALUE);
 			pnPlazos.setMaximumSize(maxDimension);
+			pnPlazos.add(new PanelPlazoInscripcion());
+//			validate();
 		}
 		return pnPlazos;
 	}
@@ -315,6 +390,7 @@ public class CompeticionView extends JDialog {
 			pnCategorias.setBackground(Color.WHITE);
 			pnCategorias.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 			Dimension maxDimension = new Dimension(1500, Integer.MAX_VALUE);
+			pnCategorias.add(new PanelCategorias());
 			pnCategorias.setMaximumSize(maxDimension);
 		}
 		return pnCategorias;
