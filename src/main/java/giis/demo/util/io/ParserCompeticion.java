@@ -25,6 +25,23 @@ public class ParserCompeticion {
 		return resultado;
 	}
 	
+	
+//	public List<HistoricoEntity> parseLinesHistorico(List<String> lineas, String idC, String nombre, String fecha) {
+//		List<HistoricoEntity> resultado = new ArrayList<>();
+//		for(String linea: lineas) {
+//			try {
+//				lineNum++;
+//				resultado.add(parseLineH(linea, idC, nombre,fecha));
+//			} catch (LineFormatException e) {
+//				System.err.println("Linea " + lineNum + " no pudo ser parseada: " + e.getMessage());
+//			}
+//		}
+//		return resultado;
+//	}
+	
+	
+	
+	
 	public TiempoEntity parseLine(String line, String idC) throws LineFormatException {
 		
 		ArgumentChecks.isNotNull(line, "Línea no encontrada!");
@@ -42,6 +59,27 @@ public class ParserCompeticion {
 		return new TiempoEntity(idC, dorsal, tiempo);
 		
 	}
+	
+	
+//	public HistoricoEntity parseLineH(String line, String idC, String nombre, String fecha) throws LineFormatException {
+//		
+//		ArgumentChecks.isNotNull(line, "Línea no encontrada!");
+//		ArgumentChecks.isTrue(!line.isEmpty(), "Línea en blanco!");
+//		
+//		String[] tokens = line.split(";");
+//		int dorsal = parseInt(tokens[0]);
+//		
+//		String tiempo = tokens[1];
+//		
+//		if(tokens[1].equalsIgnoreCase("N/S") || tokens[1].equalsIgnoreCase("N/T")) {
+//			tiempo = "---";
+//		}
+//		
+//		return new HistoricoEntity(nombre, dorsal, fecha, tiempo);
+//		
+//	}
+	
+	
 
 	private int parseInt(String value) throws LineFormatException {
 		try {

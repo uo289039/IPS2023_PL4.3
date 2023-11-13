@@ -138,6 +138,15 @@ public class SwingMain {
 		});
 		frame.getContentPane().add(btnCrearCompeticion);
 		
+		JButton btnHistorico = new JButton("Historico Atleta");
+		btnHistorico.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				HistoricosController hc=new HistoricosController(new HistoricosModel(),new HistoricosView());
+				hc.initController();
+			}
+		});
+		frame.getContentPane().add(btnHistorico);
+		
 		
 	}
 

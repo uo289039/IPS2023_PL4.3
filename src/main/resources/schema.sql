@@ -28,7 +28,7 @@ create table Participa(correoElec varchar(15) not null, id_c int not null, estad
 						constraint pk_Participa PRIMARY KEY(correoElec,id_c), 
                         constraint FK_Participa_Competicion Foreign Key (id_c) references "Competicion" (id),
                         constraint FK_Participa_Atleta Foreign Key (correoElec) references "Atleta" (correoE),
-                        check(estadoI in ('No Inscrito','Preinscrito','Inscrito')));
+                        check(estadoI in ('No Inscrito','Preinscrito','Inscrito','Participado')));
                        
 
 drop table if exists PagosTransferencia;
@@ -54,3 +54,10 @@ constraint FK_DatosAtleta_Participa Foreign Key (correoE) references "Participa"
 drop table if exists Tiempo;
 create table Tiempo(id_c int, dorsal int, tiempo varchar(6),
                     constraint fk_tiempos_participa foreign key (dorsal, id_c) references "Participa" (dorsal, id_c));
+
+
+                   
+drop table if exists Historial;
+create table Historial(nombre_c varchar(40) not null, dorsal INTEGER unique, fecha date not null,
+tiempo varchar(6), categoria varchar(20),
+constraint fk_historial_participa foreign key (dorsal) references "Participa" (dorsal)); 
