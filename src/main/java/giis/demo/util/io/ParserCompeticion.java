@@ -7,7 +7,7 @@ import giis.demo.tkrun.TiempoEntity;
 import giis.demo.util.argumentchecks.ArgumentChecks;
 import giis.demo.util.io.exception.LineFormatException;
 
-public class ParserCompeticion {
+public class ParserCompeticion extends Parser {
 	
 	private int lineNum = 0;
 	
@@ -41,13 +41,5 @@ public class ParserCompeticion {
 		
 		return new TiempoEntity(idC, dorsal, tiempo);
 		
-	}
-
-	private int parseInt(String value) throws LineFormatException {
-		try {
-			return Integer.parseInt(value);
-		} catch(NumberFormatException e) {
-			throw new LineFormatException("No se pudo parsear el dato " + value +" a precisión doble");
-		}
 	}
 }

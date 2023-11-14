@@ -1,7 +1,4 @@
 package giis.demo.tkrun;
-
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.List;
 
 import javax.swing.table.TableModel;
@@ -28,14 +25,6 @@ public class TiemposController {
 	public void initController() {
 		
 		view.getBtnTablaCarreras().addActionListener(e -> SwingUtil.exceptionWrapper(() -> getClasificacion()));
-		view.getTablaCarreras().addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				//no usa mouseClicked porque al establecer seleccion simple en la tabla de carreras
-				//el usuario podria arrastrar el raton por varias filas e interesa solo la ultima
-				SwingUtil.exceptionWrapper(() -> updateDetail());
-			}
-		});
 	}
 	
 	public void initView() {
