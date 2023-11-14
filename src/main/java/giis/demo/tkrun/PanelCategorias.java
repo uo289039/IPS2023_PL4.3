@@ -55,6 +55,7 @@ public class PanelCategorias extends JPanel {
 	private JTextField getTfNombre() {
 		if (tfNombre == null) {
 			tfNombre = new JTextField();
+			tfNombre.setName("tfNombre");
 			tfNombre.setFont(new Font("Tahoma", Font.PLAIN, 12));
 			tfNombre.setColumns(10);
 		}
@@ -70,6 +71,7 @@ public class PanelCategorias extends JPanel {
 	private JTextField getTfMin() {
 		if (tfMin == null) {
 			tfMin = new JTextField();
+			tfMin.setName("tfMin");
 			tfMin.setFont(new Font("Tahoma", Font.PLAIN, 12));
 			tfMin.setColumns(10);
 		}
@@ -85,6 +87,7 @@ public class PanelCategorias extends JPanel {
 	private JTextField getTfMax() {
 		if (tfMax == null) {
 			tfMax = new JTextField();
+			tfMax.setName("tfMax");
 			tfMax.setFont(new Font("Tahoma", Font.PLAIN, 12));
 			tfMax.setColumns(10);
 		}

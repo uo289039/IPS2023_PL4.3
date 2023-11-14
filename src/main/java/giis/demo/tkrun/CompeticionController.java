@@ -1,9 +1,12 @@
 package giis.demo.tkrun;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.table.TableModel;
 
 import giis.demo.util.SwingUtil;
 
@@ -53,32 +56,64 @@ public class CompeticionController {
 
 	private void salir() {
 		int eleccion=JOptionPane.showConfirmDialog(null, "Está segur@ de cancelar la creación de la competición");
-		if(eleccion==JOptionPane.YES_OPTION)
-			view.reset();
+//		if(eleccion==JOptionPane.YES_OPTION)
+//			view.reset();
 	}
 	public void initView() {
 		dialogoContraseña();
+		getCategorias();
 	}
+	public void getCategorias() {
+		List<CategoriaDisplayDTO> categorias=categoriasPorDefecto();
+		TableModel tmodel=SwingUtil.getTableModelFromPojos(categorias, new String[] {"nombre", "edadMin","edadMax","genero"});
+		view.getTbCategorias().setModel(tmodel);
+		SwingUtil.autoAdjustColumns(view.getTbCategorias());
+		
+		//Como se guarda la clave del ultimo elemento seleccionado, restaura la seleccion de los detalles
+//		this.restoreDetail();
+
+		//A modo de demo, se muestra tambien la misma informacion en forma de lista en un combobox
+//		List<Object[]> carrerasList=model.getListaAtletasArray((view.getId()));
+//		ComboBoxModel<Object> lmodel=SwingUtil.getComboModelFromList(carrerasList);
+//		view.getListaAtletas().setModel(lmodel);
+	}
+	private List<CategoriaDisplayDTO> categoriasPorDefecto() {
+		List<CategoriaDisplayDTO> categorias = new ArrayList<>();
+		categorias.add(new CategoriaDisplayDTO("Junior masculino", 0, 15, "Masculino"));
+		categorias.add(new CategoriaDisplayDTO("Sub 18 masculino", 15, 18, "Masculino"));
+		categorias.add(new CategoriaDisplayDTO("Sub 25 masculino", 18, 25, "Masculino"));
+		categorias.add(new CategoriaDisplayDTO("Senior 35 masculino", 25, 35, "Masculino"));
+		categorias.add(new CategoriaDisplayDTO("Senior 45 masculino", 35, 45, "Masculino"));
+		categorias.add(new CategoriaDisplayDTO("Senior masculino", 45, 100, "Masculino"));
+		categorias.add(new CategoriaDisplayDTO("Junior femenino", 0, 15, "Femenino"));
+		categorias.add(new CategoriaDisplayDTO("Sub 18 femenino", 15, 18, "Femenino"));
+		categorias.add(new CategoriaDisplayDTO("Sub 25 femenino", 18, 25, "Femenino"));
+		categorias.add(new CategoriaDisplayDTO("Senior 35 femenino", 25, 35, "Femenino"));
+		categorias.add(new CategoriaDisplayDTO("Senior 45 femenino", 35, 45, "Femenino"));
+		categorias.add(new CategoriaDisplayDTO("Senior femenino", 45, 100, "Femenino"));
+		return categorias;
+	}
+
 	/**
 	 * La obtencion de la lista de carreras solo necesita obtener la lista de objetos del modelo 
 	 * y usar metodo de SwingUtil para crear un tablemodel que se asigna finalmente a la tabla.
 	 */
 	public void actualizaCompeticion() {
-		if(view.validaCampos()) {
-			String tipo="";
-			if(view.getRdbtnRuta().isSelected())
-				tipo="Ruta";
-			else
-				tipo="Montaña";
-			Random rand = new Random(1000);
-			int id = rand.nextInt();
-//			model.createCompeticion(id,view.getTextNombre().getText(), view.getTextInicio().getText(), view.getTextFin().getText(), view.getTextFecha().getText(),
-//					view.getTextCuota().getText(), view.getTextDescripcion().getText(), tipo, view.getTextNPlazas().getText(), view.getTextIBAN().getText(), view.getTextDistancia().getText());
-			
-			view.reset();
-			view.dispose();
-			JOptionPane.showMessageDialog(null, "Competición creada con éxito");
-		}
+//		if(view.validaCampos()) {
+//			String tipo="";
+//			if(view.getRdbtnRuta().isSelected())
+//				tipo="Ruta";
+//			else
+//				tipo="Montaña";
+//			Random rand = new Random(1000);
+//			int id = rand.nextInt();
+////			model.createCompeticion(id,view.getTextNombre().getText(), view.getTextInicio().getText(), view.getTextFin().getText(), view.getTextFecha().getText(),
+////					view.getTextCuota().getText(), view.getTextDescripcion().getText(), tipo, view.getTextNPlazas().getText(), view.getTextIBAN().getText(), view.getTextDistancia().getText());
+//			
+//			view.reset();
+//			view.dispose();
+//			JOptionPane.showMessageDialog(null, "Competición creada con éxito");
+//		}
 	}
 
 }
