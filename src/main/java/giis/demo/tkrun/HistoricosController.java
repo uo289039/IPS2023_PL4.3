@@ -42,11 +42,19 @@ public class HistoricosController {
 		//Inicializa la fecha de hoy a un valor que permitira mostrar carreras en diferentes fases 
 		//y actualiza los datos de la vista
 		view.setNombreCarrera("");
+		cargaView();
 		this.getHistorico();
 		//Abre la ventana (sustituye al main generado por WindowBuilder)
 		view.getFrame().setVisible(true); 
 	}
 	
+	private void cargaView() {
+		List<String> tipos=model.getTipos();
+		String[] tipado=tipos.toArray(new String[tipos.size()+1]);
+		tipado[tipos.size()]="Todas";
+		view.fijaModeloTipo(tipado);
+		
+	}
 	/**
 	 * La obtencion de la lista de carreras solo necesita obtener la lista de objetos del modelo 
 	 * y usar metodo de SwingUtil para crear un tablemodel que se asigna finalmente a la tabla.
@@ -60,14 +68,16 @@ public class HistoricosController {
 		List<HistoricoDisplayDTO> clasificacion;
 		
 		if(view.isTipoSelected()) {
-			clasificacion = model.getTiemposPorTipo(correo);
+			clasificacion = model.getTiemposPorTipo(correo, (String)view.getComboTipo().getSelectedItem());
 		} else if(view.isDistanciaSelected()) {
-			clasificacion = model.getTiemposPorDistancia(correo);
+			double distancia=model.getDistancia(correo);
+			String nombreDist=(String)view.getComboDistancia().getSelectedItem();
+			clasificacion = model.getTiemposPorDistancia(correo,distancia,nombreDist);
 		} else {
 			clasificacion = model.getTiempos(correo);
 		}
 		
-		TableModel tmodel=SwingUtil.getTableModelFromPojos(clasificacion, new String[] {"nombre","dorsal", "fecha", "posicion", "sexo",  "tiempo","categoria"});
+		TableModel tmodel=SwingUtil.getTableModelFromPojos(clasificacion, new String[] {"nombre_c","dorsal", "fecha", "posicion", "tiempo","categoria"});
 		view.getTablaCarreras().setModel(tmodel);
 		SwingUtil.autoAdjustColumns(view.getTablaCarreras());
 		//Como se guarda la clave del ultimo elemento seleccionado, restaura la seleccion de los detalles

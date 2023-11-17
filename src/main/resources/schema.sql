@@ -20,11 +20,11 @@ check(inicio<=fin),check(fin<fecha));
 drop table if exists Atleta;
 create table Atleta(dni int primary key not null,f_nacimiento date not null, nombre varchar(20) not null,
 sexo varchar(7) not null,inscripcion date not null, formaPago varchar(15) not null, correoE varchar(15) not null,
-poblacion varchar(25) not null, telefono varchar(12) not null, pais varchar(30) not null, categoria varchar(30) not null,
+poblacion varchar(25) not null, telefono varchar(12) not null, pais varchar(30) not null,
 check(sexo in ('hombre','mujer')), check(formaPago in ('transferencia','tarjeta','')));
 
 drop table if exists Participa;
-create table Participa(correoElec varchar(15) not null, id_c int not null, estadoI varchar(15) not null,dorsal INTEGER unique,
+create table Participa(correoElec varchar(15) not null, id_c int not null, estadoI varchar(15) not null,dorsal INTEGER unique, estadoActual varchar(40) not null,
 						constraint pk_Participa PRIMARY KEY(correoElec,id_c), 
                         constraint FK_Participa_Competicion Foreign Key (id_c) references "Competicion" (id),
                         constraint FK_Participa_Atleta Foreign Key (correoElec) references "Atleta" (correoE),
@@ -58,6 +58,6 @@ create table Tiempo(id_c int, dorsal int, tiempo varchar(6),
 
                    
 drop table if exists Historial;
-create table Historial(nombre_c varchar(40) not null, dorsal INTEGER unique, fecha date not null,
+create table Historial(nombre_c varchar(40) not null, dorsal INTEGER, fecha date not null, correoE varchar(15) not null,
 tiempo varchar(6), categoria varchar(20),
 constraint fk_historial_participa foreign key (dorsal) references "Participa" (dorsal)); 

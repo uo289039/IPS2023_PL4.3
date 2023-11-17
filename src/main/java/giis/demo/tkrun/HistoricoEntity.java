@@ -11,15 +11,6 @@ public class HistoricoEntity {
 	private String categoria;
 	
 	
-	public HistoricoEntity(String n_c,int rowDorsal, String date, int pos, int time, String cat) {
-		this.nombre_c=n_c;
-		this.dorsal=rowDorsal;
-		this.fecha=date;
-		this.posicion=pos;
-		this.tiempo=time;
-		this.categoria=cat;
-	}
-	
 	public String getNombre_c() {
 		return nombre_c;
 	}

@@ -56,12 +56,17 @@ public class InscripcionController {
 		
 		
 		String fecha=view.getTextFecha().getText();
-		String categoria="";
+		
 		if(view.compruebaCampos()) {
 			model.updateAtletas(view.getTextCorreo().getText(), view.getTextDni().getText(), view.getTextNombre().getText(), sexo,
-				fecha, view.getTextLocalidad().getText(), view.getTextTelefono().getText(), view.getTextPais().getText(),categoria);
-			view.inscripcionRealizada();
-			view.reset();
+				fecha, view.getTextLocalidad().getText(), view.getTextTelefono().getText(), view.getTextPais().getText());
+			
+			if(model.isActualizado()) {
+				view.inscripcionRealizada();
+				view.reset();
+				model.reiniciaActualizado();
+			}
+			
 		}
 		else {
 			view.camposEnBlanco();

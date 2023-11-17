@@ -49,7 +49,7 @@ public class InscripcionView extends JDialog {
 	
 	public InscripcionView() {
 		setTitle("Crear Cuenta");
-		setBounds(100, 100, 653, 436);
+		setBounds(100, 100, 729, 436);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBackground(Color.WHITE);
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -222,7 +222,7 @@ public class InscripcionView extends JDialog {
 	}
 	private JLabel getLblIntroduzcaSuFecha() {
 		if (lblIntroduzcaSuFecha == null) {
-			lblIntroduzcaSuFecha = new JLabel("Introduzca su fecha de nacimiento:");
+			lblIntroduzcaSuFecha = new JLabel("Introduzca su fecha de nacimiento (separe los campos por yyyy-mm-dd):");
 			lblIntroduzcaSuFecha.setFont(new Font("Tahoma", Font.PLAIN, 12));
 			lblIntroduzcaSuFecha.setBackground(Color.WHITE);
 		}

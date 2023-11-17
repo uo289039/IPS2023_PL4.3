@@ -12,6 +12,10 @@ import java.awt.Color;
 import javax.swing.JRadioButton;
 import java.awt.SystemColor;
 import javax.swing.ButtonGroup;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JComboBox;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 /**
  * Vista de la pantalla que muestra las carreras activas y permite interactuar con ellas.
@@ -24,7 +28,7 @@ import javax.swing.ButtonGroup;
  */
 public class HistoricosView {
 
-	private JFrame frame;
+	private JFrame frmHistoricos;
 	private JTextField nombreAtleta;
 	private JButton btnClasificaciones;
 	private JTable tabClasificacion;
@@ -32,6 +36,8 @@ public class HistoricosView {
 	private JRadioButton rdbtnTipo;
 	private JRadioButton rdbtnDistancia;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
+	private JComboBox<String> comboDistancia;
+	private JComboBox<String> comboTipo;
 
 	/**
 	 * Create the application.
@@ -44,31 +50,31 @@ public class HistoricosView {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frame = new JFrame();
-		frame.getContentPane().setBackground(Color.WHITE);
-		frame.setTitle("Clasificaciones");
-		frame.setName("Clasificaciones");
-		frame.setBounds(0, 0, 492, 422);
-		frame.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(new MigLayout("", "[grow]", "[][][grow][][][][][][][][][]"));
+		frmHistoricos = new JFrame();
+		frmHistoricos.getContentPane().setBackground(Color.WHITE);
+		frmHistoricos.setTitle("Historicos");
+		frmHistoricos.setName("Historicos");
+		frmHistoricos.setBounds(0, 0, 492, 422);
+		frmHistoricos.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 		
 		final JLabel lblSimulacion;
 		final JLabel lbCarrera;
+		frmHistoricos.getContentPane().setLayout(new MigLayout("", "[57px][11px][17px][17px][11px][9px][69px][8px][113px][10px][38px][9px][93px]", "[14px][23px][23px][265px]"));
 
 		lblSimulacion = new JLabel("Historico en función del atleta:");
-		frame.getContentPane().add(lblSimulacion, "cell 0 1");
+		frmHistoricos.getContentPane().add(lblSimulacion, "cell 0 0 7 1,alignx left,aligny top");
 		
 		lbCarrera = new JLabel("Correo del atleta:");
-		frame.getContentPane().add(lbCarrera, "flowx,cell 0 3");
+		frmHistoricos.getContentPane().add(lbCarrera, "cell 0 1 3 1,alignx left,aligny center");
 		
 		nombreAtleta = new JTextField();
 		nombreAtleta.setName("txtFechaHoy");
-		frame.getContentPane().add(nombreAtleta, "cell 0 3,growx");
+		frmHistoricos.getContentPane().add(nombreAtleta, "cell 4 1 7 1,growx,aligny center");
 		nombreAtleta.setColumns(10);
 		
 		btnClasificaciones = new JButton("Ver Historico");
 		lbCarrera.setLabelFor(btnClasificaciones);
-		frame.getContentPane().add(btnClasificaciones, "cell 0 3");
+		frmHistoricos.getContentPane().add(btnClasificaciones, "cell 12 1,alignx left,aligny top");
 		
 		//Incluyo la tabla en un JScrollPane y anyado este en vez de la tabla para poder ver los headers de la tabla
 		tabClasificacion = new JTable();
@@ -77,26 +83,48 @@ public class HistoricosView {
 		tabClasificacion.setDefaultEditor(Object.class, null); //readonly
 		
 		rdbtnAmbos = new JRadioButton("Ambos");
+		rdbtnAmbos.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				comboDistancia.setEnabled(true);
+				comboTipo.setEnabled(true);
+			}
+		});
 		rdbtnAmbos.setSelected(true);
 		buttonGroup.add(rdbtnAmbos);
 		rdbtnAmbos.setBackground(SystemColor.text);
-		frame.getContentPane().add(rdbtnAmbos, "flowx,cell 0 4");
+		frmHistoricos.getContentPane().add(rdbtnAmbos, "cell 0 2,alignx left,aligny top");
+		frmHistoricos.getContentPane().add(getComboDistancia(), "cell 8 2,growx,aligny top");
 		JScrollPane tablePanel = new JScrollPane(tabClasificacion);
-		frame.getContentPane().add(tablePanel, "cell 0 6,grow");
+		frmHistoricos.getContentPane().add(tablePanel, "cell 0 3 13 1,grow");
 		
 		rdbtnTipo = new JRadioButton("Tipo");
+		rdbtnTipo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				comboDistancia.setEnabled(false);
+				comboTipo.setEnabled(true);
+			}
+		});
 		buttonGroup.add(rdbtnTipo);
 		rdbtnTipo.setBackground(SystemColor.text);
-		frame.getContentPane().add(rdbtnTipo, "cell 0 4");
+		frmHistoricos.getContentPane().add(rdbtnTipo, "cell 2 2 3 1,alignx left,aligny top");
 		
 		rdbtnDistancia = new JRadioButton("Distancia");
+		rdbtnDistancia.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				comboDistancia.setEnabled(true);
+				comboTipo.setEnabled(false);
+			}
+		});
 		buttonGroup.add(rdbtnDistancia);
 		rdbtnDistancia.setBackground(SystemColor.text);
-		frame.getContentPane().add(rdbtnDistancia, "cell 0 4");
+		frmHistoricos.getContentPane().add(rdbtnDistancia, "cell 6 2,alignx left,aligny top");
+		
+		comboTipo = new JComboBox<String>();
+		frmHistoricos.getContentPane().add(comboTipo, "cell 10 2 3 1,growx,aligny top");
 	}
 
 	//Getters y Setters anyadidos para acceso desde el controlador (repersentacion compacta)
-	public JFrame getFrame() { return this.frame; }
+	public JFrame getFrame() { return this.frmHistoricos; }
 	public JButton getBtnTablaCarreras() { return this.btnClasificaciones; }
 	public JTable getTablaCarreras() { return this.tabClasificacion; }
 	
@@ -119,5 +147,24 @@ public class HistoricosView {
 	public boolean isDistanciaSelected() {
 		return this.rdbtnDistancia.isSelected();
 	}
+	public JComboBox<String> getComboDistancia() {
+		if (comboDistancia == null) {
+			
+			DefaultComboBoxModel<String> dcm=new DefaultComboBoxModel<String>(new String[] { "Maraton", "Media maraton", "Ultra maraton", "Todas"});
+			comboDistancia = new JComboBox<String>(dcm);
+		}
+		return comboDistancia;
+	}
+	
+	public void fijaModeloTipo(String[] data) {
+		DefaultComboBoxModel<String> dcm=new DefaultComboBoxModel<String>(data);
+		comboTipo.setModel(dcm);
+	}
+	
+	
+	public JComboBox<String> getComboTipo(){
+		return comboTipo;
+	}
+
 	
 }

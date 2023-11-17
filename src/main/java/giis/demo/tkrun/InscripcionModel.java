@@ -13,7 +13,9 @@ import giis.demo.util.Database;
 //import giis.demo.util.Util;
 
 public class InscripcionModel {
-private Database db=new Database();
+	private Database db=new Database();
+	
+	private boolean actualizado=false;
 	
 	//SQL para obtener la lista de carreras activas para una fecha dada,
 	//se incluye aqui porque se usara en diferentes versiones de los metodos bajo prueba
@@ -67,20 +69,25 @@ private Database db=new Database();
 	/**
 	 * Obtiene todos los datos de la carrera con el id indicado
 	 */
-	public void updateAtletas(String correo, String dni, String nombre, String sexo,String f_nacim,String poblacion, String telefono, String pais,String categoria) {
-		String sql="insert into Atleta (dni,f_nacimiento,nombre,sexo,inscripcion,formaPago,correoE,poblacion,telefono,pais,categoria) values (?,?,?,?,?,?,?,?,?,?,?)";
-		if(!inCorreos(correo) && compruebaDNI(dni) && compruebaFecha(f_nacim))
-			db.executeUpdate(sql,dni,f_nacim,nombre,sexo,"","",correo,poblacion,telefono,pais,categoria);
+	public void updateAtletas(String correo, String dni, String nombre, String sexo,String f_nacim,String poblacion, String telefono, String pais) {
+		String sql="insert into Atleta (dni,f_nacimiento,nombre,sexo,inscripcion,formaPago,correoE,poblacion,telefono,pais) values (?,?,?,?,?,?,?,?,?,?)";
+		if(!inCorreos(correo) && compruebaDNI(dni) && compruebaFecha(f_nacim)) {
+			db.executeUpdate(sql,dni,f_nacim,nombre,sexo,"","",correo,poblacion,telefono,pais);
+			actualizado=true;
+		}
 		
 	}
 
-	@SuppressWarnings("deprecation")
+	
 	private boolean compruebaFecha(String fecha) {
-		SimpleDateFormat sdf=new SimpleDateFormat();
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-m-dd");
 		try {
 			Date fechaN=sdf.parse(fecha);
-			Date fechaActual=new Date(); //fechaActual>fechaN &&
-			if(fechaActual.getYear()-fechaN.getYear()>=18) {
+			Date fechaActual=new Date(); 
+			long now=fechaActual.getTime();
+			long then=fechaN.getTime();
+			long limite=18*365*24*60*60*1000;
+			if(now-then>=limite) {
 				return true;
 			}
 			return false;
@@ -134,6 +141,12 @@ String sql="Select distinct dni from Atleta";
 //			throw new ApplicationException(message);
 //	}
 	
+	public boolean isActualizado() {
+		return actualizado;
+	}
 	
+	public void reiniciaActualizado() {
+		actualizado=false;
+	}
 	
 }
