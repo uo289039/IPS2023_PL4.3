@@ -59,7 +59,7 @@ public class HistoricosView {
 		
 		final JLabel lblSimulacion;
 		final JLabel lbCarrera;
-		frmHistoricos.getContentPane().setLayout(new MigLayout("", "[57px][11px][17px][17px][11px][9px][69px][8px][113px][10px][38px][9px][93px]", "[14px][23px][23px][265px]"));
+		frmHistoricos.getContentPane().setLayout(new MigLayout("", "[grow][grow][grow][grow][grow][grow][grow][grow][grow][grow][grow][grow][grow]", "[grow][grow][grow][grow]"));
 
 		lblSimulacion = new JLabel("Historico en función del atleta:");
 		frmHistoricos.getContentPane().add(lblSimulacion, "cell 0 0 7 1,alignx left,aligny top");
