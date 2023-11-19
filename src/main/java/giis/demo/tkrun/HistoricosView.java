@@ -3,6 +3,7 @@ package giis.demo.tkrun;
 import javax.swing.JFrame;
 import net.miginfocom.swing.MigLayout;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -164,6 +165,17 @@ public class HistoricosView {
 	
 	public JComboBox<String> getComboTipo(){
 		return comboTipo;
+	}
+
+	public void muestraRechazo(String correo) {
+		JOptionPane.showMessageDialog(null, "El correo "+correo+" no está validado. Por favor introduzca uno valido.");
+		
+	}
+
+	public void noHistorico(String correo) {
+		JOptionPane.showMessageDialog(null, "El atleta con correo: "+correo+" aún no ha participado o no está "
+				+ "participando en ninguna competición");
+		
 	}
 
 	

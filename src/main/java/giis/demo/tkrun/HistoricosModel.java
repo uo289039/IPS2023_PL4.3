@@ -19,6 +19,11 @@ public class HistoricosModel {
 													+ " WHERE nombre_c = ?";
 	
 	
+	private static final String LISTA_CORREOS="Select distinct correoE from Atleta a";
+	
+	private static final String LISTA_NOMBRES_C="Select distinct nombre_c from Competicion c";
+	
+	
 	private static final String OBTENER_ID_POR_CORREO = "SELECT id FROM competicion, participa"
 			+ " WHERE id_c = id and correoElec=?";
 	
@@ -95,20 +100,27 @@ public class HistoricosModel {
 	
 	private static final String OBTENER_DISTANCIAS="SELECT distancia "
 			+ "from Competicion c  where id=?";
+	
+	private boolean yaParticipado=false;
+	
 	public void insertarHistorial(String correo) {
 		
 		String nombreCarrera=getNombre(correo);
-		insertarTiempos(nombreCarrera);
-		String carreraId = getId(nombreCarrera);
-		String categoria=getCategoria(carreraId);
-		String fecha=getFecha(carreraId);
-		List<HistoricoEntity> tiempos = cargaDatos(carreraId);
-		String query = "INSERT INTO Historial (nombre_c, dorsal, fecha, tiempo, categoria,correoE) VALUES (?, ?, ?, ?, ?, ?)";
-		for(HistoricoEntity t: tiempos) {
-			db.executeUpdate(query, nombreCarrera, t.getDorsal(), fecha, t.getTiempo(),categoria,correo);	
-		}
+		if(compruebaNombreCarrera(nombreCarrera)) {
+			yaParticipado=true;
+			insertarTiempos(nombreCarrera);
+			String carreraId = getId(nombreCarrera);
+			String categoria=getCategoria(carreraId);
+			String fecha=getFecha(carreraId);
+			List<HistoricoEntity> tiempos = cargaDatos(carreraId);
+			String query = "INSERT INTO Historial (nombre_c, dorsal, fecha, tiempo, categoria,correoE) VALUES (?, ?, ?, ?, ?, ?)";
+			for(HistoricoEntity t: tiempos) {
+				db.executeUpdate(query, nombreCarrera, t.getDorsal(), fecha, t.getTiempo(),categoria,correo);	
+			}
 		//db.executeUpdate(ELIMINAR_CLASIFICACION, carreraId);
-		
+		}
+		else
+			yaParticipado=false;
 		
 	}
 	
@@ -223,16 +235,25 @@ public class HistoricosModel {
 	
 	public void insertarTiempos(String nombreCarrera) {
 		
-		String carreraId = getId(nombreCarrera);
-		List<TiempoEntity> tiempos = cargarTiempos("src/main/java/files/" + carreraId + ".csv", carreraId);
-		db.executeUpdate(ELIMINAR_CLASIFICACION, carreraId);
-		String query = "INSERT INTO tiempo (id_c, dorsal, tiempo) VALUES (?, ?, ?)";
-		for(TiempoEntity t: tiempos) {
-			db.executeUpdate(query, carreraId, t.getDorsal(), t.getTiempo());	
-		}
+			String carreraId = getId(nombreCarrera);
+			List<TiempoEntity> tiempos = cargarTiempos("src/main/java/files/" + carreraId + ".csv", carreraId);
+			db.executeUpdate(ELIMINAR_CLASIFICACION, carreraId);
+			String query = "INSERT INTO tiempo (id_c, dorsal, tiempo) VALUES (?, ?, ?)";
+			for(TiempoEntity t: tiempos) {
+				db.executeUpdate(query, carreraId, t.getDorsal(), t.getTiempo());	
+			}
 		
-	}
+		}
 
+
+	private boolean compruebaNombreCarrera(String nombreCarrera) {
+		List<CarreraDisplayDTO>carreras=db.executeQueryPojo(CarreraDisplayDTO.class, LISTA_NOMBRES_C);
+		for(int i=0;i<carreras.size();i++)
+			if(nombreCarrera.equals(carreras.get(i).getNombre_c()))
+				return true;
+		
+		return false;
+	}
 
 	private List<TiempoEntity> cargarTiempos(String ruta, String idC) {
 	return new ParserCompeticion().parseLines(new FileUtil().readLines(ruta), idC);
@@ -247,5 +268,20 @@ public class HistoricosModel {
 		return distancia;
 	}
 
+	public boolean compruebaCorreo(String correo) {
+		List<AtletaDisplayDTO>correos=db.executeQueryPojo(AtletaDisplayDTO.class, LISTA_CORREOS);
+		if(correos.size()==0)
+			return false;
+		
+		for(int i=0;i<correos.size();i++)
+			if(correo.equals(correos.get(i).getCorreoE()))
+				return true;
+		
+		return false;
+	}
+
+	public boolean isYaParticipado() {
+		return yaParticipado;
+	}
 
 }

@@ -62,27 +62,35 @@ public class HistoricosController {
 	public void getHistorico() {
 		
 		String correo = view.getNombreCarrera();
-		if(!correo.equals(""))
+		if(!correo.equals("") && model.compruebaCorreo(correo)) {
 			model.insertarHistorial(correo);
-		
-		List<HistoricoDisplayDTO> clasificacion;
-		
-		if(view.isTipoSelected()) {
-			clasificacion = model.getTiemposPorTipo(correo, (String)view.getComboTipo().getSelectedItem());
-		} else if(view.isDistanciaSelected()) {
-			double distancia=model.getDistancia(correo);
-			String nombreDist=(String)view.getComboDistancia().getSelectedItem();
-			clasificacion = model.getTiemposPorDistancia(correo,distancia,nombreDist);
-		} else {
-			clasificacion = model.getTiempos(correo);
+			if(!model.isYaParticipado()) {
+				view.noHistorico(correo);}
 		}
-		
-		TableModel tmodel=SwingUtil.getTableModelFromPojos(clasificacion, new String[] {"nombre_c","dorsal", "fecha", "posicion", "tiempo","categoria"});
-		view.getTablaCarreras().setModel(tmodel);
-		SwingUtil.autoAdjustColumns(view.getTablaCarreras());
+		if(model.compruebaCorreo(correo)) {
+			List<HistoricoDisplayDTO> clasificacion;
+			
+			if(view.isTipoSelected()) {
+				clasificacion = model.getTiemposPorTipo(correo, (String)view.getComboTipo().getSelectedItem());
+			} else if(view.isDistanciaSelected()) {
+				double distancia=model.getDistancia(correo);
+				String nombreDist=(String)view.getComboDistancia().getSelectedItem();
+				clasificacion = model.getTiemposPorDistancia(correo,distancia,nombreDist);
+			} else {
+				clasificacion = model.getTiempos(correo);
+			}
+			
+			TableModel tmodel=SwingUtil.getTableModelFromPojos(clasificacion, new String[] {"nombre_c","dorsal", "fecha", "posicion", "tiempo","categoria"});
+			view.getTablaCarreras().setModel(tmodel);
+			SwingUtil.autoAdjustColumns(view.getTablaCarreras());
 		//Como se guarda la clave del ultimo elemento seleccionado, restaura la seleccion de los detalles
-		this.restoreDetail();
-		
+			this.restoreDetail();
+		}
+		else if(correo.equals("")) {
+			
+		}else {
+			view.muestraRechazo(correo);
+		}
 	}
 	
 
