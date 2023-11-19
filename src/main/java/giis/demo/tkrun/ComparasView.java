@@ -7,6 +7,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 //import javax.swing.JComboBox;
 //
@@ -14,6 +15,8 @@ import javax.swing.JButton;
 //import java.awt.SystemColor;
 //import javax.swing.UIManager;
 import java.awt.Color;
+import java.util.List;
+
 import javax.swing.JList;
 
 /**
@@ -33,7 +36,7 @@ public class ComparasView {
 	private JTable tabAtletas;
 	private JButton btnAñadir;
 	private JList<String> listNombresAtletas;
-	private JTextField textCorreo;
+	private JTextField textCompeticion;
 	private JButton btnVerAtletas;
 
 	/**
@@ -56,8 +59,8 @@ public class ComparasView {
 		final JLabel lblFechaHoy;
 		frmCompararAtletas.getContentPane().setLayout(null);
 		
-		lblFechaHoy = new JLabel("Atletas de competicion:");
-		lblFechaHoy.setBounds(66, 44, 112, 14);
+		lblFechaHoy = new JLabel("Inserte su correo identificador:");
+		lblFechaHoy.setBounds(21, 44, 192, 14);
 		frmCompararAtletas.getContentPane().add(lblFechaHoy);
 		
 		txtAtleta = new JTextField();
@@ -67,12 +70,13 @@ public class ComparasView {
 		txtAtleta.setColumns(10);
 		
 		btnTabAtletas = new JButton("Eliminar seleccionado(s)");
-		btnTabAtletas.setBounds(566, 392, 151, 23);
+		btnTabAtletas.setEnabled(false);
+		btnTabAtletas.setBounds(532, 392, 185, 23);
 		lblFechaHoy.setLabelFor(btnTabAtletas);
 		frmCompararAtletas.getContentPane().add(btnTabAtletas);
 		
-		JLabel lblNombreCompeticion = new JLabel("Inserte el nombre de la competición");
-		lblNombreCompeticion.setBounds(361, 44, 225, 14);
+		JLabel lblNombreCompeticion = new JLabel("Inserte el nombre de la competición:");
+		lblNombreCompeticion.setBounds(347, 44, 206, 14);
 		frmCompararAtletas.getContentPane().add(lblNombreCompeticion);
 		
 		//Incluyo la tabla en un JScrollPane y anyado este en vez de la tabla para poder ver los headers de la tabla
@@ -86,40 +90,55 @@ public class ComparasView {
 		frmCompararAtletas.getContentPane().add(getBtnAñadir());
 		
 		listNombresAtletas = new JList<String>();
-		listNombresAtletas.setBounds(38, 369, 301, -252);
+		listNombresAtletas.setValueIsAdjusting(true);
+		listNombresAtletas.setBounds(21, 111, 313, 270);
 		frmCompararAtletas.getContentPane().add(listNombresAtletas);
-		frmCompararAtletas.getContentPane().add(getTextCorreo());
+		frmCompararAtletas.getContentPane().add(getTextCompeticion());
 		frmCompararAtletas.getContentPane().add(getBtnVerAtletas());
 	}
 
 	//Getters y Setters anyadidos para acceso desde el controlador (repersentacion compacta)
 	public JFrame getFrame() { return this.frmCompararAtletas; }
-	public String getId()  { return this.txtAtleta.getText(); }
-	public void setId(String fechaIso)  { this.txtAtleta.setText(fechaIso); }
+	public String getTextAtleta()  { return this.txtAtleta.getText(); }
+	public void setTextAtleta(String fechaIso)  { this.txtAtleta.setText(fechaIso); }
 	public JButton getBtnTablaAtletas() { return this.btnTabAtletas; }
 	public JTable getTablaAtletas() { return this.tabAtletas; }
 	
 	public JButton getBtnAñadir() {
 		if (btnAñadir == null) {
 			btnAñadir = new JButton("Añadir");
+			btnAñadir.setEnabled(false);
 			btnAñadir.setBounds(211, 392, 89, 23);
 		}
 		return btnAñadir;
 	}
-	public JTextField getTextCorreo() {
-		if (textCorreo == null) {
-			textCorreo = new JTextField();
-			textCorreo.setName("txtCompeticion");
-			textCorreo.setColumns(10);
-			textCorreo.setBounds(336, 69, 218, 20);
+	public JTextField getTextCompeticion() {
+		if (textCompeticion == null) {
+			textCompeticion = new JTextField();
+			textCompeticion.setName("textCompeticion");
+			textCompeticion.setColumns(10);
+			textCompeticion.setBounds(336, 69, 218, 20);
 		}
-		return textCorreo;
+		return textCompeticion;
 	}
 	public JButton getBtnVerAtletas() {
 		if (btnVerAtletas == null) {
 			btnVerAtletas = new JButton("Ver Atletas");
-			btnVerAtletas.setBounds(594, 68, 89, 23);
+			btnVerAtletas.setBounds(576, 68, 107, 23);
 		}
 		return btnVerAtletas;
+	}
+
+	public void setModeloLista(List<AtletaDisplayDTO> atletas) {
+		DefaultListModel<String>modelo=new DefaultListModel<String>();
+		for(int i=0;i<atletas.size();i++)
+			modelo.add(i,atletas.get(i).getNombre());
+		
+		listNombresAtletas.setModel(modelo);
+		
+	}
+	
+	public JList<String> getListaCompetidores(){
+		return listNombresAtletas;
 	}
 }

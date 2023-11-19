@@ -3,9 +3,11 @@ package giis.demo.tkrun;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
+
+
 //import javax.swing.ComboBoxModel;
 //import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
+
 
 import giis.demo.util.ApplicationException;
 import giis.demo.util.SwingUtil;
@@ -18,12 +20,11 @@ import giis.demo.util.SwingUtil;
  * -ejecutando initController que instalara los manejadores de eventos
  */
 public class ComparasController {
-	private AtletaModel model;
-	private AtletasView view;
-	private CarrerasModel cmodel=new CarrerasModel();
+	private ComparaModel model;
+	private ComparasView view;
 	private String lastSelectedKey=""; //recuerda la ultima fila seleccionada para restaurarla cuando cambie la tabla de carreras
 
-	public ComparasController(AtletaModel m, AtletasView v) {
+	public ComparasController(ComparaModel m, ComparasView v) {
 		this.model = m;
 		this.view = v;
 		//no hay inicializacion especifica del modelo, solo de la vista
@@ -39,8 +40,11 @@ public class ComparasController {
 		//ActionListener define solo un metodo actionPerformed(), es un interfaz funcional que se puede invocar de la siguiente forma:
 		//view.getBtnTablaCarreras().addActionListener(e -> getListaCarreras());
 		//ademas invoco el metodo que responde al listener en el exceptionWrapper para que se encargue de las excepciones
-		view.getBtnTablaAtletas().addActionListener(e -> SwingUtil.exceptionWrapper(() -> getListaAtletas()));
-	
+		//view.getBtnTablaAtletas().addActionListener(e -> SwingUtil.exceptionWrapper(() -> getListaAtletas()));
+		
+		view.getBtnVerAtletas().addActionListener(e -> SwingUtil.exceptionWrapper(() -> getListaAtletas()));
+		
+		view.getBtnAñadir().addActionListener(e -> SwingUtil.exceptionWrapper(() -> cargaTablaComparaAtletas()));
 		//En el caso del mouse listener (para detectar seleccion de una fila) no es un interfaz funcional puesto que tiene varios metodos
 		//ver discusion: https://stackoverflow.com/questions/21833537/java-8-lambda-expressions-what-about-multiple-methods-in-nested-class
 		view.getTablaAtletas().addMouseListener(new MouseAdapter() {
@@ -53,27 +57,27 @@ public class ComparasController {
 		});
 	}
 	
+	
 	public void initView() {
 		//Inicializa la fecha de hoy a un valor que permitira mostrar carreras en diferentes fases 
 		//y actualiza los datos de la vista
-		view.setId("San Silvestre");
 		
 		this.getListaAtletas();
 		
 		//Abre la ventana (sustituye al main generado por WindowBuilder)
 		view.getFrame().setVisible(true); 
+		
 	}
 	/**
 	 * La obtencion de la lista de carreras solo necesita obtener la lista de objetos del modelo 
 	 * y usar metodo de SwingUtil para crear un tablemodel que se asigna finalmente a la tabla.
 	 */
 	public void getListaAtletas() {
-		String id=cmodel.idCompeticion(view.getId());
-		cmodel.asignarDorsal(id);
-		List<AtletaDisplayDTO> carreras=model.getListaAtletas((view.getId()));
-		TableModel tmodel=SwingUtil.getTableModelFromPojos(carreras, new String[] {"dni", "nombre", "categoria","fechaInscripcionCambioEstado","estadoInscripcion","dorsal"});
-		view.getTablaAtletas().setModel(tmodel);
-		SwingUtil.autoAdjustColumns(view.getTablaAtletas());
+		String carrera=view.getTextCompeticion().getText();
+
+		List<AtletaDisplayDTO> atletas=model.getListaComparaAtletas(carrera);
+		view.setModeloLista(atletas);
+		view.getBtnAñadir().setEnabled(true);
 		
 		//Como se guarda la clave del ultimo elemento seleccionado, restaura la seleccion de los detalles
 		this.restoreDetail();
@@ -100,6 +104,20 @@ public class ComparasController {
 //			this.updateDetail();
 		//}
 	}
+	
+	
+	private void cargaTablaComparaAtletas() {
+		// TODO Auto-generated method stub
+		List<String> competidores=view.getListaCompetidores().getSelectedValuesList();
+		String competicion=view.getTextCompeticion().getText();
+		
+		List<ComparaDisplayDTO>tiempos=model.getTiempos(competicion);
+		
+	}
+	
+	
+	
+	
 	/**
 	 * Al seleccionar un item de la tabla muestra el detalle con el valor del porcentaje de descuento
 	 * de la carrera seleccinada y los valores de esta entidad

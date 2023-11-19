@@ -24,19 +24,32 @@ public class ComparaModel {
 	//SQL para obtener la lista de carreras activas para una fecha dada,
 	//se incluye aqui porque se usara en diferentes versiones de los metodos bajo prueba
 	public static final String SQL_LISTA_DATOS_ATLETAS=
-			"Select distinct a.dni, a.nombre, c.tipo as categoria, a.inscripcion as fechaInscripcionCambioEstado, p.estadoI as estadoInscripcion, p.dorsal"
-			+ " from Atleta a, Participa p, Competicion c, Categoria ct "
-			+ "where a.correoE=p.correoElec and p.id_c=c.id  and c.nombre_c=? order by a.inscripcion,p.estadoI";
+			"Select nombre from Atleta a, Participa p, Competicion c WHERE a.correoE =p.correoElec "
+			+ "and p.id_c =c.id and c.nombre_c =?";
+	
+	
+	private static final String OBTENER_CLASIFICACION = "SELECT DISTINCT a.nombre, a.sexo, t.dorsal, t.tiempo"
+			+ "	FROM atleta a, participa p, tiempo t"
+			+ " WHERE p.id_c = ? AND p.id_c  = t.id_c"
+			+ " AND a.correoE = p.correoElec"
+			+ " AND p.dorsal = t.dorsal"
+			+ " AND p.dorsal <> 0"
+			+ " ORDER BY CASE WHEN t.tiempo = '---' THEN 1 ELSE 0 END";
+	
+	
+	private static final String OBTENER_ID = "SELECT id FROM competicion"
+			+ " WHERE nombre_c = ?";
+	
 	/**
 	 * Obtiene la lista de carreras futuras (posteriores a una fecha dada) con el id, descripcion
 	 * y la indicacion de si tienen inscripcion abierta.
 	 * Implementacion usando la utilidad que obtiene una lista de arrays de objetos 
 	 * resultado de la ejecucion de una query sql
 	 */
-	public List<Object[]> getListaAtletasArray(String nombreCompeticion) {
+	public List<Object[]> getListaComparaAtletasArray(String nombreCompeticion) {
 		//validateNotNull(fechaInscripcionnscripcion,MSG_FECHA_INSCRIPCION_NO_NULA);
 		//concatena los campos deseados en una unica columna pues el objetivo es devolver una lista de strings
-		String sql="SELECT dni || '-' || nombre || ' ' || categoria || ' ' || fechaInscripcionCambioEstado || ' ' || estadoInscripcion || ' ' || dorsal"
+		String sql="SELECT tiempo || '-' || puesto || ' ' || t_intermedio || ' ' || ritmo || ' ' || distancia || ' ' || estado"
 				+ " from (" + SQL_LISTA_DATOS_ATLETAS + ")";
 		
 		return db.executeQueryArray(sql, nombreCompeticion);
@@ -44,14 +57,11 @@ public class ComparaModel {
 	/**
 	 * Obtiene la lista de carreras activas en forma objetos para una fecha de inscripcion dada
 	 */
-	public List<AtletaDisplayDTO> getListaAtletas(String idCategoria) {
+	public List<AtletaDisplayDTO> getListaComparaAtletas(String nombreCompetidor) {
 		//validateNotNull(fechaInscripcionnscripcion,MSG_FECHA_INSCRIPCION_NO_NULA);
-		String sql=
-				"Select distinct a.dni, a.nombre, c.tipo as categoria, a.inscripcion as fechaInscripcionCambioEstado, p.estadoI as estadoInscripcion, p.dorsal \n"
-				+" from Atleta a, Participa p, Competicion c \n "
-				+ " where a.correoE=p.correoElec and p.id_c=c.id  and c.nombre_c=? order by a.inscripcion,p.estadoI";
+		
 		//String d=Util.dateToIsoString(fechaInscripcionnscripcion);
-		return db.executeQueryPojo(AtletaDisplayDTO.class, sql, idCategoria);
+		return db.executeQueryPojo(AtletaDisplayDTO.class, SQL_LISTA_DATOS_ATLETAS, nombreCompetidor);
 	}
 	/** 
 	 * Obtiene el porcentaje de descuento (valor negativo) o recargo aplicable a una carrera dada por su id cuando se
@@ -86,7 +96,7 @@ public class ComparaModel {
 	 * Obtiene todos los datos de la carrera con el id indicado
 	 */
 	public CarreraEntity getAtletas(int id) {
-		String sql="SELECT dni,f_nacimiento,nombre,sexo,inscripcion from Atleta where dni=?";
+		String sql="SELECT nombre from Atleta where dni=?";
 		List<CarreraEntity> atletas=db.executeQueryPojo(CarreraEntity.class, sql, id);
 		validateCondition(!atletas.isEmpty(),"Id de competicion no encontrado: "+id);
 		return atletas.get(0);
@@ -120,8 +130,25 @@ public class ComparaModel {
 	}
 	
 	
-//	private void updateInscritos() {
-//		String sql="UPDATE participa SET inicio=?, fin=? WHERE id=?";
-//	}
+	public List<ComparaDisplayDTO> getTiempos(String nombreCarrera) {
+		String carreraId = getId(nombreCarrera);
+		List<ComparaDisplayDTO> tiempos =  db.executeQueryPojo(ComparaDisplayDTO.class, OBTENER_CLASIFICACION, carreraId);
+		int pos = 1;
+		for(ComparaDisplayDTO t: tiempos) {
+			t.setPuesto(pos);
+			pos++;
+		}
+		return tiempos;
+	}
+	
+	
+	public String getId(String nombre) {
+		List<CarreraDisplayDTO> res = db.executeQueryPojo(CarreraDisplayDTO.class, OBTENER_ID, nombre);
+		if(res.isEmpty()) {
+			return "";
+		}
+		return res.get(0).getId();
+	}
+	
 	
 }

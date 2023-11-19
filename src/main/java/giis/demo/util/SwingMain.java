@@ -148,6 +148,12 @@ public class SwingMain {
 		frame.getContentPane().add(btnHistorico);
 		
 		JButton btnComparar = new JButton("Comparar Atletas");
+		btnComparar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ComparasController cc=new ComparasController(new ComparaModel(), new ComparasView());
+				cc.initController();
+			}
+		});
 		frame.getContentPane().add(btnComparar);
 		
 		
