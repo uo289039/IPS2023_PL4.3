@@ -32,7 +32,7 @@ public class ComparaModel {
 			+ "	FROM atleta a, participa p, tiempo t"
 			+ " WHERE p.id_c = ? AND p.id_c  = t.id_c"
 			+ " AND a.correoE = p.correoElec"
-			+ " AND p.dorsal = t.dorsal"
+			+ " AND p.dorsal = t.dorsal AND a.nombre=?"
 			+ " AND p.dorsal <> 0"
 			+ " ORDER BY CASE WHEN t.tiempo = '---' THEN 1 ELSE 0 END";
 	
@@ -40,6 +40,9 @@ public class ComparaModel {
 	private static final String OBTENER_ID = "SELECT id FROM competicion"
 			+ " WHERE nombre_c = ?";
 	
+	
+	
+	private static final String LISTA_NOMBRES_C="Select distinct nombre_c from Competicion c";
 	/**
 	 * Obtiene la lista de carreras futuras (posteriores a una fecha dada) con el id, descripcion
 	 * y la indicacion de si tienen inscripcion abierta.
@@ -130,9 +133,12 @@ public class ComparaModel {
 	}
 	
 	
-	public List<ComparaDisplayDTO> getTiempos(String nombreCarrera) {
+	public List<ComparaDisplayDTO> getTiempos(String nombreCarrera, List<String> competidores) {
 		String carreraId = getId(nombreCarrera);
-		List<ComparaDisplayDTO> tiempos =  db.executeQueryPojo(ComparaDisplayDTO.class, OBTENER_CLASIFICACION, carreraId);
+		List<ComparaDisplayDTO> tiempos =  new ArrayList<ComparaDisplayDTO>(); //db.executeQueryPojo(ComparaDisplayDTO.class, OBTENER_CLASIFICACION, carreraId)
+		//ComparaDisplayDTO atleta=db.executeQueryPojo(ComparaDisplayDTO.class, OBTENER_CLASIFICACION, carreraId,nombre).get(0);
+		for(String nombre:competidores)
+			tiempos.add(db.executeQueryPojo(ComparaDisplayDTO.class, OBTENER_CLASIFICACION, carreraId,nombre).get(0));
 		int pos = 1;
 		for(ComparaDisplayDTO t: tiempos) {
 			t.setPuesto(pos);
@@ -148,6 +154,14 @@ public class ComparaModel {
 			return "";
 		}
 		return res.get(0).getId();
+	}
+	public boolean compruebaNombreCarrera(String carrera) {
+		List<CarreraDisplayDTO>carreras=db.executeQueryPojo(CarreraDisplayDTO.class, LISTA_NOMBRES_C);
+		for(int i=0;i<carreras.size();i++) {
+			if(carrera.equals(carreras.get(i).getNombre_c()))
+				return true;
+		}
+		return false;
 	}
 	
 	

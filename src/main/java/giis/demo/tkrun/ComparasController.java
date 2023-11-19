@@ -4,6 +4,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
 
+import javax.swing.table.TableModel;
 
 //import javax.swing.ComboBoxModel;
 //import javax.swing.table.DefaultTableModel;
@@ -62,7 +63,7 @@ public class ComparasController {
 		//Inicializa la fecha de hoy a un valor que permitira mostrar carreras en diferentes fases 
 		//y actualiza los datos de la vista
 		
-		this.getListaAtletas();
+//		this.getListaAtletas();
 		
 		//Abre la ventana (sustituye al main generado por WindowBuilder)
 		view.getFrame().setVisible(true); 
@@ -74,11 +75,14 @@ public class ComparasController {
 	 */
 	public void getListaAtletas() {
 		String carrera=view.getTextCompeticion().getText();
-
-		List<AtletaDisplayDTO> atletas=model.getListaComparaAtletas(carrera);
-		view.setModeloLista(atletas);
-		view.getBtnAñadir().setEnabled(true);
-		
+		if(model.compruebaNombreCarrera(carrera)) {
+			List<AtletaDisplayDTO> atletas=model.getListaComparaAtletas(carrera);
+			view.setModeloLista(atletas);
+			view.getBtnAñadir().setEnabled(true);
+		}
+		else {
+			view.carreraNoExiste(carrera);
+		}
 		//Como se guarda la clave del ultimo elemento seleccionado, restaura la seleccion de los detalles
 		this.restoreDetail();
 
@@ -108,10 +112,19 @@ public class ComparasController {
 	
 	private void cargaTablaComparaAtletas() {
 		// TODO Auto-generated method stub
-		List<String> competidores=view.getListaCompetidores().getSelectedValuesList();
-		String competicion=view.getTextCompeticion().getText();
+		if(view.getListaCompetidores().getSelectedValuesList().size()==0) {
+			view.avisaSelecciona();
+		}
+		else {
+			List<String> competidores=view.getListaCompetidores().getSelectedValuesList();
+			String competicion=view.getTextCompeticion().getText();
+			
+			List<ComparaDisplayDTO>tiempos=model.getTiempos(competicion,competidores);
+			TableModel mCompara=SwingUtil.getTableModelFromPojos(tiempos,new String[] {"nombre"});
+			view.getTablaAtletas().setModel(mCompara);
+			SwingUtil.autoAdjustColumns(view.getTablaAtletas());
+		}
 		
-		List<ComparaDisplayDTO>tiempos=model.getTiempos(competicion);
 		
 	}
 	

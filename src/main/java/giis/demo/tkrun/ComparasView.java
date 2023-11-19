@@ -18,6 +18,7 @@ import java.awt.Color;
 import java.util.List;
 
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 
 /**
  * Vista de la pantalla que muestra las  activas y permite interactuar con ellas.
@@ -140,5 +141,15 @@ public class ComparasView {
 	
 	public JList<String> getListaCompetidores(){
 		return listNombresAtletas;
+	}
+
+	public void carreraNoExiste(String carrera) {
+		JOptionPane.showMessageDialog(null, "La carrera "+carrera+" no existe");
+		
+	}
+
+	public void avisaSelecciona() {
+		JOptionPane.showMessageDialog(null, "Por favor seleccione al menos un competidor para poder comparar sus resultados");
+		
 	}
 }
