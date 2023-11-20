@@ -3,16 +3,17 @@ package giis.demo.tkrun;
 import javax.swing.JFrame;
 import net.miginfocom.swing.MigLayout;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
+//import javax.swing.JComboBox;
 
-import java.awt.Dimension;
-import java.awt.SystemColor;
-import javax.swing.UIManager;
+//import java.awt.Dimension;
+//import java.awt.SystemColor;
+//import javax.swing.UIManager;
 import java.awt.Color;
 
 /**
@@ -87,5 +88,7 @@ public class AtletasView {
 	public JButton getBtnTablaAtletas() { return this.btnTabAtletas; }
 	public JTable getTablaAtletas() { return this.tabAtletas; }
 	
-	
+	public void avisaNombreNoValido(String nc) {
+		JOptionPane.showMessageDialog(null, "El nombre "+nc+" no pertenece a una competición");
+	}
 }
