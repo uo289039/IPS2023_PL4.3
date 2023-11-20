@@ -33,6 +33,8 @@ public class AtletaModel {
 	 * Implementacion usando la utilidad que obtiene una lista de arrays de objetos 
 	 * resultado de la ejecucion de una query sql
 	 */
+	
+	private static final String SQL_LISTA_COMPETICIONES="Select distinct nombre_c from Competicion c ;";
 	public List<Object[]> getListaAtletasArray(String nombreCompeticion) {
 		//validateNotNull(fechaInscripcionnscripcion,MSG_FECHA_INSCRIPCION_NO_NULA);
 		//concatena los campos deseados en una unica columna pues el objetivo es devolver una lista de strings
@@ -119,9 +121,15 @@ public class AtletaModel {
 			throw new ApplicationException(message);
 	}
 	
-	
-//	private void updateInscritos() {
-//		String sql="UPDATE participa SET inicio=?, fin=? WHERE id=?";
-//	}
+
+	public boolean CompruebaCarrera(String correo) {
+		List<CarreraDisplayDTO>correos=db.executeQueryPojo(CarreraDisplayDTO.class, SQL_LISTA_COMPETICIONES);
+		for(int i=0;i<correos.size();i++)
+			if(correos.get(i).getNombre_c().equals(correo))
+				return true;
+		
+		return false;
+	}
+
 	
 }
