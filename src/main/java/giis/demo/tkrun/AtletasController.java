@@ -3,13 +3,13 @@ package giis.demo.tkrun;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
-import javax.swing.ComboBoxModel;
-import javax.swing.table.DefaultTableModel;
+//import javax.swing.ComboBoxModel;
+//import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
 import giis.demo.util.ApplicationException;
 import giis.demo.util.SwingUtil;
-import giis.demo.util.Util;
+//import giis.demo.util.Util;
 
 /**
  * Controlador para la funcionalidad de visualizacion de carreras para la inscripcion.
@@ -68,13 +68,17 @@ public class AtletasController {
 	 * y usar metodo de SwingUtil para crear un tablemodel que se asigna finalmente a la tabla.
 	 */
 	public void getListaAtletas() {
-		String id=cmodel.idCompeticion(view.getId());
-		cmodel.asignarDorsal(id);
-		List<AtletaDisplayDTO> carreras=model.getListaAtletas((view.getId()));
-		TableModel tmodel=SwingUtil.getTableModelFromPojos(carreras, new String[] {"dni", "nombre", "categoria","fechaI","estadoI","dorsal"});
-		view.getTablaAtletas().setModel(tmodel);
-		SwingUtil.autoAdjustColumns(view.getTablaAtletas());
-		
+		String nombre=view.getId();
+		if(model.CompruebaCarrera(nombre)) {
+			String id=cmodel.idCompeticion(nombre);
+			cmodel.asignarDorsal(id);
+			List<AtletaDisplayDTO> carreras=model.getListaAtletas((view.getId()));
+			TableModel tmodel=SwingUtil.getTableModelFromPojos(carreras, new String[] {"dni", "nombre", "categoria","fechaI","estadoI","dorsal"});
+			view.getTablaAtletas().setModel(tmodel);
+			SwingUtil.autoAdjustColumns(view.getTablaAtletas());
+		}
+		else
+			view.avisaNombreNoValido(nombre);
 		//Como se guarda la clave del ultimo elemento seleccionado, restaura la seleccion de los detalles
 		this.restoreDetail();
 
@@ -107,7 +111,7 @@ public class AtletasController {
 	public void updateDetail() {
 		//Obtiene la clave seleccinada y la guarda para recordar la seleccion en futuras interacciones
 		this.lastSelectedKey=SwingUtil.getSelectedKey(view.getTablaAtletas());
-		int idCarrera=Integer.parseInt(this.lastSelectedKey);
+		//int idCarrera=Integer.parseInt(this.lastSelectedKey);
 		
 		//Detalle de descuento/recargo:
 		//Controla excepcion porque el modelo causa excepcion cuando no se puede calcular el descuento
