@@ -7,6 +7,8 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -60,7 +62,6 @@ public class CompeticionView extends JDialog {
 	private JTextField tfDistancia;
 	private JLabel lbIban;
 	private JTextField tfIban;
-	private JButton btnNewButton;
 
 	
 	public CompeticionView() {
@@ -77,10 +78,9 @@ public class CompeticionView extends JDialog {
 		contentPanel.add(getLbCategorias(), "cell 0 6");
 		contentPanel.add(getSpCategorias(), "flowx,cell 1 8,alignx center,growy");
 		contentPanel.add(getLbPlazos(), "cell 0 12");
-		contentPanel.add(getSpPlazos(), "cell 0 13 3 1,grow");
+		contentPanel.add(getSpPlazos(), "cell 1 13,alignx center,growy");
 		contentPanel.add(getBtnCancelar(), "flowx,cell 1 19,alignx right,aligny top");
 		contentPanel.add(getBtnCrear(), "cell 2 19,growx,aligny top");
-		contentPanel.add(getBtnNewButton(), "cell 1 8");
 	}
 	private JLabel getLbDatos() {
 		if (lbDatos == null) {
@@ -102,156 +102,62 @@ public class CompeticionView extends JDialog {
 		}
 		return btnCancelar;
 	}
-//	public void reset() {
-////		this.getTextNombre().setText("");
-////		this.getTextInicio().setText("");
-////		this.getTextFin().setText("");
-//		this.getTextFecha().setText("");
-////		this.getTextCategoria().setText("");
-//		this.getTextDescripcion().setText("");
-//		this.getTextNPlazas().setText("");
-//		this.getTextIBAN().setText("");
-//		this.setVisible(false);
-//		
-//	}
-//	public boolean validaCampos() {
-//		if(!comprobarCampos()) {
-//			JOptionPane.showMessageDialog(null, "Tienes que rellenar todos los campos para continuar");
-//			return false;
-//		} else if(compruebaFecha()) {
-//			
-//		} else if(!compruebaPlazos()) {
-//			return false;
-//		} else if(!compruebaCategorias()){
-//			
-//		}
-//		return true;
-//	}
-//	private boolean compruebaFecha() {
-//		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-//		String fecha = getTextFecha().getText();
-//		LocalDate fechaComp = LocalDate.parse(fecha, formatter);
-//		LocalDate hoy = LocalDate.now();
-//		if(!fechaComp.isAfter(hoy)) {
-//			JOptionPane.showMessageDialog(null, "La fecha de la competición tiene que ser posterior a la fecha actual");
-//			return false;
-//		}
-//		return true;
-//	}
-//	private boolean compruebaPlazos() {
-//		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-//		String fecha = getTextFecha().getText();
-//		LocalDate fechaComp = LocalDate.parse(fecha, formatter);
-//		LocalDate hoy = LocalDate.now();
-//		
-//		LocalDate ant = null;
-//		for (Component c: getPnPlazos().getComponents()) {
-//			if(c instanceof JPanel) {
-//				JPanel panelSec = (JPanel) c;
-//				JTextField compInicio = null, compFin = null;
-//				for (Component comp : panelSec.getComponents()) {
-//					if (comp instanceof JTextField) {
-//						if (comp.getName().equals("tfInicio")) {
-//			            	compInicio = (JTextField) comp;
-//			            } else if(comp.getName().equals("tfFin")) {
-//			            	compFin = (JTextField) comp;
-//			            }
-//					}
-//		        }
-//				// NO FUNCIONA
-//				String inicio = compInicio.getText();
-//	            LocalDate fechaInicio = LocalDate.parse(inicio, formatter);
-//	            String fin = compFin.getText();
-//	    		LocalDate fechaFin = LocalDate.parse(fin, formatter);
-//	    		if(ant != null) {
-//	    			if(!fechaInicio.isAfter(ant)) {
-//		    			JOptionPane.showMessageDialog(null, "La fecha de inicio tiene que ser posterior a la fecha de fin del anterior plazo");
-//		    			return false;
-//		    		} else if (fechaInicio.isAfter(ant.plusDays(1))) {
-//		    			JOptionPane.showMessageDialog(null, "No puede haber separación entre los plazos de inscripción");
-//		    			return false;
-//		    		}
-//	    		}
-//	            if(!fechaInicio.isAfter(hoy)) {
-//	    			JOptionPane.showMessageDialog(null, "La fecha de inicio tiene que ser posterior a la fecha actual");
-//	    			return false;
-//	    		} else if(!fechaFin.isAfter(fechaInicio)) {
-//	    			JOptionPane.showMessageDialog(null, "La fecha de fin tiene que ser posterior a la de inicio");
-//	    			return false;
-//	    		}
-//	            ant = fechaFin;
-//			}
-//		}
-//		if(!fechaComp.isAfter(ant)) {
-//			JOptionPane.showMessageDialog(null, "La fecha de competición tiene que ser posterior a la fecha de fin del último plazo");
-//			return false;
-//		}
-//		return true;
-//	}
-//	private boolean compruebaCategorias() {
-//		int ant = 0;
-//		int min = 0;
-//		for (Component c: getPnCategorias().getComponents()) {
-//			if(c instanceof JPanel) {
-//				JPanel panelSec = (JPanel) c;
-//				
-//				for (Component comp : panelSec.getComponents()) {
-//		            if (comp instanceof JTextField) {
-//		            	JTextField compTexto = (JTextField) comp;
-//
-//		                if (compTexto.getName().equals("tfMin")) {
-//		                	min = Integer.parseInt(compTexto.getText());
-//		                    if (min <= ant) {
-//		                    	JOptionPane.showMessageDialog(null, "La edad mínima tiene que ser mayor que la máxima de la anterior categoría");
-//		            			return false;
-//		                    }
-//		                } else if(compTexto.getName().equals("tfMax")) {
-//		                	if (Integer.parseInt(compTexto.getText()) <= ant) {
-//		                    	JOptionPane.showMessageDialog(null, "La edad mínima tiene que ser mayor que la máxima de la anterior categoría");
-//		            			return false;
-//		                    }
-//		                }
-//		            }
-//		        }
-//			}
-//		}
-//		return true;
-//	}
-//	private boolean comprobarCampos() {
-//		if(!compruebaPanel(getPnPlazos())) {
-//			return false;
-//		} else if(!compruebaPanel(getPnCategorias())) {
-//			return false;
-//		} else if(this.getTextDescripcion().getText().isBlank()) {
-//			return false;
-//		} else if(this.getTextFecha().getText().isBlank()) {
-//			return false;
-//		} else if(this.getTextIBAN().getText().isBlank()) {
-//			return false;
-//		} else if(this.getTextNombre().getText().isBlank()) {
-//			return false;
-//		} else if(this.getTextNPlazas().getText().isBlank()) {
-//			return false;
-//		} else if(this.getTextDistancia().getText().isBlank()) {
-//			return false;
-//		}
-//		return true;
-//	}
-	private boolean compruebaPanel(JPanel panelComp) {
-		for (Component c: panelComp.getComponents()) {
-			if(c instanceof JPanel) {
-				JPanel panelSec = (JPanel) c;
-				
-				for (Component comp : panelSec.getComponents()) {
-		            if (comp instanceof JTextField) {
-		            	JTextField compTexto = (JTextField) comp;
-
-		                if (compTexto.getText().isBlank()) {
-		                    return false;
-		                }
-		            }
+	public void reset() {
+		this.getTfNombre().setText("");
+		this.getTfFecha().setText("");
+		this.getTfDescripcion().setText("");
+		this.getTfPlazas().setText("");
+		this.getTfDistancia().setText("");
+		this.getTfIban().setText("");
+		this.setVisible(false);
+		
+	}
+	public boolean validaCampos() {
+		if(!comprobarCampos()) {
+			JOptionPane.showMessageDialog(null, "Tienes que rellenar todos los campos para continuar");
+			return false;
+		}
+		return true;
+	}
+	public List<CategoriaDisplayDTO> devuelveCategorias() {
+		List<CategoriaDisplayDTO> categorias = new ArrayList<>();
+		for (int i = 0; i < getTbCategorias().getRowCount(); i++) {
+			CategoriaDisplayDTO cat = new CategoriaDisplayDTO();
+			boolean cond = true;
+		    for (int j = 0; j < getTbCategorias().getColumnCount(); j++) {
+		        String value = (String) getTbCategorias().getValueAt(i, j);
+		        if (value.isEmpty() || value.equals("0")) {
+		            cond = false;
+		        } else {
+		            if (j==0)
+		            	cat.setNombre(value);
+		            if (j==1)
+		            	cat.setEdadMin(Integer.parseInt(value));
+		            if (j==2)
+		            	cat.setEdadMax(Integer.parseInt(value));
+		            if (j==3)
+		            	cat.setGenero(value);
 		        }
-			}
+		    }
+		    if(cond)
+		    	categorias.add(cat);
+		}
+		return categorias;
+
+	}
+	private boolean comprobarCampos() {
+		if(this.getTfNombre().getText().isBlank()) {
+			return false;
+		} else if(this.getTfFecha().getText().isBlank()) {
+			return false;
+		} else if(this.getTfDescripcion().getText().isBlank()) {
+			return false;
+		} else if(this.getTfPlazas().getText().isBlank()) {
+			return false;
+		} else if(this.getTfDistancia().getText().isBlank()) {
+			return false;
+		} else if(this.getTfIban().getText().isBlank()) {
+			return false;
 		}
 		return true;
 	}
@@ -334,7 +240,7 @@ public class CompeticionView extends JDialog {
 		}
 		return rdbtnMontaña;
 	}
-	private JRadioButton getRdbtnRuta() {
+	public JRadioButton getRdbtnRuta() {
 		if (rdbtnRuta == null) {
 			rdbtnRuta = new JRadioButton("Ruta");
 			rdbtnRuta.setSelected(true);
@@ -345,7 +251,7 @@ public class CompeticionView extends JDialog {
 	}
 	private JLabel getLbCategorias() {
 		if (lbCategorias == null) {
-			lbCategorias = new JLabel("Categorías: (Por defecto editables)");
+			lbCategorias = new JLabel("Categorías: (Por defecto editables) (Máx 20)");
 			lbCategorias.setFont(new Font("Tahoma", Font.PLAIN, 12));
 			lbCategorias.setBackground(Color.WHITE);
 		}
@@ -366,7 +272,7 @@ public class CompeticionView extends JDialog {
 	}
 	private JLabel getLbPlazos() {
 		if (lbPlazos == null) {
-			lbPlazos = new JLabel("Plazos:");
+			lbPlazos = new JLabel("Plazos: (Máx 10)");
 			lbPlazos.setFont(new Font("Tahoma", Font.PLAIN, 12));
 			lbPlazos.setBackground(Color.WHITE);
 		}
@@ -389,58 +295,52 @@ public class CompeticionView extends JDialog {
 		if (pnDatos2 == null) {
 			pnDatos2 = new JPanel();
 			pnDatos2.setBackground(Color.WHITE);
-			pnDatos2.add(getLblNewLabel_4_1());
-			pnDatos2.add(getTextField_3_1());
-			pnDatos2.add(getLblNewLabel_5_1());
-			pnDatos2.add(getTextField_4_1());
-			pnDatos2.add(getLblNewLabel_6_1());
-			pnDatos2.add(getTextField_5_1());
+			pnDatos2.add(getLblPlazas());
+			pnDatos2.add(getTfPlazas());
+			pnDatos2.add(getLblDistancia());
+			pnDatos2.add(getTfDistancia());
+			pnDatos2.add(getLblIban());
+			pnDatos2.add(getTfIban());
 		}
 		return pnDatos2;
 	}
-	private JLabel getLblNewLabel_4_1() {
+	private JLabel getLblPlazas() {
 		if (lbPlazas == null) {
 			lbPlazas = new JLabel("Nº Plazas");
 		}
 		return lbPlazas;
 	}
-	private JTextField getTextField_3_1() {
+	private JTextField getTfPlazas() {
 		if (tfPlazas == null) {
 			tfPlazas = new JTextField();
 			tfPlazas.setColumns(10);
 		}
 		return tfPlazas;
 	}
-	private JLabel getLblNewLabel_5_1() {
+	private JLabel getLblDistancia() {
 		if (lblDistancia == null) {
 			lblDistancia = new JLabel("Distancia");
 		}
 		return lblDistancia;
 	}
-	private JTextField getTextField_4_1() {
+	private JTextField getTfDistancia() {
 		if (tfDistancia == null) {
 			tfDistancia = new JTextField();
 			tfDistancia.setColumns(10);
 		}
 		return tfDistancia;
 	}
-	private JLabel getLblNewLabel_6_1() {
+	private JLabel getLblIban() {
 		if (lbIban == null) {
 			lbIban = new JLabel("IBAN");
 		}
 		return lbIban;
 	}
-	private JTextField getTextField_5_1() {
+	private JTextField getTfIban() {
 		if (tfIban == null) {
 			tfIban = new JTextField();
 			tfIban.setColumns(10);
 		}
 		return tfIban;
-	}
-	private JButton getBtnNewButton() {
-		if (btnNewButton == null) {
-			btnNewButton = new JButton("New button");
-		}
-		return btnNewButton;
 	}
 }
