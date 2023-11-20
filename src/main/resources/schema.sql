@@ -12,10 +12,9 @@
 --delete table Categoria;
 
 drop table if exists Competicion;
-create table Competicion(id int primary key not null, nombre_c varchar(20) not null,inicio date not null, fin date not null, fecha date not null, descr varchar(32), 
-cuota decimal(4,2), distancia decimal(4,2), tipo varchar(20) not null, nPlazas int not null, iban_c varchar(40) unique,
-check(tipo in('Montaña','Ruta')),
-check(inicio<=fin),check(fin<fecha));
+create table Competicion(id int primary key not null, nombre_c varchar(20) not null, fecha date not null, descr varchar(32), 
+distancia decimal(4,2), tipo varchar(20) not null, nPlazas int not null, iban_c varchar(40) unique,
+check(tipo in('Montaña','Ruta')));
 
 drop table if exists Atleta;
 create table Atleta(dni int primary key not null,f_nacimiento date not null, nombre varchar(20) not null,
@@ -54,3 +53,8 @@ constraint FK_DatosAtleta_Participa Foreign Key (correoE) references "Participa"
 drop table if exists Tiempo;
 create table Tiempo(id_c int, dorsal int, tiempo varchar(6),
                     constraint fk_tiempos_participa foreign key (dorsal, id_c) references "Participa" (dorsal, id_c));
+
+
+drop table if exists Categoria;
+create table Categoria(id_c int not null, nombre_cat varchar(30) not null, edadMin int not null, edadMax int not null, genero varchar(15),
+                    constraint fk_categoria_competicion foreign key (id_c) references "Competicion" (id_c));

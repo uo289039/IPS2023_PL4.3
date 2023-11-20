@@ -2,12 +2,9 @@ package giis.demo.tkrun;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.Font;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.swing.ButtonGroup;
@@ -22,8 +19,8 @@ import javax.swing.border.EmptyBorder;
 
 import net.miginfocom.swing.MigLayout;
 import java.awt.FlowLayout;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
@@ -62,6 +59,8 @@ public class CompeticionView extends JDialog {
 	private JTextField tfDistancia;
 	private JLabel lbIban;
 	private JTextField tfIban;
+	private JLabel lbExpPlazos;
+	private JLabel lbExpPlazos2;
 
 	
 	public CompeticionView() {
@@ -71,16 +70,18 @@ public class CompeticionView extends JDialog {
 		contentPanel.setBackground(Color.WHITE);
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
-		contentPanel.setLayout(new MigLayout("", "[grow][grow][grow]", "[][grow][grow][][grow][][][][][][][grow][][][][][][][][]"));
+		contentPanel.setLayout(new MigLayout("", "[grow][grow][grow]", "[][grow][grow][][grow][][][][][][][][][][grow][][][][][][][][][][]"));
 		contentPanel.add(getLbDatos(), "cell 0 0,growx,aligny center");
 		contentPanel.add(getPnDatos1(), "cell 0 1 3 1,grow");
 		contentPanel.add(getPnDatos2(), "cell 0 2 3 1,grow");
 		contentPanel.add(getLbCategorias(), "cell 0 6");
 		contentPanel.add(getSpCategorias(), "flowx,cell 1 8,alignx center,growy");
-		contentPanel.add(getLbPlazos(), "cell 0 12");
-		contentPanel.add(getSpPlazos(), "cell 1 13,alignx center,growy");
-		contentPanel.add(getBtnCancelar(), "flowx,cell 1 19,alignx right,aligny top");
-		contentPanel.add(getBtnCrear(), "cell 2 19,growx,aligny top");
+		contentPanel.add(getLbPlazos(), "cell 0 11");
+		contentPanel.add(getLbExpPlazos(), "cell 0 12");
+		contentPanel.add(getLbExpPlazos2(), "cell 0 13");
+		contentPanel.add(getSpPlazos(), "cell 1 18,alignx center,growy");
+		contentPanel.add(getBtnCancelar(), "flowx,cell 1 24,alignx right,aligny top");
+		contentPanel.add(getBtnCrear(), "cell 2 24,growx,aligny top");
 	}
 	private JLabel getLbDatos() {
 		if (lbDatos == null) {
@@ -116,8 +117,58 @@ public class CompeticionView extends JDialog {
 		if(!comprobarCampos()) {
 			JOptionPane.showMessageDialog(null, "Tienes que rellenar todos los campos para continuar");
 			return false;
+		} else if (!compruebaPlazos()) {
+			return false;
 		}
 		return true;
+	}
+	private boolean compruebaPlazos() {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		try {
+			Date fecha = dateFormat.parse(getTfFecha().getText());
+		    Date hoy = new Date();
+		    if (fecha.compareTo(hoy) < 0) {
+		    	JOptionPane.showMessageDialog(null, "La fecha " + getTfFecha().getText() + " es anterior a la fecha actual.");
+		    	return false;
+		    }
+			
+			List<PlazoDisplayDTO> plazos = devuelvePlazos();
+			boolean primero = true;
+			PlazoDisplayDTO p = null;
+			for (PlazoDisplayDTO pl: plazos) {
+				Date fIni = dateFormat.parse(pl.getFechaIni());
+				Date fFin = dateFormat.parse(pl.getfechaFin());
+				
+				if(fIni.compareTo(hoy) < 0) {
+					JOptionPane.showMessageDialog(null, "La fecha " + pl.getFechaIni() + " es anterior a la fecha actual");
+					return false;
+				}
+				
+				if(!(fIni.compareTo(fFin) < 0)) {
+					JOptionPane.showMessageDialog(null, "La fecha " + pl.getFechaIni() + " no es anterior a la fecha " + pl.getfechaFin());
+					return false;
+				}
+				
+				if (!primero) {
+					Date fFinAnt = dateFormat.parse(p.getfechaFin());
+					if(!(fFin.compareTo(fFinAnt) == 0)) {
+						JOptionPane.showMessageDialog(null, "La fecha " + pl.getfechaFin() + " no es igual a la fecha " + p.getfechaFin());
+						return false;
+					}
+				}
+				primero = false;
+				p = pl;
+			}
+			Date fFinAnt = dateFormat.parse(p.getfechaFin());
+			if(!(fecha.compareTo(fFinAnt) == 0)) {
+				JOptionPane.showMessageDialog(null, "La fecha " + getTfFecha().getText() + " no es igual a la fecha " + p.getfechaFin());
+				return false;
+			}
+			return true;
+		} catch (ParseException e) {
+			JOptionPane.showMessageDialog(null, "Alguna fecha no tiene formato correcto");
+			return false;
+		}
 	}
 	public List<CategoriaDisplayDTO> devuelveCategorias() {
 		List<CategoriaDisplayDTO> categorias = new ArrayList<>();
@@ -125,19 +176,23 @@ public class CompeticionView extends JDialog {
 			CategoriaDisplayDTO cat = new CategoriaDisplayDTO();
 			boolean cond = true;
 		    for (int j = 0; j < getTbCategorias().getColumnCount(); j++) {
-		        String value = (String) getTbCategorias().getValueAt(i, j);
-		        if (value.isEmpty() || value.equals("0")) {
-		            cond = false;
-		        } else {
-		            if (j==0)
-		            	cat.setNombre(value);
-		            if (j==1)
-		            	cat.setEdadMin(Integer.parseInt(value));
-		            if (j==2)
-		            	cat.setEdadMax(Integer.parseInt(value));
-		            if (j==3)
-		            	cat.setGenero(value);
-		        }
+		    	if (getTbPlazos().getValueAt(i, j) == null) {
+		    		cond = false;
+		    	} else  {
+		    		String value = getTbCategorias().getValueAt(i, j).toString();
+			        if (value.isEmpty() || value.equals("0")) {
+			            cond = false;
+			        } else {
+			            if (j==0)
+			            	cat.setNombre(value);
+			            if (j==1)
+			            	cat.setEdadMin(Integer.parseInt(value));
+			            if (j==2)
+			            	cat.setEdadMax(Integer.parseInt(value));
+			            if (j==3)
+			            	cat.setGenero(value);
+			        }
+		    	}
 		    }
 		    if(cond)
 		    	categorias.add(cat);
@@ -184,7 +239,7 @@ public class CompeticionView extends JDialog {
 		}
 		return lbNombre;
 	}
-	private JTextField getTfNombre() {
+	public JTextField getTfNombre() {
 		if (tfNombre == null) {
 			tfNombre = new JTextField();
 			tfNombre.setColumns(10);
@@ -197,7 +252,7 @@ public class CompeticionView extends JDialog {
 		}
 		return lbFecha;
 	}
-	private JTextField getTfFecha() {
+	public JTextField getTfFecha() {
 		if (tfFecha == null) {
 			tfFecha = new JTextField();
 			tfFecha.setColumns(10);
@@ -210,7 +265,7 @@ public class CompeticionView extends JDialog {
 		}
 		return lbDescripcion;
 	}
-	private JTextField getTfDescripcion() {
+	public JTextField getTfDescripcion() {
 		if (tfDescripcion == null) {
 			tfDescripcion = new JTextField();
 			tfDescripcion.setColumns(10);
@@ -272,7 +327,7 @@ public class CompeticionView extends JDialog {
 	}
 	private JLabel getLbPlazos() {
 		if (lbPlazos == null) {
-			lbPlazos = new JLabel("Plazos: (Máx 10)");
+			lbPlazos = new JLabel("Plazos: (Máx 10, formato fechas YYYY-MM-DD)");
 			lbPlazos.setFont(new Font("Tahoma", Font.PLAIN, 12));
 			lbPlazos.setBackground(Color.WHITE);
 		}
@@ -310,7 +365,7 @@ public class CompeticionView extends JDialog {
 		}
 		return lbPlazas;
 	}
-	private JTextField getTfPlazas() {
+	public JTextField getTfPlazas() {
 		if (tfPlazas == null) {
 			tfPlazas = new JTextField();
 			tfPlazas.setColumns(10);
@@ -323,7 +378,7 @@ public class CompeticionView extends JDialog {
 		}
 		return lblDistancia;
 	}
-	private JTextField getTfDistancia() {
+	public JTextField getTfDistancia() {
 		if (tfDistancia == null) {
 			tfDistancia = new JTextField();
 			tfDistancia.setColumns(10);
@@ -336,11 +391,54 @@ public class CompeticionView extends JDialog {
 		}
 		return lbIban;
 	}
-	private JTextField getTfIban() {
+	public JTextField getTfIban() {
 		if (tfIban == null) {
 			tfIban = new JTextField();
 			tfIban.setColumns(10);
 		}
 		return tfIban;
+	}
+	public List<PlazoDisplayDTO> devuelvePlazos() {
+		List<PlazoDisplayDTO> plazos = new ArrayList<>();
+		for (int i = 0; i < getTbPlazos().getRowCount(); i++) {
+			PlazoDisplayDTO plz = new PlazoDisplayDTO();
+			boolean cond = true;
+		    for (int j = 0; j < getTbPlazos().getColumnCount(); j++) {
+		    	if (getTbPlazos().getValueAt(i, j) == null) {
+		    		cond = false;
+		    	} else {
+			        String value = getTbPlazos().getValueAt(i, j).toString();
+			        if (value.isEmpty() || value.equals("0")) {
+			            cond = false;
+			        } else {
+			            if (j==0)
+			            	plz.setDescr(value);
+			            if (j==1)
+			            	plz.setFechaIni(value);
+			            if (j==2)
+			            	plz.setFechaFin(value);
+			            if (j==3)
+			            	plz.setCuota(Integer.parseInt(value));
+			        }
+		    	}
+		    }
+		    if(cond)
+		    	plazos.add(plz);
+		}
+		return plazos;
+	}
+	private JLabel getLbExpPlazos() {
+		if (lbExpPlazos == null) {
+			lbExpPlazos = new JLabel("Ordenados de arriba a abajo de ");
+			lbExpPlazos.setFont(new Font("Tahoma", Font.PLAIN, 12));
+			lbExpPlazos.setBackground(Color.WHITE);
+		}
+		return lbExpPlazos;
+	}
+	private JLabel getLbExpPlazos2() {
+		if (lbExpPlazos2 == null) {
+			lbExpPlazos2 = new JLabel("- a + lejano a más próximo a la competición");
+		}
+		return lbExpPlazos2;
 	}
 }

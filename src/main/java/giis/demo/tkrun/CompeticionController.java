@@ -99,7 +99,7 @@ public class CompeticionController {
 	
 	public void getPlazos() {
 		List<PlazoDisplayDTO> plazos=plazosPorDefecto();
-		TableModel tmodel=SwingUtil.getTableModelFromPojos(plazos, new String[] {"descr", "fechaMin","fechaMax","cuota"});
+		TableModel tmodel=SwingUtil.getTableModelFromPojos(plazos, new String[] {"descr", "fechaIni","fechaFin","cuota"});
 		view.getTbPlazos().setModel(tmodel);
 //		SwingUtil.autoAdjustColumns(view.getTbPlazos());
 		
@@ -131,15 +131,30 @@ public class CompeticionController {
 			else
 				tipo="Montaña";
 			Random rand = new Random(1000);
-			List<CategoriaDisplayDTO> categorias = view.devuelveCategorias();
 			int id = rand.nextInt();
-//			model.createCompeticion(id,view.getTextNombre().getText(), view.getTextInicio().getText(), view.getTextFin().getText(), view.getTextFecha().getText(),
-//					view.getTextCuota().getText(), view.getTextDescripcion().getText(), tipo, view.getTextNPlazas().getText(), view.getTextIBAN().getText(), view.getTextDistancia().getText());
+			
+			actualizaCategorias(id);
+			actualizaPlazos(id);
+			
+			model.createCompeticion(id,view.getTfNombre().getText(), view.getTfFecha().getText(), view.getTfDescripcion().getText(), 
+					tipo, view.getTfPlazas().getText(), view.getTfDistancia().getText(), view.getTfIban().getText());
 			
 			view.reset();
 			view.dispose();
 			JOptionPane.showMessageDialog(null, "Competición creada con éxito");
 		}
+	}
+
+	private void actualizaPlazos(int id) {
+		List<PlazoDisplayDTO> plazos = view.devuelvePlazos();
+		for (PlazoDisplayDTO cat: plazos)
+			model.insertPlazo(id, cat.getDescr(), cat.getFechaIni(), cat.getfechaFin(), cat.getCuota());
+	}
+
+	private void actualizaCategorias(int id) {
+		List<CategoriaDisplayDTO> categorias = view.devuelveCategorias();
+		for (CategoriaDisplayDTO cat: categorias)
+			model.insertCategory(id, cat.getNombre(), cat.getEdadMin(), cat.getEdadMax(), cat.getGenero());
 	}
 
 }
