@@ -114,5 +114,13 @@ public class DatosInscripcionModel {
 		if (!condition)
 			throw new ApplicationException(message);
 	}
+	public boolean compruebaCorreo(String correo) {
+		String sql="Select distinct correoE from Atleta a" ;
+		List<AtletaDisplayDTO>correos=db.executeQueryPojo(AtletaDisplayDTO.class, sql);
+		for(int i=0;i<correos.size();i++)
+			if(correos.get(i).getCorreoE().equals(correo))
+				return true;
+		return false;
+	}
 	
 }

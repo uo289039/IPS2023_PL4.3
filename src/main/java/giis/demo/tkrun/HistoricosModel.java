@@ -95,7 +95,11 @@ public class HistoricosModel {
 	
 	private static final String OBTENER_DISTANCIAS="SELECT distancia "
 			+ "from Competicion c  where id=?";
+	
+	private static final String CORREOS="Select distinct correoE from Atleta a ";
+	
 	public void insertarHistorial(String correo) {
+		
 		
 		String nombreCarrera=getNombre(correo);
 		insertarTiempos(nombreCarrera);
@@ -108,10 +112,18 @@ public class HistoricosModel {
 			db.executeUpdate(query, nombreCarrera, t.getDorsal(), fecha, t.getTiempo(),categoria,correo);	
 		}
 		//db.executeUpdate(ELIMINAR_CLASIFICACION, carreraId);
-		
-		
 	}
+		
 	
+	
+	public boolean compruebaCorreo(String correo) {
+		List<AtletaDisplayDTO>correos=db.executeQueryPojo(AtletaDisplayDTO.class, CORREOS);
+		for(int i=0;i<correos.size();i++)
+			if(correo.equals(correos.get(i).getCorreoE()))
+				return true;
+		return false;
+	}
+
 	private List<HistoricoEntity> cargaDatos(String carreraId) {
 	return db.executeQueryPojo(HistoricoEntity.class,SELECCIONA_INFO_TIEMPOS, carreraId);
 	

@@ -56,7 +56,7 @@ public class DatosInscripcionController {
 		//Inicializa la fecha de hoy a un valor que permitira mostrar carreras en diferentes fases 
 		//y actualiza los datos de la vista
 		//view.setId("San Silvestre");
-		this.getListaDatosInscripcionesAtletas();
+		//this.getListaDatosInscripcionesAtletas();
 		
 		//Abre la ventana (sustituye al main generado por WindowBuilder)
 		view.getFrame().setVisible(true); 
@@ -66,11 +66,16 @@ public class DatosInscripcionController {
 	 * y usar metodo de SwingUtil para crear un tablemodel que se asigna finalmente a la tabla.
 	 */
 	public void getListaDatosInscripcionesAtletas() {
-		List<DatosInscripcionesDTO> carreras=model.getListaAtletas(view.getCorreo());
-		TableModel tmodel=SwingUtil.getTableModelFromPojos(carreras, new String[] {"nombre_c","estadoI","fecha_cambio_estado"});
-		view.getTablaInscripcionesAtletas().setModel(tmodel);
-		SwingUtil.autoAdjustColumns(view.getTablaInscripcionesAtletas());
-		
+		String correo=view.getCorreo();
+		if(model.compruebaCorreo(correo)) {
+			List<DatosInscripcionesDTO> carreras=model.getListaAtletas(correo);
+			TableModel tmodel=SwingUtil.getTableModelFromPojos(carreras, new String[] {"nombre_c","estadoI","fecha_cambio_estado"});
+			view.getTablaInscripcionesAtletas().setModel(tmodel);
+			SwingUtil.autoAdjustColumns(view.getTablaInscripcionesAtletas());
+		}
+		else {
+			view.avisaCorreo(correo);
+		}
 		//Como se guarda la clave del ultimo elemento seleccionado, restaura la seleccion de los detalles
 		this.restoreDetail();
 

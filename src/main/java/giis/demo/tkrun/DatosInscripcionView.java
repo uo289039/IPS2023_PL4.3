@@ -3,6 +3,7 @@ package giis.demo.tkrun;
 import javax.swing.JFrame;
 import net.miginfocom.swing.MigLayout;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -86,6 +87,11 @@ public class DatosInscripcionView {
 	public void setCorreo(String fechaIso)  { this.txtCorreo.setText(fechaIso); }
 	public JButton getBtnTablaInscripcionesAtletas() { return this.btnTabInformacion; }
 	public JTable getTablaInscripcionesAtletas() { return this.tabAtletas; }
+
+	public void avisaCorreo(String correo) {
+		JOptionPane.showMessageDialog(null, "Introduzca un correo valido, "+correo+" no es valido");
+		
+	}
 	
 	
 }
