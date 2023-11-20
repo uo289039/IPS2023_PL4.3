@@ -3,6 +3,7 @@ package giis.demo.tkrun;
 import javax.swing.JFrame;
 import net.miginfocom.swing.MigLayout;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -118,6 +119,11 @@ public class TiemposView {
 	
 	public boolean isFemeninoSelected() {
 		return this.rdbtnFemenino.isSelected();
+	}
+
+	public void avisaNombreNoValido(String nombreCarrera) {
+		JOptionPane.showMessageDialog(null,"El nombre "+nombreCarrera+" no pertenece a una competicion");
+		
 	}
 	
 }

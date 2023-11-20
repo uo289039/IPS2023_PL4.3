@@ -54,21 +54,28 @@ public class TiemposController {
 	public void getClasificacion() {
 		
 		String nombreCarrera = view.getNombreCarrera();
-		model.insertarTiempos(nombreCarrera);
+		if(model.compruebaCarrera(nombreCarrera)) {
+			model.insertarTiempos(nombreCarrera);
 		
-		List<TiempoDisplayDto> clasificacion;
+			List<TiempoDisplayDto> clasificacion;
 		
-		if(view.isMasculinoSelected()) {
-			clasificacion = model.getTiemposPorSexo(nombreCarrera, "hombre");
-		} else if(view.isFemeninoSelected()) {
-			clasificacion = model.getTiemposPorSexo(nombreCarrera, "mujer");
-		} else {
-			clasificacion = model.getTiempos(nombreCarrera);
+			if(view.isMasculinoSelected()) {
+				clasificacion = model.getTiemposPorSexo(nombreCarrera, "hombre");
+			} else if(view.isFemeninoSelected()) {
+				clasificacion = model.getTiemposPorSexo(nombreCarrera, "mujer");
+			} else {
+				clasificacion = model.getTiempos(nombreCarrera);
+			}
+		
+			TableModel tmodel=SwingUtil.getTableModelFromPojos(clasificacion, new String[] {"posicion", "nombre", "sexo", "dorsal", "tiempo"});
+			view.getTablaCarreras().setModel(tmodel);
+			SwingUtil.autoAdjustColumns(view.getTablaCarreras());
 		}
+		else
+			view.avisaNombreNoValido(nombreCarrera);
 		
-		TableModel tmodel=SwingUtil.getTableModelFromPojos(clasificacion, new String[] {"posicion", "nombre", "sexo", "dorsal", "tiempo"});
-		view.getTablaCarreras().setModel(tmodel);
-		SwingUtil.autoAdjustColumns(view.getTablaCarreras());
+		
+		
 		//Como se guarda la clave del ultimo elemento seleccionado, restaura la seleccion de los detalles
 		this.restoreDetail();
 		

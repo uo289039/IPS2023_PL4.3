@@ -71,6 +71,8 @@ public class ParticipaController {
 		InscripcionController ic=new InscripcionController(new InscripcionModel(), new InscripcionView());
 		ic.initController();
 	}
+	
+	
 	private void muestraSiguiente() {
 		if(this.view.getRdbtnTransferencia().isSelected())
 			ventanaRegistro();
@@ -88,29 +90,32 @@ public class ParticipaController {
 	
 	
 	private void validaGuarda() {
-		// TODO Auto-generated method stub
+		
 		if(vr.validateFormulario()) {
 		vr.saveData();
-		saveData();
-		JOptionPane.showMessageDialog(null, "Datos guardados");
-		String id=SwingUtil.getSelectedKey(view.getTable());
-		String correo=view.getTextFieldCorreo().getText();
-		String nombre=vr.getTfNombre().getText();
-		String nombre_c=model.getNombreCompeticion(id);
-		double cuota=model.getCuotaCompeticion(id).getCuota();
-		String categoria=model.getCategoria(id).getTipo();
-		String inscripcion=model.getInscripcion(correo);
-		model.insertaDataAtleta(nombre,nombre_c,categoria,inscripcion,cuota,id,correo); //Modificar, añadir metodos para conseguir el nombre,nombre_c,categoria,inscripcion,cuota 
-		List<DatosAtleta> info=model.datosAtletaInscrito(correo,id);
-		TableModel tmodel=SwingUtil.getTableModelFromPojos(info, new String[] {"nombre","nombre_c","categoria","inscripcion","cuota"});
-		mI.setVisible(true);
-		mI.getTable().setModel(tmodel);
-		SwingUtil.autoAdjustColumns(mI.getTable());
-//		view.getTablaAtletas().setModel(tmodel);
-//		SwingUtil.autoAdjustColumns(view.getTablaAtletas());
+		if(saveData()) {
+			JOptionPane.showMessageDialog(null, "Datos guardados");
+			String id=SwingUtil.getSelectedKey(view.getTable());
+			String correo=view.getTextFieldCorreo().getText();
+			String nombre=vr.getTfNombre().getText();
+			String nombre_c=model.getNombreCompeticion(id);
+			double cuota=model.getCuotaCompeticion(id).getCuota();
+			String categoria=model.getCategoria(id).getTipo();
+			String inscripcion=model.getInscripcion(correo);
+			model.insertaDataAtleta(nombre,nombre_c,categoria,inscripcion,cuota,id,correo); //Modificar, añadir metodos para conseguir el nombre,nombre_c,categoria,inscripcion,cuota 
+			List<DatosAtleta> info=model.datosAtletaInscrito(correo,id);
+			TableModel tmodel=SwingUtil.getTableModelFromPojos(info, new String[] {"nombre","nombre_c","categoria","inscripcion","cuota"});
+			mI.setVisible(true);
+			mI.getTable().setModel(tmodel);
+			SwingUtil.autoAdjustColumns(mI.getTable());
+//			view.getTablaAtletas().setModel(tmodel);
+//			SwingUtil.autoAdjustColumns(view.getTablaAtletas());
 		
-		vr.dispose();}
+			vr.dispose();
+			}
+		}
 	}
+	
 	private void reiniciaVr() {
 		// TODO Auto-generated method stub
 		vr.reiniciar();
@@ -118,22 +123,22 @@ public class ParticipaController {
 	
 	
 	private void validaGuardaTarjeta() {
-		saveData();
-		JOptionPane.showMessageDialog(null, "Datos guardados");
-		String id=SwingUtil.getSelectedKey(view.getTable());
-		String correo=view.getTextFieldCorreo().getText();
-		String nombre=model.getTfNombre(correo);
-		String nombre_c=model.getNombreCompeticion(id);
-		double cuota=model.getCuotaCompeticion(id).getCuota();
-		String categoria=model.getCategoria(id).getTipo();
-		String inscripcion=model.getInscripcion(correo);
-		model.insertaDataAtleta(nombre,nombre_c,categoria,inscripcion,cuota,id,correo); //Modificar, añadir metodos para conseguir el nombre,nombre_c,categoria,inscripcion,cuota 
-		List<DatosAtleta> info=model.datosAtletaInscrito(correo,id);
-		TableModel tmodel=SwingUtil.getTableModelFromPojos(info, new String[] {"nombre","nombre_c","categoria","inscripcion","cuota"});
-		mI.setVisible(true);
-		mI.getTable().setModel(tmodel);
-		SwingUtil.autoAdjustColumns(mI.getTable());
-		
+		if(saveData()) {
+			JOptionPane.showMessageDialog(null, "Datos guardados");
+			String id=SwingUtil.getSelectedKey(view.getTable());
+			String correo=view.getTextFieldCorreo().getText();
+			String nombre=model.getTfNombre(correo);
+			String nombre_c=model.getNombreCompeticion(id);
+			double cuota=model.getCuotaCompeticion(id).getCuota();
+			String categoria=model.getCategoria(id).getTipo();
+			String inscripcion=model.getInscripcion(correo);
+			model.insertaDataAtleta(nombre,nombre_c,categoria,inscripcion,cuota,id,correo); //Modificar, añadir metodos para conseguir el nombre,nombre_c,categoria,inscripcion,cuota 
+			List<DatosAtleta> info=model.datosAtletaInscrito(correo,id);
+			TableModel tmodel=SwingUtil.getTableModelFromPojos(info, new String[] {"nombre","nombre_c","categoria","inscripcion","cuota"});
+			mI.setVisible(true);
+			mI.getTable().setModel(tmodel);
+			SwingUtil.autoAdjustColumns(mI.getTable());
+		}
 	}
 	
 	
@@ -226,7 +231,7 @@ public class ParticipaController {
 	 * Al seleccionar un item de la tabla muestra el detalle con el valor del porcentaje de descuento
 	 * de la carrera seleccinada y los valores de esta entidad
 	 */
-	public void saveData() {
+	public boolean saveData() {
 		//Obtiene la clave seleccinada y la guarda para recordar la seleccion en futuras interacciones
 //		this.lastSelectedKey=SwingUtil.getSelectedKey(view.getTablaCarreras());
 		//this.lastSelectedKey=(String)view.getComboBoxCompeticiones().getSelectedItem();
@@ -237,9 +242,8 @@ public class ParticipaController {
 		String correo=view.getTextFieldCorreo().getText();
 		if(checkData(id,correo)) {
 			model.insertaData(correo, id, "Preinscrito");
-			//model.datosAtletaInscrito(correo,id);
+			return true;
 			}
-		
 		
 		//Controla excepcion porque el modelo causa excepcion cuando no se puede calcular el descuento
 		//y debe indicarse esto en la vista para evitar mostrar datos falsos que se veian antes
@@ -249,7 +253,7 @@ public class ParticipaController {
 		} catch (ApplicationException e) {
 //			view.setDescuentoNoAplicable();
 		}
-		
+		return false;
 		//Detalles de la carrera seleccionada
 //		CarreraEntity carrera=model.getCarrera(idCarrera);
 //		TableModel tmodel=SwingUtil.getRecordModelFromPojo(carrera, new String[] {"id", "inicio", "fin", "fecha", "descr"});
@@ -259,7 +263,14 @@ public class ParticipaController {
 	
 	private boolean checkData(String id, String correo) {
 		
-		if(!model.yaInscrito(id, correo) && model.hayPlazas(id)) //&& model.isCorreoValido(correo)
+		if(id.equals("") || correo.equals("")) {
+			JOptionPane.showMessageDialog(null, 
+					"Debe rellenar todos los campos");
+		
+			return false;
+		
+		}
+		else if( view.getTable().getSelectedRowCount()>0 && !model.yaInscrito(id, correo) && model.hayPlazas(id) && model.isCorreoValido(correo) ) //&& model.isCorreoValido(correo)
 			return true;
 		
 		else if(model.yaInscrito(id, correo)){
@@ -270,10 +281,15 @@ public class ParticipaController {
 			JOptionPane.showMessageDialog(null, 
 					"No puede reinscribirse en una competición en la que ya no hay plazas");return false;}
 		
-//		else if(!model.isCorreoValido(correo)) {
-//			JOptionPane.showMessageDialog(null, 
-//			"No puede inscribirse con un correo no validado por la organización, por favor introduzca uno valido");return false;}
+		else if(!model.isCorreoValido(correo)) {
+			JOptionPane.showMessageDialog(null, 
+			"No puede inscribirse con un correo no validado por la organización, por favor introduzca uno valido");return false;}
 		
+		
+		else if(view.getTable().getSelectedRowCount()==0) {
+			JOptionPane.showMessageDialog(null, 
+					"Por favor introduzca seleccione una competición en la tabla");return false;}
+				
 		return true;
 	}
 	

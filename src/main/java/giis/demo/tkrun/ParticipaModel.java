@@ -23,7 +23,7 @@ public class ParticipaModel {
 	//private static final String MSG_FECHA_INSCRIPCION_NO_NULA = "La fecha de inscripcion no puede ser nula";
 
 	private Database db=new Database();
-//	private List<String>correosValidos=getCorreosValidos();
+	private List<AtletaDisplayDTO>correosValidos=getCorreosValidos();
 	
 	//SQL para obtener la lista de carreras activas para una fecha dada,
 	//se incluye aqui porque se usara en diferentes versiones de los metodos bajo prueba
@@ -120,13 +120,13 @@ public class ParticipaModel {
 		return db.executeQueryPojo(CarreraDisplayDTO.class,query.toString());
 	}
 
-//	private List<String> getCorreosValidos() {
-//		StringBuilder query=new StringBuilder();
-//		String sentencia="Select distinct correoE from Atleta";
-//		query.append(sentencia);
-//		
-//		return db.executeQueryPojo(String.class,query.toString());
-//	}
+	private List<AtletaDisplayDTO> getCorreosValidos() {
+		StringBuilder query=new StringBuilder();
+		String sentencia="Select distinct correoE from Atleta";
+		query.append(sentencia);
+		
+		return db.executeQueryPojo(AtletaDisplayDTO.class,query.toString());
+	}
 	
 	/**
 	 * Actualiza las fechas de inscripcion de una carrera
@@ -157,8 +157,8 @@ public class ParticipaModel {
 	
 	protected void insertaData(String info1, String info2,String info3) {
 		if(!yaInscrito(info2,info1)) {
-			String sql="insert into participa(correoElec,id_c,estadoI) values(?,?,?)";
-			db.executeUpdate(sql, info1, info2, info3);
+			String sql="insert into participa(correoElec,id_c,estadoI,estadoActual) values(?,?,?,?)";
+			db.executeUpdate(sql, info1, info2, info3, info3);
 		}
 	}
 	
@@ -190,7 +190,8 @@ public class ParticipaModel {
 		
 		List<CarreraDisplayDTO> data=db.executeQueryPojo(CarreraDisplayDTO.class, sql, id);
 		List<Object[]> data2=db.executeQueryArray(sql2, id);
-		System.out.println(data.get(0).getnPlazas());
+		if(data.size()==0)
+			return false;
 		System.out.println((int)data2.get(0)[0]);
 		if(data.get(0).getnPlazas()>(int)data2.get(0)[0])//data.get(0).getnPlazas()>0 &&
 			return true;
@@ -202,14 +203,14 @@ public class ParticipaModel {
 //		correosValidos=nuevos;
 //	}
 //	
-//	public boolean isCorreoValido(String correo) {
-//		for(int i=0;i<correosValidos.size();i++)
-//			if(!correo.equals("")) {
-//				if(correo.equals(correosValidos.get(i)))
-//					return true;
-//			}
-//		return false;
-//	}
+	public boolean isCorreoValido(String correo) {
+		for(int i=0;i<correosValidos.size();i++)
+			if(!correo.equals("")) {
+				if(correo.equals(correosValidos.get(i).getCorreoE()))
+					return true;
+			}
+		return false;
+	}
 	
 	public List<DatosAtleta> datosAtletaInscrito(String correo, String id) {
 		String sql="Select nombre, nombre_c, categoria, inscripcion, cuota from DatosAtleta where "

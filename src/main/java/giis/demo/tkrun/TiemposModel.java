@@ -31,8 +31,13 @@ public class TiemposModel {
 											+ " AND a.correoE = p.correoElec"
 											+ " AND p.dorsal = t.dorsal"
 											+ " AND p.dorsal <> 0"
-											+ " ORDER BY CASE WHEN t.tiempo = '---' THEN 1 ELSE 0 END";;
+											+ " ORDER BY CASE WHEN t.tiempo = '---' THEN 1 ELSE 0 END";
 	
+	
+	
+	private static final String SQL_LISTA_COMPETICIONES="Select distinct nombre_c from Competicion c ;";										
+											
+											
 	public void insertarTiempos(String nombreCarrera) {
 		
 		String carreraId = getId(nombreCarrera);
@@ -85,6 +90,15 @@ public class TiemposModel {
 			pos++;
 		}
 		return tiempos;
+	}
+
+	public boolean compruebaCarrera(String nombreCarrera) {
+		List<CarreraDisplayDTO>correos=db.executeQueryPojo(CarreraDisplayDTO.class, SQL_LISTA_COMPETICIONES);
+		for(int i=0;i<correos.size();i++)
+			if(correos.get(i).getNombre_c().equals(nombreCarrera))
+				return true;
+		
+		return false;
 	}
 	
 	
