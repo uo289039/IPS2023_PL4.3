@@ -178,5 +178,11 @@ public class HistoricosView {
 		
 	}
 
+	public void noTiemposRegistrados(String correo) {
+		JOptionPane.showMessageDialog(null, "No se encuentran los tiempos del atleta con correo: "+correo
+				+ ". Pruebe a cambiar el tipo y/o distancia establecidos");
+		
+	}
+
 	
 }

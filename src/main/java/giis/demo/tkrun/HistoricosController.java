@@ -66,6 +66,9 @@ public class HistoricosController {
 			model.insertarHistorial(correo);
 			if(!model.isYaParticipado()) {
 				view.noHistorico(correo);}
+			
+			if(!model.isTiemposRegistrados())
+				view.noTiemposRegistrados(correo);
 		}
 		if(model.compruebaCorreo(correo)) {
 			List<HistoricoDisplayDTO> clasificacion;

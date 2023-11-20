@@ -103,6 +103,8 @@ public class HistoricosModel {
 	
 	private boolean yaParticipado=false;
 	
+	private boolean tiemposRegistrados=false;
+	
 	public void insertarHistorial(String correo) {
 		
 		String nombreCarrera=getNombre(correo);
@@ -237,14 +239,19 @@ public class HistoricosModel {
 		
 			String carreraId = getId(nombreCarrera);
 			List<TiempoEntity> tiempos = cargarTiempos("src/main/java/files/" + carreraId + ".csv", carreraId);
-			db.executeUpdate(ELIMINAR_CLASIFICACION, carreraId);
-			String query = "INSERT INTO tiempo (id_c, dorsal, tiempo) VALUES (?, ?, ?)";
-			for(TiempoEntity t: tiempos) {
-				db.executeUpdate(query, carreraId, t.getDorsal(), t.getTiempo());	
-			}
+			if(tiempos.size()>0) {
+				tiemposRegistrados=true;
+				db.executeUpdate(ELIMINAR_CLASIFICACION, carreraId);
+				String query = "INSERT INTO tiempo (id_c, dorsal, tiempo) VALUES (?, ?, ?)";
+				for(TiempoEntity t: tiempos) {
+					db.executeUpdate(query, carreraId, t.getDorsal(), t.getTiempo());	
+				}
 		
+			}
+			else {
+				tiemposRegistrados=false;
+			}
 		}
-
 
 	private boolean compruebaNombreCarrera(String nombreCarrera) {
 		List<CarreraDisplayDTO>carreras=db.executeQueryPojo(CarreraDisplayDTO.class, LISTA_NOMBRES_C);
@@ -283,5 +290,11 @@ public class HistoricosModel {
 	public boolean isYaParticipado() {
 		return yaParticipado;
 	}
+
+	public boolean isTiemposRegistrados() {
+		return tiemposRegistrados;
+	}
+	
+	
 
 }
