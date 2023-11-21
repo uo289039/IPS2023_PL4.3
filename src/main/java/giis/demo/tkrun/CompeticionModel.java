@@ -5,9 +5,9 @@ import giis.demo.util.Database;
 public class CompeticionModel {
 	private Database db=new Database();
 
-	public void createCompeticion(int id, String nombre, String fecha, String descripcion, String tipo, String nPlazas, String distancia, String iban) {
-		String sql="insert into Competicion (id,nombre_c,fecha,descr,distancia,tipo,nPlazas,iban_c) values (?,?,?,?,?,?,?,?)";
-		db.executeUpdate(sql,id,nombre,fecha,descripcion,distancia,tipo,nPlazas,iban);
+	public void createCompeticion(int id, String nombre, String fecha, String descripcion, String tipo, String nPlazas, String distancia, String iban, String cancelacion, int devolucion, String fechaCanc) {
+		String sql="insert into Competicion (id,nombre_c,fecha,descr,distancia,tipo,nPlazas,iban_c,cancelacion,devolucion,fechaCanc) values (?,?,?,?,?,?,?,?,?,?,?)";
+		db.executeUpdate(sql,id,nombre,fecha,descripcion,distancia,tipo,nPlazas,iban,cancelacion,devolucion,fechaCanc);
 	}
 
 	public void insertCategory(int id, String nombre, int edadMin, int edadMax, String genero) {

@@ -34,7 +34,8 @@ public class CompeticionView extends JDialog {
 	private JLabel lbDatos;
 	private JButton btnCrear;
 	private JButton btnCancelar;
-	private final ButtonGroup buttonGroup = new ButtonGroup();
+	private final ButtonGroup buttonGroup1 = new ButtonGroup();
+	private final ButtonGroup buttonGroup2 = new ButtonGroup();
 	private JPanel pnDatos1;
 	private JLabel lbNombre;
 	private JTextField tfNombre;
@@ -61,6 +62,15 @@ public class CompeticionView extends JDialog {
 	private JTextField tfIban;
 	private JLabel lbExpPlazos;
 	private JLabel lbExpPlazos2;
+	private JPanel pbDatos3;
+	private JLabel lbCancelacion;
+	private JPanel pnCanc;
+	private JRadioButton rdbtnSi;
+	private JRadioButton rdbtnNo;
+	private JLabel lbPorcentaje;
+	private JTextField tfPorcDev;
+	private JLabel lbFechaCanc;
+	private JTextField tfFechaCanc;
 
 	
 	public CompeticionView() {
@@ -70,18 +80,19 @@ public class CompeticionView extends JDialog {
 		contentPanel.setBackground(Color.WHITE);
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
-		contentPanel.setLayout(new MigLayout("", "[grow][grow][grow]", "[][grow][grow][][grow][][][][][][][][][][grow][][][][][][][][][][]"));
+		contentPanel.setLayout(new MigLayout("", "[grow][grow][grow]", "[][grow][grow][grow][][grow][][][][][][][][][][grow][][][][][][][][][][]"));
 		contentPanel.add(getLbDatos(), "cell 0 0,growx,aligny center");
 		contentPanel.add(getPnDatos1(), "cell 0 1 3 1,grow");
 		contentPanel.add(getPnDatos2(), "cell 0 2 3 1,grow");
-		contentPanel.add(getLbCategorias(), "cell 0 6");
-		contentPanel.add(getSpCategorias(), "flowx,cell 1 8,alignx center,growy");
-		contentPanel.add(getLbPlazos(), "cell 0 11");
-		contentPanel.add(getLbExpPlazos(), "cell 0 12");
-		contentPanel.add(getLbExpPlazos2(), "cell 0 13");
-		contentPanel.add(getSpPlazos(), "cell 1 18,alignx center,growy");
-		contentPanel.add(getBtnCancelar(), "flowx,cell 1 24,alignx right,aligny top");
-		contentPanel.add(getBtnCrear(), "cell 2 24,growx,aligny top");
+		contentPanel.add(getPbDatos3(), "cell 0 3 3 1,grow");
+		contentPanel.add(getLbCategorias(), "cell 0 7");
+		contentPanel.add(getSpCategorias(), "flowx,cell 1 9,alignx center,growy");
+		contentPanel.add(getLbPlazos(), "cell 0 12");
+		contentPanel.add(getLbExpPlazos(), "cell 0 13");
+		contentPanel.add(getLbExpPlazos2(), "cell 0 14");
+		contentPanel.add(getSpPlazos(), "cell 1 19,alignx center,growy");
+		contentPanel.add(getBtnCancelar(), "flowx,cell 1 25,alignx right,aligny top");
+		contentPanel.add(getBtnCrear(), "cell 2 25,growx,aligny top");
 	}
 	private JLabel getLbDatos() {
 		if (lbDatos == null) {
@@ -119,7 +130,33 @@ public class CompeticionView extends JDialog {
 			return false;
 		} else if (!compruebaPlazos()) {
 			return false;
+		} else if (!compruebaCancelacion()) {
+			return false;
 		}
+		return true;
+	}
+	private boolean compruebaCancelacion() {
+		if (getRdbtnSi().isSelected()) {
+			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+			try {
+				Date fechaCanc = dateFormat.parse(getTfFechaCanc().getText());
+				Date hoy = new Date();
+			    if (fechaCanc.compareTo(hoy) < 0) {
+			    	JOptionPane.showMessageDialog(null, "La fecha " + getTfFechaCanc().getText() + " es anterior a la fecha actual.");
+			    	return false;
+			    }
+			    
+			    Date fecha = dateFormat.parse(getTfFecha().getText());
+			    if (!(fechaCanc.compareTo(fecha) < 0)) {
+			    	JOptionPane.showMessageDialog(null, "La fecha " + getTfFechaCanc().getText() + " no es anterior a la fecha de la competición");
+			    	return false;
+			    }
+			} catch (ParseException e) {
+				JOptionPane.showMessageDialog(null, "Alguna fecha no tiene formato correcto");
+				return false;
+			}
+		}
+	
 		return true;
 	}
 	private boolean compruebaPlazos() {
@@ -158,11 +195,6 @@ public class CompeticionView extends JDialog {
 				}
 				primero = false;
 				p = pl;
-			}
-			Date fFinAnt = dateFormat.parse(p.getfechaFin());
-			if(!(fecha.compareTo(fFinAnt) == 0)) {
-				JOptionPane.showMessageDialog(null, "La fecha " + getTfFecha().getText() + " no es igual a la fecha " + p.getfechaFin());
-				return false;
 			}
 			return true;
 		} catch (ParseException e) {
@@ -213,6 +245,12 @@ public class CompeticionView extends JDialog {
 			return false;
 		} else if(this.getTfIban().getText().isBlank()) {
 			return false;
+		} else if(this.getRdbtnSi().isSelected()) {
+			if(this.getTfPorcDev().getText().isBlank()) {
+				return false;
+			} else if(this.getTfFechaCanc().getText().isBlank()) {
+				return false;
+			}
 		}
 		return true;
 	}
@@ -291,7 +329,7 @@ public class CompeticionView extends JDialog {
 		if (rdbtnMontaña == null) {
 			rdbtnMontaña = new JRadioButton("Montaña");
 			rdbtnMontaña.setBackground(Color.WHITE);
-			buttonGroup.add(rdbtnMontaña);
+			buttonGroup1.add(rdbtnMontaña);
 		}
 		return rdbtnMontaña;
 	}
@@ -300,7 +338,7 @@ public class CompeticionView extends JDialog {
 			rdbtnRuta = new JRadioButton("Ruta");
 			rdbtnRuta.setSelected(true);
 			rdbtnRuta.setBackground(Color.WHITE);
-			buttonGroup.add(rdbtnRuta);
+			buttonGroup1.add(rdbtnRuta);
 		}
 		return rdbtnRuta;
 	}
@@ -441,5 +479,76 @@ public class CompeticionView extends JDialog {
 			lbExpPlazos2.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		}
 		return lbExpPlazos2;
+	}
+	private JPanel getPbDatos3() {
+		if (pbDatos3 == null) {
+			pbDatos3 = new JPanel();
+			pbDatos3.setBackground(Color.WHITE);
+			pbDatos3.add(getLbCancelacion());
+			pbDatos3.add(getPnCanc());
+			pbDatos3.add(getLbPorcentaje());
+			pbDatos3.add(getTfPorcDev());
+			pbDatos3.add(getLbFechaCanc());
+			pbDatos3.add(getTfFechaCanc());
+		}
+		return pbDatos3;
+	}
+	private JLabel getLbCancelacion() {
+		if (lbCancelacion == null) {
+			lbCancelacion = new JLabel("¿Permite cancelación de la inscripción?");
+		}
+		return lbCancelacion;
+	}
+	private JPanel getPnCanc() {
+		if (pnCanc == null) {
+			pnCanc = new JPanel();
+			pnCanc.setBackground(Color.WHITE);
+			pnCanc.add(getRdbtnSi());
+			pnCanc.add(getRdbtnNo());
+		}
+		return pnCanc;
+	}
+	public JRadioButton getRdbtnSi() {
+		if (rdbtnSi == null) {
+			rdbtnSi = new JRadioButton("Si");
+			rdbtnSi.setBackground(Color.WHITE);
+			buttonGroup2.add(rdbtnSi);
+		}
+		return rdbtnSi;
+	}
+	private JRadioButton getRdbtnNo() {
+		if (rdbtnNo == null) {
+			rdbtnNo = new JRadioButton("No");
+			rdbtnNo.setSelected(true);
+			rdbtnNo.setBackground(Color.WHITE);
+			buttonGroup2.add(rdbtnNo);
+		}
+		return rdbtnNo;
+	}
+	private JLabel getLbPorcentaje() {
+		if (lbPorcentaje == null) {
+			lbPorcentaje = new JLabel("Porcentaje de devolución de cuota");
+		}
+		return lbPorcentaje;
+	}
+	public JTextField getTfPorcDev() {
+		if (tfPorcDev == null) {
+			tfPorcDev = new JTextField();
+			tfPorcDev.setColumns(10);
+		}
+		return tfPorcDev;
+	}
+	private JLabel getLbFechaCanc() {
+		if (lbFechaCanc == null) {
+			lbFechaCanc = new JLabel("Fecha límite cancelación (YYYY-MM-DD)");
+		}
+		return lbFechaCanc;
+	}
+	public JTextField getTfFechaCanc() {
+		if (tfFechaCanc == null) {
+			tfFechaCanc = new JTextField();
+			tfFechaCanc.setColumns(10);
+		}
+		return tfFechaCanc;
 	}
 }

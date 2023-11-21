@@ -136,8 +136,18 @@ public class CompeticionController {
 			actualizaCategorias(id);
 			actualizaPlazos(id);
 			
+			String cancelacion="No";
+			int devolucion = 0;
+			String fechaCanc = "";
+			if(view.getRdbtnSi().isSelected()) {
+				cancelacion = "Si";
+				devolucion = Integer.parseInt(view.getTfPorcDev().getText());
+				fechaCanc = view.getTfFechaCanc().getText();
+			}
+			
+			
 			model.createCompeticion(id,view.getTfNombre().getText(), view.getTfFecha().getText(), view.getTfDescripcion().getText(), 
-					tipo, view.getTfPlazas().getText(), view.getTfDistancia().getText(), view.getTfIban().getText());
+					tipo, view.getTfPlazas().getText(), view.getTfDistancia().getText(), view.getTfIban().getText(), cancelacion, devolucion, fechaCanc);
 			
 			view.reset();
 			view.dispose();

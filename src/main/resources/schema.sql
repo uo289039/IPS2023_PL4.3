@@ -13,8 +13,10 @@
 
 drop table if exists Competicion;
 create table Competicion(id int primary key not null, nombre_c varchar(20) not null, fecha date not null, descr varchar(32), 
-distancia decimal(4,2), tipo varchar(20) not null, nPlazas int not null, iban_c varchar(40) unique,
-check(tipo in('Montaña','Ruta')));
+distancia decimal(4,2), tipo varchar(20) not null, nPlazas int not null, iban_c varchar(40) unique, cancelacion varcchar(5) not null,
+devolucion int not null, fechaCanc date, 
+check(tipo in('Montaña','Ruta')),
+check(cancelacion in('Si','No')));
 
 drop table if exists Atleta;
 create table Atleta(dni int primary key not null,f_nacimiento date not null, nombre varchar(20) not null,
