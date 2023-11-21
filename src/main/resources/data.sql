@@ -9,12 +9,12 @@ delete from Competicion;
 delete from PagosTransferencia;
 
 
-insert into Competicion(id,nombre_c,fecha,descr,distancia,tipo,nPlazas,iban_c) values 
-	(100,'San Silvestre','2016-11-09','finalizada',5,'Montaña',40,'ES12 1234 5678 9098 7545 6787'),
-	(101,'Media Maraton','2016-11-10','en fase 3',5,'Ruta',30,'ES65 6787 6567 1112 2222 3482'),
-	(102,'Vuelta Ciclista','2016-11-20','en fase 2',5,'Montaña',50,'ES61 4799 0517 7651 2972 3002'),
-	(103,'Carrera Solidaria','2016-11-21','en fase 1',5,'Montaña',33,'ES21 4059 0197 7333 9419 9129'),
-	(104,'Subida al Cristo','2016-11-22','antes inscripcion',5,'Ruta',42,'ES54 4782 9123 0102 9860 0535');
+insert into Competicion(id,nombre_c,fecha,descr,distancia,tipo,nPlazas,iban_c,cancelacion,devolucion,fechaCanc) values 
+	(100,'San Silvestre','2016-11-09','finalizada',5,'Montaña',40,'ES12 1234 5678 9098 7545 6787','No',0,''),
+	(101,'Media Maraton','2016-11-10','en fase 3',5,'Ruta',30,'ES65 6787 6567 1112 2222 3482','No',0,''),
+	(102,'Vuelta Ciclista','2016-11-20','en fase 2',5,'Montaña',50,'ES61 4799 0517 7651 2972 3002','No',0,''),
+	(103,'Carrera Solidaria','2016-11-21','en fase 1',5,'Montaña',33,'ES21 4059 0197 7333 9419 9129','No',0,''),
+	(104,'Subida al Cristo','2016-11-22','antes inscripcion',5,'Ruta',42,'ES54 4782 9123 0102 9860 0535','No',0,'');
 
 insert into Atleta(dni,f_nacimiento,nombre,sexo,inscripcion,formaPago,correoE,poblacion,telefono,pais) values
 (1,'2004-11-03','Alexander','hombre','2016-10-10','transferencia','alex@gmail.com','Gijon','624 123 893', 'España'),
