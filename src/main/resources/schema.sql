@@ -57,4 +57,8 @@ create table Tiempo(id_c int, dorsal int, tiempo varchar(6),
 
 drop table if exists Categoria;
 create table Categoria(id_c int not null, nombre_cat varchar(30) not null, edadMin int not null, edadMax int not null, genero varchar(15),
-                    constraint fk_categoria_competicion foreign key (id_c) references "Competicion" (id_c));
+                    constraint fk_Categoria_competicion foreign key (id_c) references "Competicion" (id_c));
+
+drop table if exists Plazo;
+create table Plazo(id_c int not null, descr varchar(30) not null, fechaIni varchar(20) not null, fechaFin varchar(20) not null, cuota decimal(4,2) not null,
+                    constraint fk_Plazo_Competicion foreign key (id_c) references "Competicion" (id_c));
