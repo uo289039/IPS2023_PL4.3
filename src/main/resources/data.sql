@@ -9,14 +9,14 @@ delete from Competicion;
 delete from PagosTransferencia;
 
 
-insert into Competicion(id,nombre_c,inicio,fin,fecha,descr,cuota,distancia,tipo,nPlazas,iban_c) values 
-	(100,'San Silvestre','2016-10-05','2016-10-25','2016-11-09','finalizada',50.0,5,'Montaña',40,'ES12 1234 5678 9098 7545 6787'),
-	(101,'Media Maraton','2016-10-05','2016-10-25','2016-11-10','en fase 3',50.5,5,'Ruta',30,'ES65 6787 6567 1112 2222 3482'),
-	(102,'Vuelta Ciclista','2016-11-05','2016-11-09','2016-11-20','en fase 2',50.0,5,'Montaña',50,'ES61 4799 0517 7651 2972 3002'),
-	(103,'Carrera Solidaria','2016-11-10','2016-11-15','2016-11-21','en fase 1',50.0,5,'Montaña',33,'ES21 4059 0197 7333 9419 9129'),
-	(104,'Subida al Cristo','2016-11-11','2016-11-15','2016-11-22','antes inscripcion',50.0,5,'Ruta',42,'ES54 4782 9123 0102 9860 0535');
+insert into Competicion(id,nombre_c,fecha,descr,distancia,tipo,nPlazas,iban_c) values 
+	(100,'San Silvestre','2016-11-09','finalizada',5,'Montaña',40,'ES12 1234 5678 9098 7545 6787'),
+	(101,'Media Maraton','2016-11-10','en fase 3',5,'Ruta',30,'ES65 6787 6567 1112 2222 3482'),
+	(102,'Vuelta Ciclista','2016-11-20','en fase 2',5,'Montaña',50,'ES61 4799 0517 7651 2972 3002'),
+	(103,'Carrera Solidaria','2016-11-21','en fase 1',5,'Montaña',33,'ES21 4059 0197 7333 9419 9129'),
+	(104,'Subida al Cristo','2016-11-22','antes inscripcion',5,'Ruta',42,'ES54 4782 9123 0102 9860 0535');
 
-insert into Atleta(dni,f_nacimiento,nombre,sexo,inscripcion,formaPago,correoE,poblacion,telefono,pais,categoria) values
+insert into Atleta(dni,f_nacimiento,nombre,sexo,inscripcion,formaPago,correoE,poblacion,telefono,pais) values
 (1,'2004-11-03','Alexander','hombre','2016-10-10','transferencia','alex@gmail.com','Gijon','624 123 893', 'España'),
 (3,'2004-01-04','Marta','mujer','2016-10-09','tarjeta','marta@gmail.com','Aviles','623 198 813', 'España'),
 (7,'2002-12-09','Hunter','hombre','2016-11-01','transferencia','hunter@gmail.com','Madrid','612 122 803', 'España'),

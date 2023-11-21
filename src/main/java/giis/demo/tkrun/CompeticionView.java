@@ -438,6 +438,7 @@ public class CompeticionView extends JDialog {
 	private JLabel getLbExpPlazos2() {
 		if (lbExpPlazos2 == null) {
 			lbExpPlazos2 = new JLabel("- a + lejano a más próximo a la competición");
+			lbExpPlazos2.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		}
 		return lbExpPlazos2;
 	}
