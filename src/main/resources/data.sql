@@ -45,3 +45,15 @@ insert into Plazo(id_c,descr,fechaIni,fechaFin,cuota) values
 (102,'Ultimo plazo','2023-11-29','2023-12-06',50.0),
 (103,'Segundo plazo','2023-12-01','2023-12-06',30.2),
 (104,'Primer plazo','2023-11-27','2023-12-04',37.0);
+
+insert into Categoria (id_c, nombre_cat, edadMin, edadMax, genero) values
+(100,'Sub 25',18,22,'masculino'),
+(100,'Sub 25',18,22,'femenino'),
+(101,'Sub 30',23,29,'masculino'),
+(101,'Sub 30',23,29,'femenino'),
+(102,'Sub 30',23,29,'masculino'),
+(102,'Sub 30',23,29,'femenino'),
+(103,'Sub 35',30,34,'masculino'),
+(103,'Sub 30',30,34,'femenino'),
+(104,'Sub 35',30,34,'masculino'),
+(104,'Sub 30',30,34,'femenino');
