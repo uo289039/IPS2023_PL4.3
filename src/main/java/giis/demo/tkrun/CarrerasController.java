@@ -55,7 +55,7 @@ public class CarrerasController {
 	public void initView() {
 		//Inicializa la fecha de hoy a un valor que permitira mostrar carreras en diferentes fases 
 		//y actualiza los datos de la vista
-		view.setFechaHoy("2016-11-10");
+		view.setFechaHoy("2023-12-01");
 		this.getListaCarreras();
 		
 		//Abre la ventana (sustituye al main generado por WindowBuilder)

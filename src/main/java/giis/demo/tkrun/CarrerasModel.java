@@ -53,14 +53,14 @@ public class CarrerasModel {
 	public List<CarreraDisplayDTO> getListaCarreras(Date fechaInscripcion) {
 		validateNotNull(fechaInscripcion,MSG_FECHA_INSCRIPCION_NO_NULA);
 		String sql=
-				 "SELECT nombre_c,descr,cuota,distancia, inicio, fin,case"
-				+ " when ?<inicio then ''" //antes de inscripcion
-				+"   when ?<=fin then '(Abierta)'" //fase 1
+				 "SELECT nombre_c,c.descr,p.cuota,distancia, p.fechaIni as inicio, fechaFin as fin,case"
+				+ " when ?<p.fechaIni then ''" //antes de inscripcion
+				+"   when ?<=fechaFin then '(Abierta)'" //fase 1
 				+"   when ?<fecha then '(Abierta)'" //fase 2
 				+"   when ?=fecha then '(Abierta)'" //fase 3
 				+"   else '' " //despues de fin carrera
 				+" end as abierta"
-				+" from Competicion where fecha>=? order by id";
+				+" from Competicion c, Plazo p where fecha>=? and c.id=p.id_c order by id";
 		String d=Util.dateToIsoString(fechaInscripcion);
 		return db.executeQueryPojo(CarreraDisplayDTO.class, sql, d, d, d, d, d);
 	}

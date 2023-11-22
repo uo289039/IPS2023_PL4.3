@@ -15,6 +15,9 @@ public class TiemposModel {
 	private static final String OBTENER_ID = "SELECT id FROM competicion"
 													+ " WHERE nombre_c = ?";
 	
+	private static final String OBTENER_CORREO = "SELECT correoElec as correoE FROM participa"
+			+ " WHERE id_c = ? and dorsal=?";
+	
 	private static final String ELIMINAR_CLASIFICACION = "DELETE FROM tiempo WHERE id_c = ?";
 	
 	private static final String OBTENER_CLASIFICACION = "SELECT DISTINCT a.nombre, a.sexo, t.dorsal, t.tiempo"
@@ -35,21 +38,43 @@ public class TiemposModel {
 	
 	
 	
-	private static final String SQL_LISTA_COMPETICIONES="Select distinct nombre_c from Competicion c ;";										
+	private static final String SQL_LISTA_COMPETICIONES="Select distinct nombre_c from Competicion c ";										
 											
-											
+	
+	private static final String OBTENER_ESTADO="Select distinct estadoI as estadoInscripcion from Participa c where correoElec=?";										
+	
+	
 	public void insertarTiempos(String nombreCarrera) {
 		
 		String carreraId = getId(nombreCarrera);
 		List<TiempoEntity> tiempos = cargarTiempos("src/main/java/files/" + carreraId + ".csv", carreraId);
-		db.executeUpdate(ELIMINAR_CLASIFICACION, carreraId);
-		String query = "INSERT INTO tiempo (id_c, dorsal, tiempo) VALUES (?, ?, ?)";
+		//db.executeUpdate(ELIMINAR_CLASIFICACION, carreraId);
+		
+		String query = "INSERT INTO Participa (dorsal, tiempo) VALUES (?,?) where id_c=? and correoElec=? and estadoI=?";
 		for(TiempoEntity t: tiempos) {
-			db.executeUpdate(query, carreraId, t.getDorsal(), t.getTiempo());	
+			String correo=getCorreo(carreraId,t.getDorsal());
+			String estado=getEstado(correo);
+			db.executeUpdate(query, t.getDorsal(), t.getTiempo(), carreraId,correo,estado);	
 		}
 		
 	}
 	
+	private String getEstado(String correo) {
+		List<AtletaDisplayDTO> res = db.executeQueryPojo(AtletaDisplayDTO.class, OBTENER_ESTADO, correo);
+		if(res.isEmpty()) {
+			return "";
+		}
+		return res.get(0).getEstadoInscripcion();
+	}
+
+	private String getCorreo(String carreraId, int dorsal) {
+		List<AtletaDisplayDTO> res = db.executeQueryPojo(AtletaDisplayDTO.class, OBTENER_CORREO, carreraId,dorsal);
+		if(res.isEmpty()) {
+			return "";
+		}
+		return res.get(0).getCorreoE();
+	}
+
 	public String getNombre(String id) {
 		List<CarreraDisplayDTO> res = db.executeQueryPojo(CarreraDisplayDTO.class, OBTENER_NOMBRE, id);
 		if(res.isEmpty()) {
