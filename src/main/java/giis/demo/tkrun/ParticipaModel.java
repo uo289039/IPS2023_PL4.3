@@ -157,8 +157,8 @@ public class ParticipaModel {
 	
 	protected void insertaData(String info1, String info2,String info3) {
 		if(!yaInscrito(info2,info1)) {
-			String sql="insert into participa(correoElec,id_c,estadoI,estadoActual) values(?,?,?,?)";
-			db.executeUpdate(sql, info1, info2, info3, info3);
+			String sql="insert into participa(correoElec,id_c,estadoI) values(?,?,?)";
+			db.executeUpdate(sql, info1, info2, info3);
 		}
 	}
 	
@@ -227,7 +227,7 @@ public class ParticipaModel {
 	
 	public CarreraDisplayDTO getCuotaCompeticion(String idCategoria) {
 		//validateNotNull(fechaInscripcion,MSG_FECHA_INSCRIPCION_NO_NULA);
-		String sql="Select distinct cuota from Competicion where id=?";
+		String sql="Select distinct cuota from Plazo where id_c=?";
 		//String d=Util.dateToIsoString(fechaInscripcion);
 		List<CarreraDisplayDTO> c = db.executeQueryPojo(CarreraDisplayDTO.class, sql, idCategoria);
 		return c.get(0);
@@ -248,7 +248,7 @@ public class ParticipaModel {
 	}
 	public Categoria getCategoria(String id) {
 		String sql="Select * from Categoria cat, Competicion c where "
-				+ "c.id=? and c.id_cat=cat.id_categoria";
+				+ "c.id=? and c.id=cat.id_c"; //Mete datos en la BD, debería tirar
 		List<Categoria> datos=db.executeQueryPojo(Categoria.class, sql,id);
 		
 		return datos.get(0);

@@ -100,7 +100,7 @@ public class ParticipaController {
 			String nombre=vr.getTfNombre().getText();
 			String nombre_c=model.getNombreCompeticion(id);
 			double cuota=model.getCuotaCompeticion(id).getCuota();
-			String categoria=model.getCategoria(id).getTipo();
+			String categoria=model.getCategoria(id).getNombre_cat();
 			String inscripcion=model.getInscripcion(correo);
 			model.insertaDataAtleta(nombre,nombre_c,categoria,inscripcion,cuota,id,correo); //Modificar, añadir metodos para conseguir el nombre,nombre_c,categoria,inscripcion,cuota 
 			List<DatosAtleta> info=model.datosAtletaInscrito(correo,id);
@@ -130,7 +130,7 @@ public class ParticipaController {
 			String nombre=model.getTfNombre(correo);
 			String nombre_c=model.getNombreCompeticion(id);
 			double cuota=model.getCuotaCompeticion(id).getCuota();
-			String categoria=model.getCategoria(id).getTipo();
+			String categoria=model.getCategoria(id).getNombre_cat();
 			String inscripcion=model.getInscripcion(correo);
 			model.insertaDataAtleta(nombre,nombre_c,categoria,inscripcion,cuota,id,correo); //Modificar, añadir metodos para conseguir el nombre,nombre_c,categoria,inscripcion,cuota 
 			List<DatosAtleta> info=model.datosAtletaInscrito(correo,id);

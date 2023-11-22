@@ -219,7 +219,7 @@ public class HistoricosModel {
 	private String getCategoria(String carreraId) {
 		String sql="Select distinct tipo from competicion where id=?";
 		List<Categoria>cat=db.executeQueryPojo(Categoria.class, sql,carreraId);
-		return cat.get(0).getTipo();
+		return cat.get(0).getNombre_cat();
 	}
 	
 	public List<String> getTipos(){
@@ -227,7 +227,7 @@ public class HistoricosModel {
 		List<Categoria>carreras=db.executeQueryPojo(Categoria.class, sql);
 		List<String>resultado=new ArrayList<String>();
 		for(int i=0;i<carreras.size();i++)
-			resultado.add(carreras.get(i).getTipo());
+			resultado.add(carreras.get(i).getNombre_cat());
 		
 		return resultado;
 	}
