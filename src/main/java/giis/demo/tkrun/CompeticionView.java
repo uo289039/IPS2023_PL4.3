@@ -657,6 +657,11 @@ public class CompeticionView extends JDialog {
 	private JButton getBtnGestionarTp() {
 		if (btnGestionarTp == null) {
 			btnGestionarTp = new JButton("Gestionar");
+			btnGestionarTp.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					abrirGestionTiemposParciales();
+				}
+			});
 			btnGestionarTp.setEnabled(false);
 		}
 		return btnGestionarTp;
@@ -724,6 +729,10 @@ public class CompeticionView extends JDialog {
 			getBtnAddTp().setEnabled(true);
 			getBtnGestionarTp().setEnabled(true);
 		}
+	}
+	
+	private void abrirGestionTiemposParciales() {
+		
 	}
 	
 }
