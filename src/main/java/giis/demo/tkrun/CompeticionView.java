@@ -71,6 +71,16 @@ public class CompeticionView extends JDialog {
 	private JTextField tfPorcDev;
 	private JLabel lbFechaCanc;
 	private JTextField tfFechaCanc;
+	private JPanel tbTiemposParcialesCb;
+	private JLabel lbConfTiemposParciales;
+	private JPanel pnTpButtonGroup;
+	private JRadioButton rdbtnSi_1;
+	private JRadioButton rdbtnNo_1;
+	private final ButtonGroup buttonGroup = new ButtonGroup();
+	private JPanel tbTiemposParcialesCampo;
+	private JLabel lblIntroduzcaDistancia;
+	private JTextField tfDistanciaTp;
+	private JButton btnAddTp;
 
 	
 	public CompeticionView() {
@@ -80,19 +90,21 @@ public class CompeticionView extends JDialog {
 		contentPanel.setBackground(Color.WHITE);
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
-		contentPanel.setLayout(new MigLayout("", "[grow][grow][grow]", "[][grow][grow][grow][][grow][][][][][][][][][][grow][][][][][][][][][][]"));
+		contentPanel.setLayout(new MigLayout("", "[grow][grow][grow]", "[][grow][grow][grow][grow][][grow][][][][][][][][][][grow][][][][][][][][][][]"));
 		contentPanel.add(getLbDatos(), "cell 0 0,growx,aligny center");
 		contentPanel.add(getPnDatos1(), "cell 0 1 3 1,grow");
 		contentPanel.add(getPnDatos2(), "cell 0 2 3 1,grow");
 		contentPanel.add(getPbDatos3(), "cell 0 3 3 1,grow");
-		contentPanel.add(getLbCategorias(), "cell 0 7");
-		contentPanel.add(getSpCategorias(), "flowx,cell 1 9,alignx center,growy");
-		contentPanel.add(getLbPlazos(), "cell 0 12");
-		contentPanel.add(getLbExpPlazos(), "cell 0 13");
-		contentPanel.add(getLbExpPlazos2(), "cell 0 14");
-		contentPanel.add(getSpPlazos(), "cell 1 19,alignx center,growy");
-		contentPanel.add(getBtnCancelar(), "flowx,cell 1 25,alignx right,aligny top");
-		contentPanel.add(getBtnCrear(), "cell 2 25,growx,aligny top");
+		contentPanel.add(getTbTiemposParcialesCb(), "cell 0 4,grow");
+		contentPanel.add(getTbTiemposParcialesCampo(), "cell 1 4,grow");
+		contentPanel.add(getLbCategorias(), "cell 0 8");
+		contentPanel.add(getSpCategorias(), "flowx,cell 1 10,alignx center,growy");
+		contentPanel.add(getLbPlazos(), "cell 0 13");
+		contentPanel.add(getLbExpPlazos(), "cell 0 14");
+		contentPanel.add(getLbExpPlazos2(), "cell 0 15");
+		contentPanel.add(getSpPlazos(), "cell 1 20,alignx center,growy");
+		contentPanel.add(getBtnCancelar(), "flowx,cell 1 26,alignx right,aligny top");
+		contentPanel.add(getBtnCrear(), "cell 2 26,growx,aligny top");
 	}
 	private JLabel getLbDatos() {
 		if (lbDatos == null) {
@@ -550,5 +562,73 @@ public class CompeticionView extends JDialog {
 			tfFechaCanc.setColumns(10);
 		}
 		return tfFechaCanc;
+	}
+	private JPanel getTbTiemposParcialesCb() {
+		if (tbTiemposParcialesCb == null) {
+			tbTiemposParcialesCb = new JPanel();
+			tbTiemposParcialesCb.add(getLbConfTiemposParciales());
+			tbTiemposParcialesCb.add(getPnTpButtonGroup());
+		}
+		return tbTiemposParcialesCb;
+	}
+	private JLabel getLbConfTiemposParciales() {
+		if (lbConfTiemposParciales == null) {
+			lbConfTiemposParciales = new JLabel("¿Desea añadir tiempos parciales?");
+		}
+		return lbConfTiemposParciales;
+	}
+	private JPanel getPnTpButtonGroup() {
+		if (pnTpButtonGroup == null) {
+			pnTpButtonGroup = new JPanel();
+			pnTpButtonGroup.setBackground(Color.WHITE);
+			pnTpButtonGroup.add(getRdbtnSi_1());
+			pnTpButtonGroup.add(getRdbtnNo_1());
+		}
+		return pnTpButtonGroup;
+	}
+	private JRadioButton getRdbtnSi_1() {
+		if (rdbtnSi_1 == null) {
+			rdbtnSi_1 = new JRadioButton("Si");
+			buttonGroup.add(rdbtnSi_1);
+			rdbtnSi_1.setBackground(Color.WHITE);
+		}
+		return rdbtnSi_1;
+	}
+	private JRadioButton getRdbtnNo_1() {
+		if (rdbtnNo_1 == null) {
+			rdbtnNo_1 = new JRadioButton("No");
+			buttonGroup.add(rdbtnNo_1);
+			rdbtnNo_1.setSelected(true);
+			rdbtnNo_1.setBackground(Color.WHITE);
+		}
+		return rdbtnNo_1;
+	}
+	private JPanel getTbTiemposParcialesCampo() {
+		if (tbTiemposParcialesCampo == null) {
+			tbTiemposParcialesCampo = new JPanel();
+			tbTiemposParcialesCampo.add(getLblIntroduzcaDistancia());
+			tbTiemposParcialesCampo.add(getTfDistanciaTp());
+			tbTiemposParcialesCampo.add(getBtnAddTp());
+		}
+		return tbTiemposParcialesCampo;
+	}
+	private JLabel getLblIntroduzcaDistancia() {
+		if (lblIntroduzcaDistancia == null) {
+			lblIntroduzcaDistancia = new JLabel("Introduzca Distancia: ");
+		}
+		return lblIntroduzcaDistancia;
+	}
+	private JTextField getTfDistanciaTp() {
+		if (tfDistanciaTp == null) {
+			tfDistanciaTp = new JTextField();
+			tfDistanciaTp.setColumns(10);
+		}
+		return tfDistanciaTp;
+	}
+	private JButton getBtnAddTp() {
+		if (btnAddTp == null) {
+			btnAddTp = new JButton("Añadir");
+		}
+		return btnAddTp;
 	}
 }
