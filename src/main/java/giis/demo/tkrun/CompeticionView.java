@@ -76,8 +76,8 @@ public class CompeticionView extends JDialog {
 	private JPanel tbTiemposParcialesCb;
 	private JLabel lbConfTiemposParciales;
 	private JPanel pnTpButtonGroup;
-	private JRadioButton rdbtnSi_1;
-	private JRadioButton rdbtnNo_1;
+	private JRadioButton rdbtnTpSi;
+	private JRadioButton rdbtnTpNo;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
 	private JPanel tbTiemposParcialesCampo;
 	private JLabel lblIntroduzcaDistancia;
@@ -586,37 +586,37 @@ public class CompeticionView extends JDialog {
 		if (pnTpButtonGroup == null) {
 			pnTpButtonGroup = new JPanel();
 			pnTpButtonGroup.setBackground(Color.WHITE);
-			pnTpButtonGroup.add(getRdbtnSi_1());
-			pnTpButtonGroup.add(getRdbtnNo_1());
+			pnTpButtonGroup.add(getRdbtnTpSi());
+			pnTpButtonGroup.add(getRdbtnTpNo());
 		}
 		return pnTpButtonGroup;
 	}
-	private JRadioButton getRdbtnSi_1() {
-		if (rdbtnSi_1 == null) {
-			rdbtnSi_1 = new JRadioButton("Si");
-			rdbtnSi_1.addActionListener(new ActionListener() {
+	public JRadioButton getRdbtnTpSi() {
+		if (rdbtnTpSi == null) {
+			rdbtnTpSi = new JRadioButton("Si");
+			rdbtnTpSi.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					habilitarGestionDeTiemposParciales(true);
 				}
 			});
-			buttonGroup.add(rdbtnSi_1);
-			rdbtnSi_1.setBackground(Color.WHITE);
+			buttonGroup.add(rdbtnTpSi);
+			rdbtnTpSi.setBackground(Color.WHITE);
 		}
-		return rdbtnSi_1;
+		return rdbtnTpSi;
 	}
-	private JRadioButton getRdbtnNo_1() {
-		if (rdbtnNo_1 == null) {
-			rdbtnNo_1 = new JRadioButton("No");
-			rdbtnNo_1.addActionListener(new ActionListener() {
+	private JRadioButton getRdbtnTpNo() {
+		if (rdbtnTpNo == null) {
+			rdbtnTpNo = new JRadioButton("No");
+			rdbtnTpNo.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					habilitarGestionDeTiemposParciales(false);
 				}
 			});
-			buttonGroup.add(rdbtnNo_1);
-			rdbtnNo_1.setSelected(true);
-			rdbtnNo_1.setBackground(Color.WHITE);
+			buttonGroup.add(rdbtnTpNo);
+			rdbtnTpNo.setSelected(true);
+			rdbtnTpNo.setBackground(Color.WHITE);
 		}
-		return rdbtnNo_1;
+		return rdbtnTpNo;
 	}
 	private JPanel getTbTiemposParcialesCampo() {
 		if (tbTiemposParcialesCampo == null) {
@@ -707,10 +707,11 @@ public class CompeticionView extends JDialog {
 		
 	}
 	
-	private void asignarCarreraATiemposParciales(int idCarrera) {
+	public List<TiempoParcialDTO> asignarCarreraATiemposParciales(int idCarrera) {
 		for(TiempoParcialDTO tP: tiemposParciales) {
 			tP.setIdCarrera(idCarrera);
 		}
+		return tiemposParciales;
 	}
 	
 	private void habilitarGestionDeTiemposParciales(boolean activar) {
