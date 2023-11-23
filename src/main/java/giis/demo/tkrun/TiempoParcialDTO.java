@@ -24,6 +24,10 @@ public class TiempoParcialDTO {
 	public String getId_c() {
 		return id_c;
 	}
+
+	public void setIdCarrera(String idCarrera) {
+		this.id_c = idCarrera;
+	}
 	
 	
 

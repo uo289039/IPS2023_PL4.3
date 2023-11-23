@@ -23,6 +23,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class CompeticionView extends JDialog {
 
@@ -81,6 +83,9 @@ public class CompeticionView extends JDialog {
 	private JLabel lblIntroduzcaDistancia;
 	private JTextField tfDistanciaTp;
 	private JButton btnAddTp;
+	private JButton btnGestionarTp;
+	
+	private List<TiempoParcialDTO> tiemposParciales;
 
 	
 	public CompeticionView() {
@@ -589,6 +594,11 @@ public class CompeticionView extends JDialog {
 	private JRadioButton getRdbtnSi_1() {
 		if (rdbtnSi_1 == null) {
 			rdbtnSi_1 = new JRadioButton("Si");
+			rdbtnSi_1.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					habilitarGestionDeTiemposParciales(true);
+				}
+			});
 			buttonGroup.add(rdbtnSi_1);
 			rdbtnSi_1.setBackground(Color.WHITE);
 		}
@@ -597,6 +607,11 @@ public class CompeticionView extends JDialog {
 	private JRadioButton getRdbtnNo_1() {
 		if (rdbtnNo_1 == null) {
 			rdbtnNo_1 = new JRadioButton("No");
+			rdbtnNo_1.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					habilitarGestionDeTiemposParciales(false);
+				}
+			});
 			buttonGroup.add(rdbtnNo_1);
 			rdbtnNo_1.setSelected(true);
 			rdbtnNo_1.setBackground(Color.WHITE);
@@ -609,6 +624,7 @@ public class CompeticionView extends JDialog {
 			tbTiemposParcialesCampo.add(getLblIntroduzcaDistancia());
 			tbTiemposParcialesCampo.add(getTfDistanciaTp());
 			tbTiemposParcialesCampo.add(getBtnAddTp());
+			tbTiemposParcialesCampo.add(getBtnGestionarTp());
 		}
 		return tbTiemposParcialesCampo;
 	}
@@ -621,6 +637,7 @@ public class CompeticionView extends JDialog {
 	private JTextField getTfDistanciaTp() {
 		if (tfDistanciaTp == null) {
 			tfDistanciaTp = new JTextField();
+			tfDistanciaTp.setEnabled(false);
 			tfDistanciaTp.setColumns(10);
 		}
 		return tfDistanciaTp;
@@ -628,7 +645,84 @@ public class CompeticionView extends JDialog {
 	private JButton getBtnAddTp() {
 		if (btnAddTp == null) {
 			btnAddTp = new JButton("Añadir");
+			btnAddTp.setEnabled(false);
+			btnAddTp.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					anadirTiempoParcial();
+				}
+			});
 		}
 		return btnAddTp;
 	}
+	private JButton getBtnGestionarTp() {
+		if (btnGestionarTp == null) {
+			btnGestionarTp = new JButton("Gestionar");
+			btnGestionarTp.setEnabled(false);
+		}
+		return btnGestionarTp;
+	}
+	
+	private void anadirTiempoParcial() {
+		if(!comprobarTiempoParcial()) return;
+		int distancia = Integer.parseInt(getTfDistanciaTp().getText().trim());
+		String nombre = "Tiempo a los " + distancia + " metros";
+		// El id de la carrera es null hasta que se confirme la operación.
+		tiemposParciales.add(new TiempoParcialDTO(nombre, distancia, null));
+	}
+	
+	private boolean comprobarTiempoParcial() {
+		String texto = getTfDistanciaTp().getText().trim();
+		int distancia = -1;
+		int distanciaTotal = -1;
+		
+		if(texto.isBlank()) {
+			JOptionPane.showMessageDialog(this, "El campo no debe ser vacío");
+			return false;
+		} else if(getTfDistancia().getText().trim().isBlank()) {
+			JOptionPane.showMessageDialog(this, "El campo distancia no debe ser vacío");
+			return false;
+		}
+		
+		try {
+			distancia = Integer.parseInt(texto);
+		} catch(Exception e) {
+			JOptionPane.showMessageDialog(this, "El campo debe ser numérico entero");
+			getTfDistanciaTp().setText("");
+			return false;
+		}
+		
+		try {
+			Integer.parseInt(getTfDistancia().getText().trim());
+		} catch(Exception e) {
+			JOptionPane.showMessageDialog(this, "El campo distancia no es válido");
+			return false;
+		}
+		
+		if(distancia >= distanciaTotal || distancia <= 0) {
+			JOptionPane.showMessageDialog(this, "El valor del tiempo parcial debe estar en el rango de la distancia total.");
+			return false;
+		}
+		
+		return true;
+		
+	}
+	
+	private void asignarCarreraATiemposParciales(String idCarrera) {
+		for(TiempoParcialDTO tP: tiemposParciales) {
+			tP.setIdCarrera(idCarrera);
+		}
+	}
+	
+	private void habilitarGestionDeTiemposParciales(boolean activar) {
+		if(!activar) {
+			getTfDistanciaTp().setEnabled(false);
+			getBtnAddTp().setEnabled(false);
+			getBtnGestionarTp().setEnabled(false);
+		} else {
+			getTfDistanciaTp().setEnabled(true);
+			getBtnAddTp().setEnabled(true);
+			getBtnGestionarTp().setEnabled(true);
+		}
+	}
+	
 }
