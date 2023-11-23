@@ -1,5 +1,7 @@
 package giis.demo.tkrun;
 
+import java.util.List;
+
 import giis.demo.util.Database;
 
 public class CompeticionModel {
@@ -18,5 +20,13 @@ public class CompeticionModel {
 	public void insertPlazo(int id, String descr, String fechaIni, String getfechaFin, int cuota) {
 		String sql="insert into Plazo (id_c,descr,getfechaFin,edadMax,cuota) values (?,?,?,?,?)";
 		db.executeUpdate(sql,id,descr,fechaIni,getfechaFin,cuota);
+	}
+	
+	// EMS: Añadir los tiempos parciales asociados a la competición.
+	public void insertTiemposParciales(List<TiempoParcialDTO> tiemposParciales) {
+		String sql = "insert into TiempoParcial (nombre, distancia, id_c) values (?,?,?)";
+		for(TiempoParcialDTO tP: tiemposParciales) {
+			db.executeUpdate(sql, tP.getNombre(), tP.getDistancia(), tP.getId_c());
+		}
 	}
 }
