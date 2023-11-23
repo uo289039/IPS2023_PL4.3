@@ -630,7 +630,7 @@ public class CompeticionView extends JDialog {
 	}
 	private JLabel getLblIntroduzcaDistancia() {
 		if (lblIntroduzcaDistancia == null) {
-			lblIntroduzcaDistancia = new JLabel("Introduzca Distancia: ");
+			lblIntroduzcaDistancia = new JLabel("Introduzca Distancia (P.K.): ");
 		}
 		return lblIntroduzcaDistancia;
 	}
@@ -664,16 +664,16 @@ public class CompeticionView extends JDialog {
 	
 	private void anadirTiempoParcial() {
 		if(!comprobarTiempoParcial()) return;
-		int distancia = Integer.parseInt(getTfDistanciaTp().getText().trim());
+		double distancia = Double.parseDouble(getTfDistanciaTp().getText().trim());
 		String nombre = "Tiempo a los " + distancia + " metros";
-		// El id de la carrera es null hasta que se confirme la operación.
-		tiemposParciales.add(new TiempoParcialDTO(nombre, distancia, null));
+		// El id de la carrera no se añade hasta que se confirme la operación.
+		tiemposParciales.add(new TiempoParcialDTO(nombre, distancia, -1));
 	}
 	
 	private boolean comprobarTiempoParcial() {
 		String texto = getTfDistanciaTp().getText().trim();
-		int distancia = -1;
-		int distanciaTotal = -1;
+		double distancia = -1;
+		double distanciaTotal = -1;
 		
 		if(texto.isBlank()) {
 			JOptionPane.showMessageDialog(this, "El campo no debe ser vacío");
@@ -684,15 +684,15 @@ public class CompeticionView extends JDialog {
 		}
 		
 		try {
-			distancia = Integer.parseInt(texto);
+			distancia = Double.parseDouble(texto);
 		} catch(Exception e) {
-			JOptionPane.showMessageDialog(this, "El campo debe ser numérico entero");
+			JOptionPane.showMessageDialog(this, "El campo debe ser numérico.");
 			getTfDistanciaTp().setText("");
 			return false;
 		}
 		
 		try {
-			Integer.parseInt(getTfDistancia().getText().trim());
+			Double.parseDouble(getTfDistancia().getText().trim());
 		} catch(Exception e) {
 			JOptionPane.showMessageDialog(this, "El campo distancia no es válido");
 			return false;
@@ -707,7 +707,7 @@ public class CompeticionView extends JDialog {
 		
 	}
 	
-	private void asignarCarreraATiemposParciales(String idCarrera) {
+	private void asignarCarreraATiemposParciales(int idCarrera) {
 		for(TiempoParcialDTO tP: tiemposParciales) {
 			tP.setIdCarrera(idCarrera);
 		}

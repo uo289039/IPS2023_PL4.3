@@ -39,9 +39,6 @@ create table PagosTransferencia(nombre_Completo varchar(40) not null, correoElec
                         constraint FK_PagosTransferencia_Participa Foreign Key (correoElec,id_c) references "Participa" (correoE,id_c));
                        
                        
-
-
-
 drop table if exists DatosInscripciones;
 create table DatosInscripciones(nombre_c varchar(40) not null,
 estadoI varchar(40) not null, fecha_cambio_estado date not null, correoE varchar(15) not null,
@@ -59,3 +56,9 @@ create table Categoria(id_c int not null, nombre_cat varchar(30) not null, edadM
 drop table if exists Plazo;
 create table Plazo(id_c int not null, descr varchar(30) not null, fechaIni varchar(20) not null, fechaFin varchar(20) not null, cuota decimal(4,2) not null,
                     constraint fk_Plazo_Competicion foreign key (id_c) references "Competicion" (id_c));
+
+
+--Añadido por Enol provisionalmente hasta que se acttualiza la base de datos.
+drop table if exists TiempoParcial;
+create table TiempoParcial(nombre varchar(30) not null, distancia decimal(4,2) unique, id_c int not null,
+                    constraint fk_tiempoparcial_competicion foreign key (id_c) references "Competicion" (id_c)));

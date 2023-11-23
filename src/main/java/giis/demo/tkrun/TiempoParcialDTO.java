@@ -3,10 +3,10 @@ package giis.demo.tkrun;
 public class TiempoParcialDTO {
 	
 	private String nombre;
-	private int distancia;
-	private String id_c;
+	private double distancia;
+	private int id_c;
 	
-	public TiempoParcialDTO(String nombre, int distancia, String id_c) {
+	public TiempoParcialDTO(String nombre, double distancia, int id_c) {
 		super();
 		this.nombre = nombre;
 		this.distancia = distancia;
@@ -17,15 +17,15 @@ public class TiempoParcialDTO {
 		return nombre;
 	}
 
-	public int getDistancia() {
+	public double getDistancia() {
 		return distancia;
 	}
 
-	public String getId_c() {
+	public int getId_c() {
 		return id_c;
 	}
 
-	public void setIdCarrera(String idCarrera) {
+	public void setIdCarrera(int idCarrera) {
 		this.id_c = idCarrera;
 	}
 	
