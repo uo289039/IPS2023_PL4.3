@@ -13,8 +13,8 @@
 
 drop table if exists Competicion;
 create table Competicion(id int primary key not null, nombre_c varchar(20) not null, fecha date not null, descr varchar(32), 
-distancia decimal(4,2), tipo varchar(20) not null, nPlazas int not null, iban_c varchar(40) unique, cancelacion varcchar(5) not null,
-devolucion int not null, fechaCanc date, 
+distancia decimal(4,2), tipo varchar(20) not null, nPlazas int not null, iban_c varchar(40) unique, cancelacion varchar(5) not null,
+devolucion int not null, fechaCanc date, tiemposparciales boolean not null,
 check(tipo in('Montaña','Ruta')),
 check(cancelacion in('Si','No')));
 
@@ -37,9 +37,6 @@ create table PagosTransferencia(nombre_Completo varchar(40) not null, correoElec
                         dni int not null, importe decimal(4,2), id_c int not null,
                         constraint pk_PagosTransferencia PRIMARY KEY(iban,correoElec), 
                         constraint FK_PagosTransferencia_Participa Foreign Key (correoElec,id_c) references "Participa" (correoE,id_c));
-                       
-                       
-
 
 
 drop table if exists DatosInscripciones;
@@ -47,8 +44,8 @@ create table DatosInscripciones(nombre_c varchar(40) not null,
 estadoI varchar(40) not null, fecha_cambio_estado date not null, correoE varchar(15) not null,
 constraint FK_DatosAtleta_Participa Foreign Key (correoE) references "Participa" (correoElec));
 
-drop table if exists Tiempo;
-create table Tiempo(id_c int, dorsal int, tiempo varchar(6),
+drop table if exists TiempoParcial;
+create table TiempoParcial(id_c int, dorsal int, tiempo varchar(6), distancia decimal(4,2),
                     constraint fk_tiempos_participa foreign key (dorsal, id_c) references "Participa" (dorsal, id_c));
 
 

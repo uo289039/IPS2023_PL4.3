@@ -11,12 +11,12 @@ delete from PagosTransferencia;
 delete from Plazo;
 
 
-insert into Competicion(id,nombre_c,fecha,descr,distancia,tipo,nPlazas,devolucion,cancelacion) values 
-	(100,'San Silvestre','2023-12-09','antes inscripcion',42,'Montaña',40,10,'Si'),
-	(101,'Media Maraton','2023-12-10','en fase 3',21,'Ruta',30,5,'Si'),
-	(102,'Vuelta Ciclista','2023-12-20','en fase 2',45,'Montaña',50,20,'Si'),
-	(103,'Carrera Solidaria','2023-12-21','en fase 1',25,'Montaña',33,22,'No'),
-	(104,'Subida al Cristo','2023-12-22','antes inscripcion',35,'Ruta',42,14,'Si');
+insert into Competicion(id,nombre_c,fecha,descr,distancia,tipo,nPlazas,devolucion,cancelacion,tiemposparciales) values 
+	(100,'San Silvestre','2023-12-12','antes inscripcion',42,'Montaña',40,10,'Si',false),
+	(101,'Media Maraton','2023-12-13','en fase 3',21,'Ruta',30,5,'Si',false),
+	(102,'Vuelta Ciclista','2023-12-21','en fase 2',45,'Montaña',50,20,'Si',false),
+	(103,'Carrera Solidaria','2023-12-22','en fase 1',25,'Montaña',33,22,'No',false),
+	(104,'Subida al Cristo','2023-12-23','antes inscripcion',35,'Ruta',42,14,'Si',false);
 
 insert into Atleta(dni,f_nacimiento,nombre,sexo,inscripcion,formaPago,correoE,poblacion,telefono,pais) values
 (1,'2004-11-03','Alexander','hombre','2016-10-10','transferencia','alex@gmail.com','Gijon','624 123 893', 'España'),
