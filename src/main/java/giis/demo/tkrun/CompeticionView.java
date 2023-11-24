@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.swing.ButtonGroup;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
@@ -25,6 +26,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JComboBox;
+import java.awt.SystemColor;
 
 public class CompeticionView extends JDialog {
 
@@ -83,33 +86,38 @@ public class CompeticionView extends JDialog {
 	private JLabel lblIntroduzcaDistancia;
 	private JTextField tfDistanciaTp;
 	private JButton btnAddTp;
-	private JButton btnGestionarTp;
 	
-	private List<TiempoParcialDTO> tiemposParciales;
+	private List<TiempoParcialDTO> tiemposParciales = new ArrayList<TiempoParcialDTO>();
+	private JPanel pnCbTp;
+	private JComboBox<TiempoParcialDTO> cbTp;
+	private JButton btnEliminarTp;
+	
+	private DefaultComboBoxModel<TiempoParcialDTO> modeloTp;
 
 	
 	public CompeticionView() {
 		setTitle("Crear competición");
-		setBounds(100, 100, 997, 504);
+		setBounds(100, 100, 997, 604);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBackground(Color.WHITE);
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
-		contentPanel.setLayout(new MigLayout("", "[grow][grow][grow]", "[][grow][grow][grow][grow][][grow][][][][][][][][][][grow][][][][][][][][][][]"));
+		contentPanel.setLayout(new MigLayout("", "[grow][grow][grow]", "[][grow][grow][grow][grow][grow][][grow][][][][][][][][][][grow][][][][][][][][][][]"));
 		contentPanel.add(getLbDatos(), "cell 0 0,growx,aligny center");
 		contentPanel.add(getPnDatos1(), "cell 0 1 3 1,grow");
 		contentPanel.add(getPnDatos2(), "cell 0 2 3 1,grow");
 		contentPanel.add(getPbDatos3(), "cell 0 3 3 1,grow");
 		contentPanel.add(getTbTiemposParcialesCb(), "cell 0 4,grow");
 		contentPanel.add(getTbTiemposParcialesCampo(), "cell 1 4,grow");
-		contentPanel.add(getLbCategorias(), "cell 0 8");
-		contentPanel.add(getSpCategorias(), "flowx,cell 1 10,alignx center,growy");
-		contentPanel.add(getLbPlazos(), "cell 0 13");
-		contentPanel.add(getLbExpPlazos(), "cell 0 14");
-		contentPanel.add(getLbExpPlazos2(), "cell 0 15");
-		contentPanel.add(getSpPlazos(), "cell 1 20,alignx center,growy");
-		contentPanel.add(getBtnCancelar(), "flowx,cell 1 26,alignx right,aligny top");
-		contentPanel.add(getBtnCrear(), "cell 2 26,growx,aligny top");
+		contentPanel.add(getPnCbTp(), "cell 1 5,grow");
+		contentPanel.add(getLbCategorias(), "cell 0 9");
+		contentPanel.add(getSpCategorias(), "flowx,cell 1 11,alignx center,growy");
+		contentPanel.add(getLbPlazos(), "cell 0 14");
+		contentPanel.add(getLbExpPlazos(), "cell 0 15");
+		contentPanel.add(getLbExpPlazos2(), "cell 0 16");
+		contentPanel.add(getSpPlazos(), "cell 1 21,alignx center,growy");
+		contentPanel.add(getBtnCancelar(), "flowx,cell 1 27,alignx right,aligny top");
+		contentPanel.add(getBtnCrear(), "cell 2 27,growx,aligny top");
 	}
 	private JLabel getLbDatos() {
 		if (lbDatos == null) {
@@ -571,6 +579,7 @@ public class CompeticionView extends JDialog {
 	private JPanel getTbTiemposParcialesCb() {
 		if (tbTiemposParcialesCb == null) {
 			tbTiemposParcialesCb = new JPanel();
+			tbTiemposParcialesCb.setBackground(SystemColor.text);
 			tbTiemposParcialesCb.add(getLbConfTiemposParciales());
 			tbTiemposParcialesCb.add(getPnTpButtonGroup());
 		}
@@ -621,10 +630,10 @@ public class CompeticionView extends JDialog {
 	private JPanel getTbTiemposParcialesCampo() {
 		if (tbTiemposParcialesCampo == null) {
 			tbTiemposParcialesCampo = new JPanel();
+			tbTiemposParcialesCampo.setBackground(SystemColor.text);
 			tbTiemposParcialesCampo.add(getLblIntroduzcaDistancia());
 			tbTiemposParcialesCampo.add(getTfDistanciaTp());
 			tbTiemposParcialesCampo.add(getBtnAddTp());
-			tbTiemposParcialesCampo.add(getBtnGestionarTp());
 		}
 		return tbTiemposParcialesCampo;
 	}
@@ -654,25 +663,46 @@ public class CompeticionView extends JDialog {
 		}
 		return btnAddTp;
 	}
-	private JButton getBtnGestionarTp() {
-		if (btnGestionarTp == null) {
-			btnGestionarTp = new JButton("Gestionar");
-			btnGestionarTp.addActionListener(new ActionListener() {
+	
+	private JPanel getPnCbTp() {
+		if (pnCbTp == null) {
+			pnCbTp = new JPanel();
+			pnCbTp.setBackground(SystemColor.text);
+			pnCbTp.setLayout(new BorderLayout(0, 0));
+			pnCbTp.add(getCbTp());
+			pnCbTp.add(getBtnEliminarTp(), BorderLayout.EAST);
+		}
+		return pnCbTp;
+	}
+	private JComboBox<TiempoParcialDTO> getCbTp() {
+		if (cbTp == null) {
+			modeloTp = new DefaultComboBoxModel<TiempoParcialDTO>();
+			cbTp = new JComboBox<TiempoParcialDTO>(modeloTp);
+			cbTp.setEnabled(false);
+		}
+		return cbTp;
+	}
+	private JButton getBtnEliminarTp() {
+		if (btnEliminarTp == null) {
+			btnEliminarTp = new JButton("Eliminar Seleccionado");
+			btnEliminarTp.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					abrirGestionTiemposParciales();
+					eliminarTpSeleccionado();
 				}
 			});
-			btnGestionarTp.setEnabled(false);
+			btnEliminarTp.setEnabled(false);
 		}
-		return btnGestionarTp;
+		return btnEliminarTp;
 	}
-	
 	private void anadirTiempoParcial() {
 		if(!comprobarTiempoParcial()) return;
 		double distancia = Double.parseDouble(getTfDistanciaTp().getText().trim());
-		String nombre = "Tiempo a los " + distancia + " metros";
+		String nombre = "Tiempo a los " + distancia + " kilometros";
 		// El id de la carrera no se añade hasta que se confirme la operación.
 		tiemposParciales.add(new TiempoParcialDTO(nombre, distancia, -1));
+		modeloTp.removeAllElements();
+		modeloTp.addAll(tiemposParciales);
+		getTfDistanciaTp().setText("");
 	}
 	
 	private boolean comprobarTiempoParcial() {
@@ -697,7 +727,7 @@ public class CompeticionView extends JDialog {
 		}
 		
 		try {
-			Double.parseDouble(getTfDistancia().getText().trim());
+			distanciaTotal = Double.parseDouble(getTfDistancia().getText().trim());
 		} catch(Exception e) {
 			JOptionPane.showMessageDialog(this, "El campo distancia no es válido");
 			return false;
@@ -705,6 +735,16 @@ public class CompeticionView extends JDialog {
 		
 		if(distancia >= distanciaTotal || distancia <= 0) {
 			JOptionPane.showMessageDialog(this, "El valor del tiempo parcial debe estar en el rango de la distancia total.");
+			return false;
+		}
+		
+		if(existeTp(distancia)) {
+			JOptionPane.showMessageDialog(this, "El valor del tiempo parcial ya existe.");
+			return false;
+		}
+		
+		if(tiemposParciales.size() == 5) {
+			JOptionPane.showMessageDialog(this, "Solo se permiten hasta 5 tiempos parciales.");
 			return false;
 		}
 		
@@ -723,16 +763,29 @@ public class CompeticionView extends JDialog {
 		if(!activar) {
 			getTfDistanciaTp().setEnabled(false);
 			getBtnAddTp().setEnabled(false);
-			getBtnGestionarTp().setEnabled(false);
+			getCbTp().setEnabled(false);
+			getBtnEliminarTp().setEnabled(false);
 		} else {
 			getTfDistanciaTp().setEnabled(true);
 			getBtnAddTp().setEnabled(true);
-			getBtnGestionarTp().setEnabled(true);
+			getCbTp().setEnabled(true);
+			getBtnEliminarTp().setEnabled(true);
 		}
 	}
 	
-	private void abrirGestionTiemposParciales() {
-		
+	private boolean existeTp(double dist) {
+		for(TiempoParcialDTO tP: tiemposParciales) {
+			if(tP.getDistancia() == dist) return true;
+		}
+		return false;
 	}
 	
+	private void eliminarTpSeleccionado() {
+		TiempoParcialDTO tP = (TiempoParcialDTO) getCbTp().getModel().getSelectedItem();
+		if(tP != null) {
+			tiemposParciales.remove(tP);
+			modeloTp.removeAllElements();
+			modeloTp.addAll(tiemposParciales);
+		}
+	}
 }

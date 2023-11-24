@@ -29,6 +29,10 @@ public class TiempoParcialDTO {
 		this.id_c = idCarrera;
 	}
 	
+	@Override
+	public String toString() {
+		return nombre;
+	}
 	
 
 }
