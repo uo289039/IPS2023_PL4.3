@@ -1,6 +1,6 @@
 package giis.demo.tkrun;
 
-public class Categoria {
+public class CategoriaCompeticion {
 
 	private String id_c;
 	
@@ -12,8 +12,8 @@ public class Categoria {
 	private int edadMin;
 	
 	
-	public Categoria() {}
-	public Categoria(String rowCategoria, String rowgenero,String rowNom, int rI, int rF) {
+	public CategoriaCompeticion() {}
+	public CategoriaCompeticion(String rowCategoria, String rowgenero,String rowNom, int rI, int rF) {
 		
 		this.id_c=rowCategoria;
 		

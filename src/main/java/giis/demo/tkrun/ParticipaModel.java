@@ -1,5 +1,7 @@
 package giis.demo.tkrun;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 //import java.sql.ResultSet;
 //import java.sql.SQLException;
 //import java.sql.Statement;
@@ -213,8 +215,10 @@ public class ParticipaModel {
 	}
 	
 	public List<DatosAtleta> datosAtletaInscrito(String correo, String id) {
-		String sql="Select nombre, nombre_c, categoria, inscripcion, cuota from DatosAtleta where "
-				+ "correoE=? and id_c=?";
+		String sql="Select distinct a.nombre, c.nombre_c, nombre_cat, a.inscripcion, "
+				+ "p.cuota from Atleta a, Participa part, CategoriaCompeticion cat,Competicion c, Plazo p "
+				+ "where correoE=? and p.id_c=? and a.correoE=part.correoElec and "
+				+ "part.id_c=c.id and c.id=p.id_c and c.id=cat.id_c";
 		List<DatosAtleta> datos=db.executeQueryPojo(DatosAtleta.class, sql,correo,id);
 		
 		return datos;
@@ -232,13 +236,7 @@ public class ParticipaModel {
 		List<CarreraDisplayDTO> c = db.executeQueryPojo(CarreraDisplayDTO.class, sql, idCategoria);
 		return c.get(0);
 	}
-	public void insertaDataAtleta(String nombre, String nombre_c, String categoria, String inscripcion, double cuota, String correo, String id) {
-		String sql="insert into DatosAtleta(nombre,nombre_c,categoria,inscripcion,cuota,id_c,correoE) values(?,?,?,?,?,?,?)";
-		db.executeUpdate(sql,nombre,nombre_c,categoria,inscripcion,cuota,correo,id);
-		
-		String sql2="insert into DatosInscripciones (nombre_c,estadoI,fecha_cambio_estado,correoE) values(?,?,?,?)";
-		db.executeUpdate(sql2,nombre_c,"Preinscrito",inscripcion,correo);
-	}
+	
 	public String getNombreCompeticion(String id) {
 		String sql="Select nombre_c from Competicion where "
 				+ "id=?";
@@ -246,10 +244,10 @@ public class ParticipaModel {
 		
 		return datos.get(0).getNombre_c();
 	}
-	public Categoria getCategoria(String id) {
-		String sql="Select * from Categoria cat, Competicion c where "
+	public CategoriaCompeticion getCategoria(String id) {
+		String sql="Select * from CategoriaCompeticion cat, Competicion c where "
 				+ "c.id=? and c.id=cat.id_c"; //Mete datos en la BD, debería tirar
-		List<Categoria> datos=db.executeQueryPojo(Categoria.class, sql,id);
+		List<CategoriaCompeticion> datos=db.executeQueryPojo(CategoriaCompeticion.class, sql,id);
 		
 		return datos.get(0);
 	}
@@ -267,6 +265,21 @@ public class ParticipaModel {
 		
 		return datos.get(0).getNombre();
 	}
+	
+	
+	public void insertaDataAtleta(String nombre_c, String correo) {
+		
+		Date fechaActual=new Date(); 
+		String sql="insert into DatosInscripciones(correoE,nombre_c,estadoI,fecha_cambio_estado) values(?,?,?,?)";
+		db.executeUpdate(sql, correo, nombre_c, "Preinscrito",fechaActual);
+	
+		
+	}
+	
+	
+	
+	
+	
 	
 
 }

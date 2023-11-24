@@ -50,7 +50,7 @@ public class TiemposModel {
 		List<TiempoEntity> tiempos = cargarTiempos("src/main/java/files/" + carreraId + ".csv", carreraId);
 		//db.executeUpdate(ELIMINAR_CLASIFICACION, carreraId);
 		
-		String query = "INSERT INTO Participa (dorsal, tiempo) VALUES (?,?) where id_c=? and correoElec=? and estadoI=?";
+		String query = "INSERT INTO Participa (dorsal, tiempo) VALUES (?,?), SELECT * from Participa where id_c=? and correoElec=? and estadoI=?";
 		for(TiempoEntity t: tiempos) {
 			String correo=getCorreo(carreraId,t.getDorsal());
 			String estado=getEstado(correo);

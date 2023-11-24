@@ -55,9 +55,9 @@ id_c int not null, dorsal int not null,
 constraint FK_TiempoParcial_Participa Foreign Key (id_c,dorsal) references "Participa" (id_c,dorsal)
 );
 
- 
 drop table if exists Categoria;
-create table Categoria(id_c int not null, nombre_cat varchar(30) not null, edadMin int not null, edadMax int not null, genero varchar(15),
+drop table if exists CategoriaCompeticion;
+create table CategoriaCompeticion(id_c int not null, nombre_cat varchar(30) not null, edadMin int not null, edadMax int not null, genero varchar(15),
                     constraint fk_Categoria_competicion foreign key (id_c) references "Competicion" (id));
 
 drop table if exists Plazo;

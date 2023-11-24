@@ -1,8 +1,10 @@
 delete from Participa;
 delete from Atleta;
-delete from Categoria;
+delete from CategoriaCompeticion;
 delete from Competicion;
 delete from PagosTransferencia;
+
+delete from Categoria;
 
 
 insert into Competicion(id,nombre_c,fecha,descr,distancia,tipo,nPlazas,devolucion,cancelacion) values 
@@ -40,7 +42,7 @@ insert into Plazo(id_c,descr,fechaIni,fechaFin,cuota) values
 (103,'Segundo plazo','2023-12-01','2023-12-06',30.2),
 (104,'Primer plazo','2023-11-27','2023-12-04',37.0);
 
-insert into Categoria (id_c, nombre_cat, edadMin, edadMax, genero) values
+insert into CategoriaCompeticion (id_c, nombre_cat, edadMin, edadMax, genero) values
 (100,'Sub 25',18,22,'masculino'),
 (100,'Sub 25',18,22,'femenino'),
 (101,'Sub 30',23,29,'masculino'),
@@ -51,3 +53,17 @@ insert into Categoria (id_c, nombre_cat, edadMin, edadMax, genero) values
 (103,'Sub 30',30,34,'femenino'),
 (104,'Sub 35',30,34,'masculino'),
 (104,'Sub 30',30,34,'femenino');
+
+insert into DatosInscripciones (correoE,nombre_c,estadoI,fecha_cambio_estado)
+values ('alex@gmail.com','San Silvestre','Preinscrito','2023-09-11'),
+('alex@gmail.com','San Silvestre','Inscrito','2023-10-01'),
+('emilie@gmail.com','Carrera Solidaria','Preinscrito','2023-10-01'),
+('emilie@gmail.com','Carrera Solidaria','Inscrito','2023-10-02'),
+('alexa@gmail.com','San Silvestre','Preinscrito','2023-11-01'),
+('hunter@gmail.com','Vuelta Ciclista','Preinscrito','2023-11-29'),
+('hunter@gmail.com','Vuelta Ciclista','Inscrito','2023-12-02'),
+('hunter@gmail.com','Vuelta Ciclista','Preinscrito','2023-11-29'),
+('marta@gmail.com','Media Maraton','Preinscrito','2023-11-01'),
+('maolin@gmail.com','San Silvestre','Inscrito','2023-10-01'),
+('mariluz@gmail.com','San Silvestre','Inscrito','2023-10-01'),
+('alexa@gmail.com','Vuelta Ciclista','Preinscrito','2023-11-03');

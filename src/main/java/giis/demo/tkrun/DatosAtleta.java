@@ -5,16 +5,16 @@ public class DatosAtleta {
 	
 	private String nombre;
 	private String nombre_c;
-	private String tipo;
+	private String nombre_cat;
 	private String inscripcion;
 	private String cuota;
 	
 	public DatosAtleta() {}
-	public DatosAtleta(String nombre, String nombre_c, String tipo, String inscripcion, String cuota) {
+	public DatosAtleta(String nombre, String nombre_c, String nombre_cat, String inscripcion, String cuota) {
 		super();
 		this.nombre = nombre;
 		this.nombre_c = nombre_c;
-		this.tipo = tipo;
+		this.nombre_cat = nombre_cat;
 		this.inscripcion = inscripcion;
 		this.cuota = cuota;
 	}
@@ -40,13 +40,13 @@ public class DatosAtleta {
 	}
 
 
-	public String getCategoria() {
-		return tipo;
+	public String getNombre_cat() {
+		return nombre_cat;
 	}
 
 
-	public void setCategoria(String tipo) {
-		this.tipo = tipo;
+	public void setNombre_cat(String nombre_cat) {
+		this.nombre_cat = nombre_cat;
 	}
 
 
