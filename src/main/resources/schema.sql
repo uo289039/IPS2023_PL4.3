@@ -61,4 +61,4 @@ create table Plazo(id_c int not null, descr varchar(30) not null, fechaIni varch
 --Añadido por Enol provisionalmente hasta que se acttualiza la base de datos.
 drop table if exists TiempoParcial;
 create table TiempoParcial(nombre varchar(30) not null, distancia decimal(4,2) unique, id_c int not null,
-                    constraint fk_tiempoparcial_competicion foreign key (id_c) references "Competicion" (id_c)));
+                    constraint fk_tiempoparcial_competicion foreign key (id_c) references "Competicion" (id_c));
