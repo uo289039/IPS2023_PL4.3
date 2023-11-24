@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import giis.demo.tkrun.TiempoEntity;
+import giis.demo.tkrun.TiempoParcialDTO;
 import giis.demo.util.argumentchecks.ArgumentChecks;
 import giis.demo.util.io.exception.LineFormatException;
 
@@ -39,7 +40,15 @@ public class ParserCompeticion {
 			tiempo = "---";
 		}
 		
-		return new TiempoEntity(idC, dorsal, tiempo);
+		List<String> tiemposParciales = new ArrayList<>();
+		
+		if(tokens.length > 2) {
+			for(int i=2; i<=tokens.length; i++) {
+				tiemposParciales.add(tiempo);
+			}
+		}
+		
+		return new TiempoEntity(idC, dorsal, tiempo, tiemposParciales);
 		
 	}
 
