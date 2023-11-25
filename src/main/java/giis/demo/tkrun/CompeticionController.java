@@ -145,9 +145,14 @@ public class CompeticionController {
 				fechaCanc = view.getTfFechaCanc().getText();
 			}
 			
-			
 			model.createCompeticion(id,view.getTfNombre().getText(), view.getTfFecha().getText(), view.getTfDescripcion().getText(), 
 					tipo, view.getTfPlazas().getText(), view.getTfDistancia().getText(), view.getTfIban().getText(), cancelacion, devolucion, fechaCanc);
+			
+			// Si se desean tiempos parciales...
+			if(view.getRdbtnTpSi().isSelected()) {
+				List<TiempoParcialDTO> tiemposParciales = view.asignarCarreraATiemposParciales(id);
+				model.insertTiemposParciales(id, tiemposParciales);
+			}
 			
 			view.reset();
 			view.dispose();
