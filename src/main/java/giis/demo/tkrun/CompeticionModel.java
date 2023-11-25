@@ -24,9 +24,14 @@ public class CompeticionModel {
 	
 	// EMS: Añadir los tiempos parciales asociados a la competición.
 	public void insertTiemposParciales(List<TiempoParcialDTO> tiemposParciales) {
-		String sql = "insert into TiempoParcial (nombre, distancia, id_c) values (?,?,?)";
+		//String sql = "insert into TiempoParcial (nombre, distancia, id_c) values (?,?,?)";
+		String sql = "";
+		int counter = 1;
 		for(TiempoParcialDTO tP: tiemposParciales) {
-			db.executeUpdate(sql, tP.getNombre(), tP.getDistancia(), tP.getId_c());
+			String nombreColTp = "tp" + counter;
+			sql = "UPDATE competicion SET " + nombreColTp + " = ? WHERE id_c = ?";
+			db.executeUpdate(sql, tP.getDistancia(), tP.getId_c());
+			counter++;
 		}
 	}
 }
