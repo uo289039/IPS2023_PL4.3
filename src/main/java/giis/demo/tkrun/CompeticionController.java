@@ -151,7 +151,7 @@ public class CompeticionController {
 			// Si se desean tiempos parciales...
 			if(view.getRdbtnTpSi().isSelected()) {
 				List<TiempoParcialDTO> tiemposParciales = view.asignarCarreraATiemposParciales(id);
-				model.insertTiemposParciales(tiemposParciales);
+				model.insertTiemposParciales(id, tiemposParciales);
 			}
 			
 			view.reset();
