@@ -53,7 +53,7 @@ public class CarrerasModel {
 	public List<CarreraDisplayDTO> getListaCarreras(Date fechaInscripcion) {
 		validateNotNull(fechaInscripcion,MSG_FECHA_INSCRIPCION_NO_NULA);
 		String sql=
-				 "SELECT nombre_c,descr,cuota,distancia, inicio, fin,case"
+				 "SELECT nombre_c,descr,distancia, inicio, fin,case"
 				+ " when ?<inicio then ''" //antes de inscripcion
 				+"   when ?<=fin then '(Abierta)'" //fase 1
 				+"   when ?<fecha then '(Abierta)'" //fase 2
