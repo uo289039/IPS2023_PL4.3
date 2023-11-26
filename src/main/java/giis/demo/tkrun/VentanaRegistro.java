@@ -247,7 +247,7 @@ public class VentanaRegistro extends JDialog {
 			tfGastosGestion.setColumns(10);
 			tfGastosGestion.setBackground(Color.WHITE);
 			tfGastosGestion.setBounds(180, 315, 68, 20);
-			tfGastosGestion.setText(String.valueOf(Double.parseDouble(getTfPrecioBase().getText())*0.05));
+			tfGastosGestion.setText("5%");
 		}
 		return tfGastosGestion;
 	}
@@ -259,7 +259,7 @@ public class VentanaRegistro extends JDialog {
 			tfTotal.setColumns(10);
 			tfTotal.setBackground(Color.WHITE);
 			tfTotal.setBounds(180, 353, 68, 20);
-			double a = Double.parseDouble(getTfPrecioBase().getText()) + Double.parseDouble(getTfGastosGestion().getText());
+			double a = Double.parseDouble(getTfPrecioBase().getText()) + Double.parseDouble(getTfPrecioBase().getText())*0.05;
 			tfTotal.setText(String.valueOf(a));
 		}
 		return tfTotal;

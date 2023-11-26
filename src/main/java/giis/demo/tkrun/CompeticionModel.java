@@ -13,7 +13,7 @@ public class CompeticionModel {
 	}
 
 	public void insertCategory(int id, String nombre, int edadMin, int edadMax, String genero) {
-		String sql="insert into Categoria (id_c,nombre_cat,edadMin,edadMax,genero) values (?,?,?,?,?)";
+		String sql="insert into CategoriaCompeticion (id_c,nombre_cat,edadMin,edadMax,genero) values (?,?,?,?,?)";
 		db.executeUpdate(sql,id,nombre,edadMin,edadMax,genero);
 	}
 
