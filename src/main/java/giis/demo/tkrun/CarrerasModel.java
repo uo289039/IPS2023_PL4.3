@@ -25,14 +25,15 @@ public class CarrerasModel {
 	//SQL para obtener la lista de carreras activas para una fecha dada,
 	//se incluye aqui porque se usara en diferentes versiones de los metodos bajo prueba
 	public static final String SQL_LISTA_CARRERAS=
-			"SELECT nombre_c,descr,cuota,distancia,"
-			+" case when ?<inicio then ''" //antes de inscripcion
-			+"   when ?<=fin then '(Abierta)'" //fase 1
+			"SELECT nombre_c,c.descr,p.cuota,distancia,"
+			+" case when ?<p.fechaIni then ''" //antes de inscripcion
+			+"   when ?<=p.fechaFin then '(Abierta)'" //fase 1
 			+"   when ?<fecha then '(Abierta)'" //fase 2
 			+"   when ?=fecha then '(Abierta)'" //fase 3
 			+"   else '' " //despues de fin carrera
 			+" end as abierta"
-			+" from Competicion where fecha>=? order by id";
+			+" from Competicion c, Plazo p,"
+			+ " where c.fecha>=? order by c.id";
 	/**
 	 * Obtiene la lista de carreras futuras (posteriores a una fecha dada) con el id, descripcion
 	 * y la indicacion de si tienen inscripcion abierta.
@@ -53,14 +54,17 @@ public class CarrerasModel {
 	public List<CarreraDisplayDTO> getListaCarreras(Date fechaInscripcion) {
 		validateNotNull(fechaInscripcion,MSG_FECHA_INSCRIPCION_NO_NULA);
 		String sql=
-				 "SELECT nombre_c,descr,distancia, inicio, fin,case"
-				+ " when ?<inicio then ''" //antes de inscripcion
-				+"   when ?<=fin then '(Abierta)'" //fase 1
+				 "SELECT nombre_c,c.descr,p.cuota,c.distancia, p.fechaIni, p.fechaFin,case"
+				+ " when ?<p.fechaIni then ''" //antes de inscripcion
+				+"   when ?<=p.fechaFin then '(Abierta)'" //fase 1
 				+"   when ?<fecha then '(Abierta)'" //fase 2
 				+"   when ?=fecha then '(Abierta)'" //fase 3
 				+"   else '' " //despues de fin carrera
 				+" end as abierta"
-				+" from Competicion where fecha>=? order by id";
+				+" from Competicion c, Plazo p"
+				+" where c.fecha>=?"
+				//+" and p.fechaFin in (select min(fechaFin) from plazo)"
+				+" and p.id_c = c.id order by c.id";
 		String d=Util.dateToIsoString(fechaInscripcion);
 		return db.executeQueryPojo(CarreraDisplayDTO.class, sql, d, d, d, d, d);
 	}

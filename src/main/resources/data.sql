@@ -39,7 +39,7 @@ INSERT into PagosTransferencia (nombre_Completo,correoElec,dni,importe,iban,id_c
 
 
 insert into Plazo(id_c,descr,fechaIni,fechaFin,cuota) values
-(100,'Primer plazo','2023-11-28','2023-12-04',50.0),
+(100,'Primer plazo','2016-11-01','2016-12-04',50.0),
 (101,'Primer plazo','2023-12-30','2023-12-05',42.0),
 (102,'Ultimo plazo','2023-11-29','2023-12-06',50.0),
 (103,'Segundo plazo','2023-12-01','2023-12-06',30.2),
