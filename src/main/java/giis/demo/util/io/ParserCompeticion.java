@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import giis.demo.tkrun.TiempoEntity;
-import giis.demo.tkrun.TiempoParcialDTO;
 import giis.demo.util.argumentchecks.ArgumentChecks;
 import giis.demo.util.io.exception.LineFormatException;
 
