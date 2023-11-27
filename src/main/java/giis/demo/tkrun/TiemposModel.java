@@ -17,30 +17,28 @@ public class TiemposModel {
 	
 	private static final String ELIMINAR_CLASIFICACION = "DELETE FROM tiempo WHERE id_c = ?";
 	
-	private static final String OBTENER_CLASIFICACION = "SELECT DISTINCT a.nombre, a.sexo, t.dorsal, t.tiempo"
-														+ "	FROM atleta a, participa p, tiempo t"
-														+ " WHERE p.id_c = ? AND p.id_c  = t.id_c"
+	private static final String OBTENER_CLASIFICACION = "SELECT DISTINCT a.nombre, a.sexo, p.dorsal, p.tiempo"
+														+ "	FROM atleta a, participa p"
+														+ " WHERE p.id_c = ?"
 														+ " AND a.correoE = p.correoElec"
-														+ " AND p.dorsal = t.dorsal"
 														+ " AND p.dorsal <> 0"
-														+ " ORDER BY CASE WHEN t.tiempo = '---' THEN 1 ELSE 0 END";
+														+ " ORDER BY CASE WHEN p.tiempo = '---' THEN 1 ELSE 0 END";
 
-	private static final String OBTENER_CLASIFICACION_POR_SEXO = "SELECT DISTINCT a.nombre, a.sexo, t.dorsal, t.tiempo"
-											+ "	FROM atleta a, participa p, tiempo t"
-											+ " WHERE p.id_c = ? AND a.sexo = ? AND p.id_c  = t.id_c"
+	private static final String OBTENER_CLASIFICACION_POR_SEXO = "SELECT DISTINCT a.nombre, a.sexo, p.dorsal, p.tiempo"
+											+ "	FROM atleta a, participa p"
+											+ " WHERE p.id_c = ? AND a.sexo = ?"
 											+ " AND a.correoE = p.correoElec"
-											+ " AND p.dorsal = t.dorsal"
 											+ " AND p.dorsal <> 0"
-											+ " ORDER BY CASE WHEN t.tiempo = '---' THEN 1 ELSE 0 END";;
+											+ " ORDER BY CASE WHEN p.tiempo = '---' THEN 1 ELSE 0 END";;
 	
 	public void insertarTiempos(String nombreCarrera) {
 		
 		String carreraId = getId(nombreCarrera);
 		List<TiempoEntity> tiempos = cargarTiempos("src/main/java/files/" + carreraId + ".csv", carreraId);
-		db.executeUpdate(ELIMINAR_CLASIFICACION, carreraId);
-		String query = "INSERT INTO tiempo (id_c, dorsal, tiempo) VALUES (?, ?, ?)";
+		String query = "UPDATE participa SET tiempo = ?"
+					+ " WHERE id_c  = ? AND dorsal = ?";
 		for(TiempoEntity t: tiempos) {
-			db.executeUpdate(query, carreraId, t.getDorsal(), t.getTiempo());	
+			db.executeUpdate(query, t.getTiempo(), carreraId, t.getDorsal());	
 		}
 		
 	}

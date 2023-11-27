@@ -12,6 +12,8 @@ import java.awt.Color;
 import javax.swing.JRadioButton;
 import java.awt.SystemColor;
 import javax.swing.ButtonGroup;
+import javax.swing.JPanel;
+import javax.swing.JCheckBox;
 
 /**
  * Vista de la pantalla que muestra las carreras activas y permite interactuar con ellas.
@@ -32,6 +34,14 @@ public class TiemposView {
 	private JRadioButton rdbtnMasculino;
 	private JRadioButton rdbtnFemenino;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
+	private JPanel pnTiemposParciales;
+	private JLabel lbTiemposParciales;
+	private JCheckBox cbTb_1;
+	private JCheckBox cbTb_5;
+	private JCheckBox cbTb_2;
+	private JCheckBox cbTb_3;
+	private JCheckBox cbTb_4;
+	private JCheckBox cbTbTodos;
 
 	/**
 	 * Create the application.
@@ -48,9 +58,9 @@ public class TiemposView {
 		frame.getContentPane().setBackground(Color.WHITE);
 		frame.setTitle("Clasificaciones");
 		frame.setName("Clasificaciones");
-		frame.setBounds(0, 0, 492, 422);
+		frame.setBounds(0, 0, 492, 541);
 		frame.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(new MigLayout("", "[grow]", "[][][grow][][][][][][][][][]"));
+		frame.getContentPane().setLayout(new MigLayout("", "[grow]", "[][][grow][][][grow][][][][][][][]"));
 		
 		final JLabel lblSimulacion;
 		final JLabel lbCarrera;
@@ -81,8 +91,39 @@ public class TiemposView {
 		buttonGroup.add(rdbtnGeneral);
 		rdbtnGeneral.setBackground(SystemColor.text);
 		frame.getContentPane().add(rdbtnGeneral, "flowx,cell 0 4");
+		
+		pnTiemposParciales = new JPanel();
+		pnTiemposParciales.setBackground(new Color(255, 255, 255));
+		frame.getContentPane().add(pnTiemposParciales, "cell 0 5,grow");
+		
+		lbTiemposParciales = new JLabel("Tiempos Parciales: ");
+		pnTiemposParciales.add(lbTiemposParciales);
+		
+		cbTb_1 = new JCheckBox("1");
+		cbTb_1.setBackground(new Color(255, 255, 255));
+		pnTiemposParciales.add(cbTb_1);
+		
+		cbTb_2 = new JCheckBox("2");
+		cbTb_2.setBackground(Color.WHITE);
+		pnTiemposParciales.add(cbTb_2);
+		
+		cbTb_3 = new JCheckBox("3");
+		cbTb_3.setBackground(Color.WHITE);
+		pnTiemposParciales.add(cbTb_3);
+		
+		cbTb_4 = new JCheckBox("4");
+		cbTb_4.setBackground(Color.WHITE);
+		pnTiemposParciales.add(cbTb_4);
+		
+		cbTb_5 = new JCheckBox("5");
+		cbTb_5.setBackground(Color.WHITE);
+		pnTiemposParciales.add(cbTb_5);
+		
+		cbTbTodos = new JCheckBox("Todos");
+		cbTbTodos.setBackground(Color.WHITE);
+		pnTiemposParciales.add(cbTbTodos);
 		JScrollPane tablePanel = new JScrollPane(tabClasificacion);
-		frame.getContentPane().add(tablePanel, "cell 0 6,grow");
+		frame.getContentPane().add(tablePanel, "cell 0 7,grow");
 		
 		rdbtnMasculino = new JRadioButton("Masculino");
 		buttonGroup.add(rdbtnMasculino);
