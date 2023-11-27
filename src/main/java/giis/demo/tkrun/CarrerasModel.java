@@ -101,7 +101,7 @@ public class CarrerasModel {
 	 * Obtiene todos los datos de la carrera con el id indicado
 	 */
 	public CarreraEntity getCarrera(int id) {
-		String sql="SELECT nombre_c,inicio,fin,fecha,descr from Competicion where id=?";
+		String sql="SELECT * from Competicion where id=?";
 		List<CarreraEntity> carreras=db.executeQueryPojo(CarreraEntity.class, sql, id);
 		validateCondition(!carreras.isEmpty(),"Id de competicion no encontrado: "+id);
 		return carreras.get(0);
