@@ -27,6 +27,10 @@ create table Competicion(
     tiemposparciales boolean not null,
     tp1 decimal(4,2), tp2 decimal(4,2),
     tp3 decimal(4,2), tp4 decimal(4,2), tp5 decimal(4,2),
+<<<<<<< HEAD
+=======
+    iban varchar(40) unique,
+>>>>>>> refs/heads/main
         check(tipo in('Montaña','Ruta')),
         check(cancelacion in('Si','No'))
 );
