@@ -48,6 +48,8 @@ public class ComparasController {
 		view.getBtnAñadir().addActionListener(e -> SwingUtil.exceptionWrapper(() -> cargaTablaComparaAtletas()));
 		//En el caso del mouse listener (para detectar seleccion de una fila) no es un interfaz funcional puesto que tiene varios metodos
 		//ver discusion: https://stackoverflow.com/questions/21833537/java-8-lambda-expressions-what-about-multiple-methods-in-nested-class
+		view.getBtnTablaAtletas().addActionListener(e -> SwingUtil.exceptionWrapper(() -> borraAtletas()));
+		
 		view.getTablaAtletas().addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseReleased(MouseEvent e) {
@@ -59,6 +61,11 @@ public class ComparasController {
 	}
 	
 	
+	private void borraAtletas() {
+		// TODO Auto-generated method stub
+		int fila=view.getTablaAtletas().getSelectedRow();
+		view.borraFila(fila);
+	}
 	public void initView() {
 		//Inicializa la fecha de hoy a un valor que permitira mostrar carreras en diferentes fases 
 		//y actualiza los datos de la vista
@@ -120,12 +127,15 @@ public class ComparasController {
 		}
 		else {
 			List<String> competidores=view.getListaCompetidores().getSelectedValuesList();
+			String nombre=model.getNombreUsuario(view.getTextAtleta());
+			competidores.add(0, nombre);
 			String competicion=view.getTextCompeticion().getText();
 			
 			List<ComparaDisplayDTO>tiempos=model.getTiempos(competicion,competidores);
-			TableModel mCompara=SwingUtil.getTableModelFromPojos(tiempos,new String[] {"nombre","sexo", "dorsal", "t_intermedio"});
+			TableModel mCompara=SwingUtil.getTableModelFromPojos(tiempos,new String[] {"correoE","tiempo", "puesto", "t_intermedio","ritmo","distancia","completado"});
 			view.getTablaAtletas().setModel(mCompara);
 			SwingUtil.autoAdjustColumns(view.getTablaAtletas());
+			view.getBtnTablaAtletas().setEnabled(true);
 		}
 		
 		
@@ -133,6 +143,9 @@ public class ComparasController {
 	
 	
 	
+	
+	
+
 	
 	/**
 	 * Al seleccionar un item de la tabla muestra el detalle con el valor del porcentaje de descuento

@@ -1,11 +1,12 @@
 package giis.demo.tkrun;
 
-//import java.awt.event.MouseAdapter;
-//import java.awt.event.MouseEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.List;
 
 import javax.swing.table.TableModel;
 import giis.demo.util.SwingUtil;
+import giis.demo.util.io.FileUtil;
 
 public class TiemposController {
 	
@@ -28,14 +29,14 @@ public class TiemposController {
 	public void initController() {
 		
 		view.getBtnTablaCarreras().addActionListener(e -> SwingUtil.exceptionWrapper(() -> getClasificacion()));
-//		view.getTablaCarreras().addMouseListener(new MouseAdapter() {
-//			@Override
-//			public void mouseReleased(MouseEvent e) {
-//				//no usa mouseClicked porque al establecer seleccion simple en la tabla de carreras
-//				//el usuario podria arrastrar el raton por varias filas e interesa solo la ultima
-//				SwingUtil.exceptionWrapper(() -> updateDetail());
-//			}
-//		});
+		view.getTablaCarreras().addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				//no usa mouseClicked porque al establecer seleccion simple en la tabla de carreras
+				//el usuario podria arrastrar el raton por varias filas e interesa solo la ultima
+				SwingUtil.exceptionWrapper(() -> updateDetail());
+			}
+		});
 	}
 	
 	public void initView() {
@@ -54,28 +55,22 @@ public class TiemposController {
 	public void getClasificacion() {
 		
 		String nombreCarrera = view.getNombreCarrera();
-		if(model.compruebaCarrera(nombreCarrera)) {
-			model.insertarTiempos(nombreCarrera);
+		model.insertarTiempos(nombreCarrera);
+		insertarNombreTp(nombreCarrera);
 		
-			List<TiempoDisplayDto> clasificacion;
+		List<TiempoDisplayDto> clasificacion;
 		
-			if(view.isMasculinoSelected()) {
-				clasificacion = model.getTiemposPorSexo(nombreCarrera, "hombre");
-			} else if(view.isFemeninoSelected()) {
-				clasificacion = model.getTiemposPorSexo(nombreCarrera, "mujer");
-			} else {
-				clasificacion = model.getTiempos(nombreCarrera);
-			}
-		
-			TableModel tmodel=SwingUtil.getTableModelFromPojos(clasificacion, new String[] {"posicion", "nombre", "sexo", "dorsal", "tiempo"});
-			view.getTablaCarreras().setModel(tmodel);
-			SwingUtil.autoAdjustColumns(view.getTablaCarreras());
+		if(view.isMasculinoSelected()) {
+			clasificacion = model.getTiemposPorSexo(nombreCarrera, "hombre");
+		} else if(view.isFemeninoSelected()) {
+			clasificacion = model.getTiemposPorSexo(nombreCarrera, "mujer");
+		} else {
+			clasificacion = model.getTiempos(nombreCarrera);
 		}
-		else
-			view.avisaNombreNoValido(nombreCarrera);
 		
-		
-		
+		TableModel tmodel=SwingUtil.getTableModelFromPojos(clasificacion, new String[] {"posicion", "nombre", "sexo", "dorsal", "tiempo", "tp1", "tp2", "tp3", "tp4", "tp5"});
+		view.getTablaCarreras().setModel(tmodel);
+		SwingUtil.autoAdjustColumns(view.getTablaCarreras());
 		//Como se guarda la clave del ultimo elemento seleccionado, restaura la seleccion de los detalles
 		this.restoreDetail();
 		
@@ -96,6 +91,40 @@ public class TiemposController {
 	public void updateDetail() {
 		//Obtiene la clave seleccinada y la guarda para recordar la seleccion en futuras interacciones
 		this.lastSelectedKey=SwingUtil.getSelectedKey(view.getTablaCarreras());
+	}
+	
+	private void insertarNombreTp(String nombreCarrera) {
+		int carreraId = Integer.parseInt(model.getId(nombreCarrera));
+		CarreraEntity carrera = new CarrerasModel().getCarrera(carreraId);
+		
+		if(carrera.isTiemposParciales()) {
+			if(carrera.getTp1() != 0) {
+				view.getCbTb1().setText(carrera.getTp1() + " km");
+				view.getCbTb1().setEnabled(true);
+			}
+			if(carrera.getTp2() != 0) {
+				view.getCbTb2().setText(carrera.getTp2() + " km");
+				view.getCbTb2().setEnabled(true);
+			}
+			if(carrera.getTp3() != 0) {
+				view.getCbTb3().setText(carrera.getTp3() + " km");
+				view.getCbTb3().setEnabled(true);
+			}
+			if(carrera.getTp4() != 0) {
+				view.getCbTb4().setText(carrera.getTp4() + " km");
+				view.getCbTb4().setEnabled(true);
+			}
+			if(carrera.getTp5() != 0) {
+				view.getCbTb5().setText(carrera.getTp5() + " km");
+				view.getCbTb5().setEnabled(true);
+			}
+		} else {
+			view.getCbTb1().setEnabled(false);
+			view.getCbTb2().setEnabled(false);
+			view.getCbTb3().setEnabled(false);
+			view.getCbTb4().setEnabled(false);
+			view.getCbTb5().setEnabled(false);
+		}
 	}
 
 

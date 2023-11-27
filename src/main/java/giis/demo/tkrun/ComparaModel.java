@@ -2,6 +2,8 @@ package giis.demo.tkrun;
 
 import java.util.*;
 import giis.demo.util.Util;
+import giis.demo.util.io.FileUtil;
+import giis.demo.util.io.ParserCompeticion;
 import giis.demo.util.ApplicationException;
 import giis.demo.util.Database;
 /**
@@ -28,9 +30,9 @@ public class ComparaModel {
 			+ "and p.id_c =c.id and c.nombre_c =? and a.correoE!=? and p.estadoI='Inscrito'";
 	
 	
-	private static final String OBTENER_CLASIFICACION = "SELECT DISTINCT a.nombre, a.sexo, p.dorsal, p.tiempo"
-			+ "	FROM atleta a, participa p"
-			+ " WHERE p.id_c = ? "
+	private static final String OBTENER_CLASIFICACION = "SELECT DISTINCT a.correoE, p.tiempo,p.ritmo,c.distancia,p.completado"
+			+ "	FROM atleta a, participa p, TiempoParcial tp,competicion c"
+			+ " WHERE p.id_c = ? and p.id_c=c.id and p.id_c=tp.id_c"
 			+ " AND a.correoE = p.correoElec"
 			+ " AND a.nombre=?"
 			+ " AND p.dorsal <> 0"
@@ -140,7 +142,8 @@ public class ComparaModel {
 		//ComparaDisplayDTO atleta=db.executeQueryPojo(ComparaDisplayDTO.class, OBTENER_CLASIFICACION, carreraId,nombre).get(0);
 		for(String nombre:competidores) {
 			List<ComparaDisplayDTO>lista=db.executeQueryPojo(ComparaDisplayDTO.class, OBTENER_CLASIFICACION, carreraId,nombre);
-			tiempos.add(lista.get(0));
+			if(lista.size()>0)
+				tiempos.add(lista.get(0));
 			}
 		int pos = 1;
 		for(ComparaDisplayDTO t: tiempos) {
@@ -178,6 +181,29 @@ public class ComparaModel {
 		}
 		
 		return false;
+	}
+	public String getNombreUsuario(String textAtleta) {
+		String sql="Select nombre from Atleta where correoE=?";
+		List<AtletaDisplayDTO>atletaUser=db.executeQueryPojo(AtletaDisplayDTO.class, sql, textAtleta);
+		return atletaUser.get(0).getNombre();
+	}
+	
+	
+	public void insertarTiempos(String nombreCarrera) {
+		
+		String carreraId = getId(nombreCarrera);
+		List<TiempoEntity> tiempos = cargarTiempos("src/main/java/files/" + carreraId + ".csv", carreraId);
+		String query = "UPDATE TiempoParcial SET tiempo = ?"
+					+ " WHERE id_c  = ? AND nombre = ?";
+		for(TiempoEntity t: tiempos) {
+			db.executeUpdate(query, t.getTiempo(), carreraId, t.getDorsal());
+		}
+		
+	}
+
+
+	private List<TiempoEntity> cargarTiempos(String ruta, String idC) {
+		return new ParserCompeticion().parseLines(new FileUtil().readLines(ruta), idC);
 	}
 	
 	

@@ -15,66 +15,34 @@ public class TiemposModel {
 	private static final String OBTENER_ID = "SELECT id FROM competicion"
 													+ " WHERE nombre_c = ?";
 	
-	private static final String OBTENER_CORREO = "SELECT correoElec as correoE FROM participa"
-			+ " WHERE id_c = ? and dorsal=?";
-	
-	//private static final String ELIMINAR_CLASIFICACION = "DELETE FROM tiempo WHERE id_c = ?";
+//	private static final String ELIMINAR_CLASIFICACION = "DELETE FROM tiempo WHERE id_c = ?";
 	
 	private static final String OBTENER_CLASIFICACION = "SELECT DISTINCT a.nombre, a.sexo, p.dorsal, p.tiempo"
 														+ "	FROM atleta a, participa p"
-														+ " WHERE p.id_c = ? "
+														+ " WHERE p.id_c = ?"
 														+ " AND a.correoE = p.correoElec"
-													
 														+ " AND p.dorsal <> 0"
 														+ " ORDER BY CASE WHEN p.tiempo = '---' THEN 1 ELSE 0 END";
 
 	private static final String OBTENER_CLASIFICACION_POR_SEXO = "SELECT DISTINCT a.nombre, a.sexo, p.dorsal, p.tiempo"
 											+ "	FROM atleta a, participa p"
-											+ " WHERE p.id_c = ? AND a.sexo = ? "
+											+ " WHERE p.id_c = ? AND a.sexo = ?"
 											+ " AND a.correoE = p.correoElec"
-											
 											+ " AND p.dorsal <> 0"
-											+ " ORDER BY CASE WHEN p.tiempo = '---' THEN 1 ELSE 0 END";
-	
-	
-	
-	private static final String SQL_LISTA_COMPETICIONES="Select distinct nombre_c from Competicion c ";										
-											
-	
-	private static final String OBTENER_ESTADO="Select distinct estadoI as estadoInscripcion from Participa c where correoElec=?";										
-	
+											+ " ORDER BY CASE WHEN p.tiempo = '---' THEN 1 ELSE 0 END";;
 	
 	public void insertarTiempos(String nombreCarrera) {
 		
 		String carreraId = getId(nombreCarrera);
 		List<TiempoEntity> tiempos = cargarTiempos("src/main/java/files/" + carreraId + ".csv", carreraId);
-		//db.executeUpdate(ELIMINAR_CLASIFICACION, carreraId);
-		
-		String query = "UPDATE Participa set dorsal=?, tiempo=? where id_c=? and correoElec=? and estadoI=?";
+		String query = "UPDATE participa SET tiempo = ?"
+					+ " WHERE id_c  = ? AND dorsal = ?";
 		for(TiempoEntity t: tiempos) {
-			String correo=getCorreo(carreraId,t.getDorsal());
-			String estado=getEstado(correo);
-			db.executeUpdate(query, t.getDorsal(), t.getTiempo(), carreraId,correo,estado);	
+			db.executeUpdate(query, t.getTiempo(), carreraId, t.getDorsal());
 		}
 		
 	}
 	
-	private String getEstado(String correo) {
-		List<AtletaDisplayDTO> res = db.executeQueryPojo(AtletaDisplayDTO.class, OBTENER_ESTADO, correo);
-		if(res.isEmpty()) {
-			return "";
-		}
-		return res.get(0).getEstadoInscripcion();
-	}
-
-	private String getCorreo(String carreraId, int dorsal) {
-		List<AtletaDisplayDTO> res = db.executeQueryPojo(AtletaDisplayDTO.class, OBTENER_CORREO, carreraId,dorsal);
-		if(res.isEmpty()) {
-			return "";
-		}
-		return res.get(0).getCorreoE();
-	}
-
 	public String getNombre(String id) {
 		List<CarreraDisplayDTO> res = db.executeQueryPojo(CarreraDisplayDTO.class, OBTENER_NOMBRE, id);
 		if(res.isEmpty()) {
@@ -116,16 +84,17 @@ public class TiemposModel {
 		}
 		return tiempos;
 	}
-
-	public boolean compruebaCarrera(String nombreCarrera) {
-		List<CarreraDisplayDTO>correos=db.executeQueryPojo(CarreraDisplayDTO.class, SQL_LISTA_COMPETICIONES);
-		for(int i=0;i<correos.size();i++)
-			if(correos.get(i).getNombre_c().equals(nombreCarrera))
-				return true;
-		
-		return false;
+	
+	public TiempoParcialDTO getTp(int dorsal, int carreraId, int distancia) {
+		String sql = "select * from tiempoparcial t,"
+				    +" where distancia = ? and id_c = ? and dorsal ?";
+		return db.executeQueryPojo(TiempoParcialDTO.class, sql, distancia, carreraId, dorsal).get(0);
 	}
 	
-	
+	public void insertTp(TiempoParcialDTO tP) {
+		String sql = "insert into tiempoparcial (id_c, dorsal, distancia, tiempo)"
+					+ " values (?,?,?,?)";
+		db.executeUpdate(sql, tP.getId_c(), tP.getDorsal(), tP.getDistancia(), tP.getTiempo());
+	}	
 
 }

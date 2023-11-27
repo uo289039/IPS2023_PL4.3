@@ -7,6 +7,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 //import javax.swing.JComboBox;
@@ -58,27 +59,23 @@ public class ComparasView {
 		frmCompararAtletas.setBounds(0, 0, 740, 465);
 		frmCompararAtletas.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 		final JLabel lblFechaHoy;
-		frmCompararAtletas.getContentPane().setLayout(null);
+		frmCompararAtletas.getContentPane().setLayout(new MigLayout("", "[grow][grow][grow][grow]", "[grow][grow][grow][grow]"));
 		
 		lblFechaHoy = new JLabel("Inserte su correo identificador:");
-		lblFechaHoy.setBounds(21, 44, 192, 14);
-		frmCompararAtletas.getContentPane().add(lblFechaHoy);
+		frmCompararAtletas.getContentPane().add(lblFechaHoy, "cell 0 0,alignx left,aligny top");
 		
 		txtAtleta = new JTextField();
-		txtAtleta.setBounds(10, 69, 218, 20);
 		txtAtleta.setName("txtAtleta");
-		frmCompararAtletas.getContentPane().add(txtAtleta);
+		frmCompararAtletas.getContentPane().add(txtAtleta, "cell 0 1,growx,aligny center");
 		txtAtleta.setColumns(10);
 		
 		btnTabAtletas = new JButton("Eliminar seleccionado(s)");
 		btnTabAtletas.setEnabled(false);
-		btnTabAtletas.setBounds(532, 392, 185, 23);
 		lblFechaHoy.setLabelFor(btnTabAtletas);
-		frmCompararAtletas.getContentPane().add(btnTabAtletas);
+		frmCompararAtletas.getContentPane().add(btnTabAtletas, "cell 1 3 3 1,alignx right,aligny top");
 		
 		JLabel lblNombreCompeticion = new JLabel("Inserte el nombre de la competición:");
-		lblNombreCompeticion.setBounds(347, 44, 206, 14);
-		frmCompararAtletas.getContentPane().add(lblNombreCompeticion);
+		frmCompararAtletas.getContentPane().add(lblNombreCompeticion, "cell 1 0,growx,aligny top");
 		
 		//Incluyo la tabla en un JScrollPane y anyado este en vez de la tabla para poder ver los headers de la tabla
 		tabAtletas = new JTable();
@@ -86,16 +83,14 @@ public class ComparasView {
 		tabAtletas.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		tabAtletas.setDefaultEditor(Object.class, null); //readonly
 		JScrollPane tablePanel = new JScrollPane(tabAtletas);
-		tablePanel.setBounds(361, 111, 356, 270);
-		frmCompararAtletas.getContentPane().add(tablePanel);
-		frmCompararAtletas.getContentPane().add(getBtnAñadir());
+		frmCompararAtletas.getContentPane().add(tablePanel, "cell 1 2 3 1,grow");
+		frmCompararAtletas.getContentPane().add(getBtnAñadir(), "cell 0 3,alignx right,aligny top");
 		
 		listNombresAtletas = new JList<String>();
 		listNombresAtletas.setValueIsAdjusting(true);
-		listNombresAtletas.setBounds(21, 111, 313, 270);
-		frmCompararAtletas.getContentPane().add(listNombresAtletas);
-		frmCompararAtletas.getContentPane().add(getTextCompeticion());
-		frmCompararAtletas.getContentPane().add(getBtnVerAtletas());
+		frmCompararAtletas.getContentPane().add(listNombresAtletas, "cell 0 2,grow");
+		frmCompararAtletas.getContentPane().add(getTextCompeticion(), "cell 1 1,growx,aligny center");
+		frmCompararAtletas.getContentPane().add(getBtnVerAtletas(), "cell 3 1,alignx left,aligny top");
 	}
 
 	//Getters y Setters anyadidos para acceso desde el controlador (repersentacion compacta)
@@ -109,7 +104,6 @@ public class ComparasView {
 		if (btnAñadir == null) {
 			btnAñadir = new JButton("Añadir");
 			btnAñadir.setEnabled(false);
-			btnAñadir.setBounds(211, 392, 89, 23);
 		}
 		return btnAñadir;
 	}
@@ -118,14 +112,12 @@ public class ComparasView {
 			textCompeticion = new JTextField();
 			textCompeticion.setName("textCompeticion");
 			textCompeticion.setColumns(10);
-			textCompeticion.setBounds(336, 69, 218, 20);
 		}
 		return textCompeticion;
 	}
 	public JButton getBtnVerAtletas() {
 		if (btnVerAtletas == null) {
 			btnVerAtletas = new JButton("Ver Atletas");
-			btnVerAtletas.setBounds(576, 68, 107, 23);
 		}
 		return btnVerAtletas;
 	}
@@ -155,6 +147,13 @@ public class ComparasView {
 	
 	public void avisaCorreo() {
 		JOptionPane.showMessageDialog(null, "Por favor introduzca un correoValido");
+		
+	}
+
+	public void borraFila(int fila) {
+		DefaultTableModel modelo=(DefaultTableModel)tabAtletas.getModel();
+		modelo.removeRow(fila);
+		tabAtletas.setModel(modelo);
 		
 	}
 }
