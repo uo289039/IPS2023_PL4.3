@@ -27,8 +27,8 @@ create table Competicion(
     tiemposparciales boolean not null,
     tp1 decimal(4,2), tp2 decimal(4,2),
     tp3 decimal(4,2), tp4 decimal(4,2), tp5 decimal(4,2),
-    check(tipo in('Montaña','Ruta')),
-    check(cancelacion in('Si','No'))
+        check(tipo in('Montaña','Ruta')),
+        check(cancelacion in('Si','No'))
 );
 
 drop table if exists Atleta;
@@ -43,30 +43,43 @@ create table Atleta(
     poblacion varchar(25) not null, 
     telefono varchar(12) not null, 
     pais varchar(30) not null, 
-    iban varchar(40) unique,
-    check(sexo in ('hombre','mujer')), 
-    check(formaPago in ('transferencia','tarjeta',''))
+        check(sexo in ('hombre','mujer')), 
+        check(formaPago in ('transferencia','tarjeta',''))
 );
 
 drop table if exists Participa;
-create table Participa(correoElec varchar(15) not null, id_c int not null, estadoI varchar(15) not null,dorsal INTEGER unique, tiempo varchar(6),
-						constraint pk_Participa PRIMARY KEY(correoElec,id_c), 
-                        constraint FK_Participa_Competicion Foreign Key (id_c) references "Competicion" (id),
-                        constraint FK_Participa_Atleta Foreign Key (correoElec) references "Atleta" (correoE),
-                        check(estadoI in ('No Inscrito','Preinscrito','Inscrito','Participado')));
+create table Participa(
+    correoElec varchar(15) not null, 
+    id_c int not null, 
+    estadoI varchar(15) not null, 
+    dorsal INTEGER unique, 
+    tiempo varchar(6),
+    categoria varchar(30), 
+        constraint pk_Participa PRIMARY KEY(correoElec,id_c), 
+        constraint FK_Participa_Competicion Foreign Key (id_c) references "Competicion" (id),
+        constraint FK_Participa_Atleta Foreign Key (correoElec) references "Atleta" (correoE),
+        check(estadoI in ('No Inscrito','Preinscrito','Inscrito','Participado')));
                        
 
 drop table if exists PagosTransferencia;
-create table PagosTransferencia(nombre_Completo varchar(40) not null, correoElec varchar(25) not null, iban varchar(35) not null,
-                        dni int not null, importe decimal(4,2), id_c int not null,
-                        constraint pk_PagosTransferencia PRIMARY KEY(iban,correoElec), 
-                        constraint FK_PagosTransferencia_Participa Foreign Key (correoElec,id_c) references "Participa" (correoE,id_c));
+create table PagosTransferencia(
+    nombre_Completo varchar(40) not null, 
+    correoElec varchar(25) not null, 
+    iban varchar(35) not null,
+    dni int not null, 
+    importe decimal(4,2), 
+    id_c int not null,
+        constraint pk_PagosTransferencia PRIMARY KEY(iban,correoElec), 
+        constraint FK_PagosTransferencia_Participa Foreign Key (correoElec,id_c) references "Participa" (correoE,id_c));
 
 
 drop table if exists DatosInscripciones;
-create table DatosInscripciones(nombre_c varchar(40) not null,
-estadoI varchar(40) not null, fecha_cambio_estado date not null, correoE varchar(15) not null,
-constraint FK_DatosAtleta_Participa Foreign Key (correoE) references "Participa" (correoElec));
+create table DatosInscripciones(
+    nombre_c varchar(40) not null,
+    estadoI varchar(40) not null, 
+    fecha_cambio_estado date not null, 
+    correoE varchar(15) not null,
+        constraint FK_DatosAtleta_Participa Foreign Key (correoE) references "Participa" (correoElec));
 
 drop table if exists TiempoParcial;
 create table TiempoParcial(
@@ -74,7 +87,7 @@ create table TiempoParcial(
     tiempo varchar(15),
     id_c int not null, 
     dorsal int not null,
-    constraint FK_TiempoParcial_Participa Foreign Key (id_c,dorsal) references "Participa" (id_c,dorsal)
+        constraint FK_TiempoParcial_Participa Foreign Key (id_c,dorsal) references "Participa" (id_c,dorsal)
 );
 
 drop table if exists CategoriaCompeticion;
@@ -84,7 +97,7 @@ create table CategoriaCompeticion(
     edadMin int not null, 
     edadMax int not null, 
     genero varchar(15),
-    constraint fk_Categoria_competicion foreign key (id_c) references "Competicion" (id));
+        constraint fk_Categoria_competicion foreign key (id_c) references "Competicion" (id));
 
 drop table if exists Plazo;
 create table Plazo(id_c int not null, 
@@ -92,5 +105,5 @@ create table Plazo(id_c int not null,
     fechaIni varchar(20) not null, 
     fechaFin varchar(20) not null, 
     cuota decimal(4,2) not null,
-    constraint fk_Plazo_Competicion foreign key (id_c) references "Competicion" (id));
+        constraint fk_Plazo_Competicion foreign key (id_c) references "Competicion" (id));
 

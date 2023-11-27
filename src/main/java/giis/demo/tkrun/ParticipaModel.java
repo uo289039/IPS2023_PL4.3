@@ -128,15 +128,6 @@ public class ParticipaModel {
 //		return db.executeQueryPojo(String.class,query.toString());
 //	}
 	
-	/**
-	 * Actualiza las fechas de inscripcion de una carrera
-	 */
-	public void updateFechasInscripcion(int id, Date inicio, Date fin) {
-		CarreraEntity carrera=this.getParticipa();
-		//validateFechasInscripcion(inicio, fin, Util.isoStringToDate(carrera.getFecha()));
-		String sql="UPDATE competicion SET inicio=?, fin=? WHERE id=?";
-		db.executeUpdate(sql, Util.dateToIsoString(inicio), Util.dateToIsoString(fin), id);
-	}
 //	private void validateFechasInscripcion(Date inicio, Date fin, Date fecha) {
 //		validateNotNull(inicio,"La fecha de inicio de inscripcion no puede ser nula");
 //		validateNotNull(fin,"La fecha de fin de inscripcion no puede ser nula");
@@ -222,14 +213,6 @@ public class ParticipaModel {
 	protected void insertaTrans(String info1, String info2,String info3,String info4,String info5, double info6) {
 		String sql="insert into PagosTransferencia(nombre_Completo,correoElec,iban,banco,sucursal,importe) values(?,?,?,?,?,?)";
 		db.executeUpdate(sql, info1, info2, info3, info4, info5, info6);
-	}
-	
-	public CarreraDisplayDTO getCuotaCompeticion(String idCategoria) {
-		//validateNotNull(fechaInscripcion,MSG_FECHA_INSCRIPCION_NO_NULA);
-		String sql="Select distinct cuota from Competicion where id=?";
-		//String d=Util.dateToIsoString(fechaInscripcion);
-		List<CarreraDisplayDTO> c = db.executeQueryPojo(CarreraDisplayDTO.class, sql, idCategoria);
-		return c.get(0);
 	}
 	public void insertaDataAtleta(String nombre, String nombre_c, String categoria, String inscripcion, double cuota, String correo, String id) {
 		String sql="insert into DatosAtleta(nombre,nombre_c,categoria,inscripcion,cuota,id_c,correoE) values(?,?,?,?,?,?,?)";
