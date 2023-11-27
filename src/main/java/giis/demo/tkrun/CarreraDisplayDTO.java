@@ -15,18 +15,15 @@ public class CarreraDisplayDTO {
 	private double cuota;
 	private double distancia;
 	private String nombre_c;
-	private String inicio;
-	private String fin;
 	private int nPlazas;
+	private String iban;
 	public CarreraDisplayDTO() {}
-	public CarreraDisplayDTO(String rowId, String rowDescripcion, String rowEstado, String rowCuota,String rowDistancia, String rowNombre_c, String rowInicio, String rowFin, String rowPlazas) {
+	public CarreraDisplayDTO(String rowId, String rowDescripcion, String rowEstado, String rowCuota,String rowDistancia, String rowNombre_c, String rowPlazas) {
 		this.id=rowId;
 		this.descr=rowDescripcion;
 		this.abierta=rowEstado;
 		this.cuota=Double.parseDouble(rowCuota);
 		this.distancia=Double.parseDouble(rowDistancia);
-		this.inicio=rowInicio;
-		this.fin=rowFin;
 		this.nombre_c=rowNombre_c;
 		this.nPlazas=Integer.parseInt(rowPlazas);
 	}
@@ -43,19 +40,6 @@ public class CarreraDisplayDTO {
 	public void setDistancia(double d) {this.distancia=d;}
 	public void setNombre_c(String nombre_c) {this.nombre_c = nombre_c;}
 	public void setnPlazas(int nPlazas) {this.nPlazas = nPlazas;}
-	
-	public String getInicio() {
-		return inicio;
-	}
-	public void setInicio(String inicio) {
-		this.inicio = inicio;
-	}
-	public String getFin() {
-		return fin;
-	}
-	public void setFin(String fin) {
-		this.fin = fin;
-	}
 	@Override
 	public String toString() {
 		return this.getNombre_c()+" - "+this.getId();

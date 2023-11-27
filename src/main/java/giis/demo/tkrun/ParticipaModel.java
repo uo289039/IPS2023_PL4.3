@@ -219,18 +219,26 @@ public class ParticipaModel {
 		return datos;
 	}
 	
-	protected void insertaTrans(String info1, String info2,String info3,String info4,String info5, double info6) {
-		String sql="insert into PagosTransferencia(nombre_Completo,correoElec,iban,banco,sucursal,importe) values(?,?,?,?,?,?)";
-		db.executeUpdate(sql, info1, info2, info3, info4, info5, info6);
+	protected void insertaTrans(String info1, String info2,String info3, String info4, double info5, String info6) {
+        String sql="insert into PagosTransferencia(nombre_Completo,correoElec,dni,importe,iban,id_c) values(?,?,?,?,?,?)";
+        db.executeUpdate(sql, info1, info2, info3, info4, info5);
+}
+	
+	public CarreraDisplayDTO getIbanCompeticion(String idCategoria) {
+        //validateNotNull(fechaInscripcion,MSG_FECHA_INSCRIPCION_NO_NULA);
+        String sql="Select distinct iban_c from Competicion where id=?";
+        //String d=Util.dateToIsoString(fechaInscripcion);
+        List<CarreraDisplayDTO> c = db.executeQueryPojo(CarreraDisplayDTO.class, sql, idCategoria);
+        return c.get(0);
 	}
 	
-	public CarreraDisplayDTO getCuotaCompeticion(String idCategoria) {
-		//validateNotNull(fechaInscripcion,MSG_FECHA_INSCRIPCION_NO_NULA);
-		String sql="Select distinct cuota from Competicion where id=?";
-		//String d=Util.dateToIsoString(fechaInscripcion);
-		List<CarreraDisplayDTO> c = db.executeQueryPojo(CarreraDisplayDTO.class, sql, idCategoria);
-		return c.get(0);
-	}
+//	public CarreraDisplayDTO getCuotaCompeticion(String idCategoria) {
+//		//validateNotNull(fechaInscripcion,MSG_FECHA_INSCRIPCION_NO_NULA);
+//		String sql="Select distinct cuota from Competicion where id=?";
+//		//String d=Util.dateToIsoString(fechaInscripcion);
+//		List<CarreraDisplayDTO> c = db.executeQueryPojo(CarreraDisplayDTO.class, sql, idCategoria);
+//		return c.get(0);
+//	}
 	public void insertaDataAtleta(String nombre, String nombre_c, String categoria, String inscripcion, double cuota, String correo, String id) {
 		String sql="insert into DatosAtleta(nombre,nombre_c,categoria,inscripcion,cuota,id_c,correoE) values(?,?,?,?,?,?,?)";
 		db.executeUpdate(sql,nombre,nombre_c,categoria,inscripcion,cuota,correo,id);
