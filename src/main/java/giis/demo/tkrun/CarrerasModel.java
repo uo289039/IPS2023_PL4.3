@@ -59,7 +59,7 @@ public class CarrerasModel {
 //				+ " when ?<p.fechaIni then ''" //antes de inscripcion
 //				+"   when ?<=fechaFin then '(Abierta)'" //fase 1
 
-				 "SELECT nombre_c,c.descr,p.cuota,c.distancia, p.fechaIni, p.fechaFin,case"
+				 "SELECT nombre_c,c.descr,p.cuota,c.distancia, p.fechaIni as inicio, p.fechaFin as fin,case"
 				+ " when ?<p.fechaIni then ''" //antes de inscripcion
 				+"   when ?<=p.fechaFin then '(Abierta)'" //fase 1
 
@@ -112,7 +112,7 @@ public class CarrerasModel {
 	 */
 	public CarreraEntity getCarrera(int id) {
 
-		String sql="SELECT nombre_c,fechaIni,fechaFin,fecha,descr from Competicion c, Plazo p where id=? and id_c=id";
+		String sql="SELECT nombre_c,fechaIni,fechaFin,fecha,c.descr from Competicion c, Plazo p where id=? and id_c=id";
 
 //		String sql="SELECT * from Competicion where id=?";
 

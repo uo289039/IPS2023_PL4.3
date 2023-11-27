@@ -159,8 +159,8 @@ public class ParticipaModel {
 	
 	protected void insertaData(String info1, String info2,String info3) {
 		if(!yaInscrito(info2,info1)) {
-			String sql="insert into participa(correoElec,id_c,estadoI) values(?,?,?)";
-			db.executeUpdate(sql, info1, info2, info3);
+			String sql="insert into participa(correoElec,id_c,estadoI,completado) values(?,?,?,?)";
+			db.executeUpdate(sql, info1, info2, info3,"No terminada");
 		}
 	}
 	

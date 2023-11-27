@@ -17,8 +17,13 @@ public class CarreraDisplayDTO {
 	private String nombre_c;
 	private int nPlazas;
 	private String iban;
+	private String inicio;
+	private String fin;
 	public CarreraDisplayDTO() {}
-	public CarreraDisplayDTO(String rowId, String rowDescripcion, String rowEstado, String rowCuota,String rowDistancia, String rowNombre_c, String rowPlazas, String rowIban) {
+	public CarreraDisplayDTO(String rowId, String rowDescripcion, 
+			String rowEstado, String rowCuota,String rowDistancia, 
+			String rowNombre_c, String rowPlazas, String rowIban
+			, String rowInicio, String rowFin) {
 		this.id=rowId;
 		this.descr=rowDescripcion;
 		this.abierta=rowEstado;
@@ -27,6 +32,8 @@ public class CarreraDisplayDTO {
 		this.nombre_c=rowNombre_c;
 		this.nPlazas=Integer.parseInt(rowPlazas);
 		this.iban = rowIban;
+		this.inicio=rowInicio;
+		this.fin=rowFin;
 	}
 	public String getId() { return this.id; }
 	public String getDescr() { return this.descr; }
@@ -56,6 +63,18 @@ public class CarreraDisplayDTO {
 	}
 	public int getnPlazas() {
 		return nPlazas;
+	}
+	public String getInicio() {
+		return inicio;
+	}
+	public void setInicio(String inicio) {
+		this.inicio = inicio;
+	}
+	public String getFin() {
+		return fin;
+	}
+	public void setFin(String fin) {
+		this.fin = fin;
 	}
 	
 	

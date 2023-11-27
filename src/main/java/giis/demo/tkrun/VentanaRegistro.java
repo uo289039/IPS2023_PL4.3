@@ -225,7 +225,7 @@ public class VentanaRegistro extends JDialog {
 			tfPrecioBase.setBackground(Color.WHITE);
 			tfPrecioBase.setBounds(180, 243, 68, 20);
 			String id=SwingUtil.getSelectedKey(pv.getTable());
-//			tfPrecioBase.setText(Double.toString(pm.getCuotaCompeticion(id).getCuota()));
+			tfPrecioBase.setText(Double.toString(pm.getCuotaCompeticion(id).getCuota()));
 		}
 		return tfPrecioBase;
 	}
