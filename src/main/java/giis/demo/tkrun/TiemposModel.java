@@ -18,23 +18,23 @@ public class TiemposModel {
 	private static final String OBTENER_CORREO = "SELECT correoElec as correoE FROM participa"
 			+ " WHERE id_c = ? and dorsal=?";
 	
-	private static final String ELIMINAR_CLASIFICACION = "DELETE FROM tiempo WHERE id_c = ?";
+	//private static final String ELIMINAR_CLASIFICACION = "DELETE FROM tiempo WHERE id_c = ?";
 	
-	private static final String OBTENER_CLASIFICACION = "SELECT DISTINCT a.nombre, a.sexo, t.dorsal, t.tiempo"
-														+ "	FROM atleta a, participa p, tiempo t"
-														+ " WHERE p.id_c = ? AND p.id_c  = t.id_c"
+	private static final String OBTENER_CLASIFICACION = "SELECT DISTINCT a.nombre, a.sexo, p.dorsal, p.tiempo"
+														+ "	FROM atleta a, participa p"
+														+ " WHERE p.id_c = ? "
 														+ " AND a.correoE = p.correoElec"
-														+ " AND p.dorsal = t.dorsal"
+													
 														+ " AND p.dorsal <> 0"
-														+ " ORDER BY CASE WHEN t.tiempo = '---' THEN 1 ELSE 0 END";
+														+ " ORDER BY CASE WHEN p.tiempo = '---' THEN 1 ELSE 0 END";
 
-	private static final String OBTENER_CLASIFICACION_POR_SEXO = "SELECT DISTINCT a.nombre, a.sexo, t.dorsal, t.tiempo"
-											+ "	FROM atleta a, participa p, tiempo t"
-											+ " WHERE p.id_c = ? AND a.sexo = ? AND p.id_c  = t.id_c"
+	private static final String OBTENER_CLASIFICACION_POR_SEXO = "SELECT DISTINCT a.nombre, a.sexo, p.dorsal, p.tiempo"
+											+ "	FROM atleta a, participa p"
+											+ " WHERE p.id_c = ? AND a.sexo = ? "
 											+ " AND a.correoE = p.correoElec"
-											+ " AND p.dorsal = t.dorsal"
+											
 											+ " AND p.dorsal <> 0"
-											+ " ORDER BY CASE WHEN t.tiempo = '---' THEN 1 ELSE 0 END";
+											+ " ORDER BY CASE WHEN p.tiempo = '---' THEN 1 ELSE 0 END";
 	
 	
 	
@@ -50,7 +50,7 @@ public class TiemposModel {
 		List<TiempoEntity> tiempos = cargarTiempos("src/main/java/files/" + carreraId + ".csv", carreraId);
 		//db.executeUpdate(ELIMINAR_CLASIFICACION, carreraId);
 		
-		String query = "INSERT INTO Participa (dorsal, tiempo) VALUES (?,?), SELECT * from Participa where id_c=? and correoElec=? and estadoI=?";
+		String query = "UPDATE Participa set dorsal=?, tiempo=? where id_c=? and correoElec=? and estadoI=?";
 		for(TiempoEntity t: tiempos) {
 			String correo=getCorreo(carreraId,t.getDorsal());
 			String estado=getEstado(correo);

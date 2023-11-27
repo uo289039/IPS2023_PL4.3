@@ -25,16 +25,16 @@ public class ComparaModel {
 	//se incluye aqui porque se usara en diferentes versiones de los metodos bajo prueba
 	public static final String SQL_LISTA_DATOS_ATLETAS=
 			"Select nombre from Atleta a, Participa p, Competicion c WHERE a.correoE =p.correoElec "
-			+ "and p.id_c =c.id and c.nombre_c =?";
+			+ "and p.id_c =c.id and c.nombre_c =? and a.correoE!=? and p.estadoI='Inscrito'";
 	
 	
-	private static final String OBTENER_CLASIFICACION = "SELECT DISTINCT a.nombre, a.sexo, t.dorsal, t.tiempo"
-			+ "	FROM atleta a, participa p, tiempo t"
-			+ " WHERE p.id_c = ? AND p.id_c  = t.id_c"
+	private static final String OBTENER_CLASIFICACION = "SELECT DISTINCT a.nombre, a.sexo, p.dorsal, p.tiempo"
+			+ "	FROM atleta a, participa p"
+			+ " WHERE p.id_c = ? "
 			+ " AND a.correoE = p.correoElec"
-			+ " AND p.dorsal = t.dorsal AND a.nombre=?"
+			+ " AND a.nombre=?"
 			+ " AND p.dorsal <> 0"
-			+ " ORDER BY CASE WHEN t.tiempo = '---' THEN 1 ELSE 0 END";
+			+ " ORDER BY CASE WHEN p.tiempo = '---' THEN 1 ELSE 0 END";
 	
 	
 	private static final String OBTENER_ID = "SELECT id FROM competicion"
@@ -59,12 +59,13 @@ public class ComparaModel {
 	}
 	/**
 	 * Obtiene la lista de carreras activas en forma objetos para una fecha de inscripcion dada
+	 * @param correo 
 	 */
-	public List<AtletaDisplayDTO> getListaComparaAtletas(String nombreCompetidor) {
+	public List<AtletaDisplayDTO> getListaComparaAtletas(String nombreCarrera, String correo) {
 		//validateNotNull(fechaInscripcionnscripcion,MSG_FECHA_INSCRIPCION_NO_NULA);
 		
 		//String d=Util.dateToIsoString(fechaInscripcionnscripcion);
-		return db.executeQueryPojo(AtletaDisplayDTO.class, SQL_LISTA_DATOS_ATLETAS, nombreCompetidor);
+		return db.executeQueryPojo(AtletaDisplayDTO.class, SQL_LISTA_DATOS_ATLETAS, nombreCarrera,correo);
 	}
 	/** 
 	 * Obtiene el porcentaje de descuento (valor negativo) o recargo aplicable a una carrera dada por su id cuando se
@@ -137,8 +138,10 @@ public class ComparaModel {
 		String carreraId = getId(nombreCarrera);
 		List<ComparaDisplayDTO> tiempos =  new ArrayList<ComparaDisplayDTO>(); //db.executeQueryPojo(ComparaDisplayDTO.class, OBTENER_CLASIFICACION, carreraId)
 		//ComparaDisplayDTO atleta=db.executeQueryPojo(ComparaDisplayDTO.class, OBTENER_CLASIFICACION, carreraId,nombre).get(0);
-		for(String nombre:competidores)
-			tiempos.add(db.executeQueryPojo(ComparaDisplayDTO.class, OBTENER_CLASIFICACION, carreraId,nombre).get(0));
+		for(String nombre:competidores) {
+			List<ComparaDisplayDTO>lista=db.executeQueryPojo(ComparaDisplayDTO.class, OBTENER_CLASIFICACION, carreraId,nombre);
+			tiempos.add(lista.get(0));
+			}
 		int pos = 1;
 		for(ComparaDisplayDTO t: tiempos) {
 			t.setPuesto(pos);
@@ -161,6 +164,19 @@ public class ComparaModel {
 			if(carrera.equals(carreras.get(i).getNombre_c()))
 				return true;
 		}
+		return false;
+	}
+	public boolean compruebaCorreo(String correo) {
+		StringBuilder query=new StringBuilder();
+		String sentencia="Select distinct correoE from Atleta";
+		query.append(sentencia);
+		
+		List<AtletaDisplayDTO>correos=db.executeQueryPojo(AtletaDisplayDTO.class,query.toString());
+		for(int i=0;i<correos.size();i++) {
+			if(correos.get(i).getCorreoE().equals(correo))
+				return true;
+		}
+		
 		return false;
 	}
 	

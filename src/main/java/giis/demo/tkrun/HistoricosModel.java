@@ -22,75 +22,75 @@ public class HistoricosModel {
 	private static final String OBTENER_ID_POR_CORREO = "SELECT id FROM competicion, participa"
 			+ " WHERE id_c = id and correoElec=?";
 	
-	private static final String OBTENER_FECHA = "SELECT fecha as inicio FROM competicion"
-			+ " WHERE id = ?";
+//	private static final String OBTENER_FECHA = "SELECT fecha as inicio FROM competicion"
+//			+ " WHERE id = ?";
 	
 //	private static final String OBTENER_TIPO = "SELECT distinct tipo as Categoria FROM competicion c, tiempo t, participa p"
 //			+ " WHERE c.id = p.id_c and p.correoElec=? and t.id_c= p.id_c";
 	
 	
-	private static final String SELECCIONA_INFO_TIEMPOS = "SELECT dorsal, tiempo FROM Tiempo"
-			+ " WHERE id_c = ?";
+//	private static final String SELECCIONA_INFO_TIEMPOS = "SELECT dorsal, tiempo FROM Participa"
+//			+ " WHERE id_c = ?";
+//	
+//	private static final String ELIMINAR_CLASIFICACION = "DELETE FROM Particpa WHERE id_c = ?";
 	
-	private static final String ELIMINAR_CLASIFICACION = "DELETE FROM tiempo WHERE id_c = ?";
-	
-	private static final String OBTENER_CLASIFICACION = "SELECT DISTINCT c.nombre_c, t.dorsal, c.fecha, t.tiempo, c.tipo as Categoria"
-														+ "	FROM participa p, tiempo t, competicion c, Atleta a"
-														+ " WHERE p.id_c = ? AND p.id_c  = t.id_c And c.id=p.id_c"
+	private static final String OBTENER_CLASIFICACION = "SELECT DISTINCT c.nombre_c, p.dorsal, c.fecha, p.tiempo, c.tipo as Categoria"
+														+ "	FROM participa p, competicion c, Atleta a"
+														+ " WHERE p.id_c = ? And c.id=p.id_c"
 														+ " AND a.correoE=p.correoElec and a.correoE=?"
-														+ " AND p.dorsal = t.dorsal"
+														
 														+ " AND p.dorsal <> 0"
-														+ " ORDER BY CASE WHEN t.tiempo = '---' THEN 1 ELSE 0 END";
+														+ " ORDER BY CASE WHEN p.tiempo = '---' THEN 1 ELSE 0 END";
 	
 	
-	private static final String OBTENER_CLASIFICACION_POR_TIPO = "SELECT DISTINCT c.nombre_c, t.dorsal, c.fecha, t.tiempo, c.tipo as Categoria"
-			+ "	FROM participa p, tiempo t, competicion c"
-			+ " WHERE p.correoElec = ? AND p.id_c  = t.id_c And c.id=p.id_c and c.tipo=?"
-			+ " AND p.dorsal = t.dorsal"
+	private static final String OBTENER_CLASIFICACION_POR_TIPO = "SELECT DISTINCT c.nombre_c, p.dorsal, c.fecha, p.tiempo, c.tipo as Categoria"
+			+ "	FROM participa p, competicion c"
+			+ " WHERE p.correoElec = ? And c.id=p.id_c and c.tipo=?"
+			
 			+ " AND p.dorsal <> 0"
-			+ " ORDER BY CASE WHEN t.tiempo = '---' THEN 1 ELSE 0 END";
+			+ " ORDER BY CASE WHEN p.tiempo = '---' THEN 1 ELSE 0 END";
 	
 	
-	private static final String OBTENER_CLASIFICACION_POR_DISTANCIA = "SELECT DISTINCT c.nombre_c, t.dorsal, c.fecha, t.tiempo, c.tipo as Categoria"
-			+ "	FROM participa p, tiempo t, competicion c"
-			+ " WHERE p.correoElec = ? AND p.id_c  = t.id_c And c.id=p.id_c"
-			+ " AND p.dorsal = t.dorsal"
+	private static final String OBTENER_CLASIFICACION_POR_DISTANCIA = "SELECT DISTINCT c.nombre_c, p.dorsal, c.fecha, p.tiempo, c.tipo as Categoria"
+			+ "	FROM participa p, competicion c"
+			+ " WHERE p.correoElec = ? And c.id=p.id_c"
+			
 			+ " AND p.dorsal <> 0"
-			+ " ORDER BY CASE WHEN t.tiempo = '---' THEN 1 ELSE 0 END";
+			+ " ORDER BY CASE WHEN p.tiempo = '---' THEN 1 ELSE 0 END";
 	
 	
 	
 	
-	private static final String OBTENER_CLASIFICACION_MEDIA_MARATON = "SELECT DISTINCT c.nombre_c, t.dorsal, c.fecha, t.tiempo, c.tipo as Categoria"
-			+ "	FROM participa p, tiempo t, competicion c"
-			+ " WHERE p.correoElec = ? AND p.id_c  = t.id_c And c.id=p.id_c"
-			+ " AND p.dorsal = t.dorsal and c.distancia<=21"
+	private static final String OBTENER_CLASIFICACION_MEDIA_MARATON = "SELECT DISTINCT c.nombre_c, p.dorsal, c.fecha, p.tiempo, c.tipo as Categoria"
+			+ "	FROM participa p, competicion c"
+			+ " WHERE p.correoElec = ?  And c.id=p.id_c"
+			+ " and c.distancia<=21"
 			+ " AND p.dorsal <> 0"
-			+ " ORDER BY CASE WHEN t.tiempo = '---' THEN 1 ELSE 0 END";
+			+ " ORDER BY CASE WHEN p.tiempo = '---' THEN 1 ELSE 0 END";
 	
 	
-	private static final String OBTENER_CLASIFICACION_MARATON = "SELECT DISTINCT c.nombre_c, t.dorsal, c.fecha, t.tiempo, c.tipo as Categoria"
-			+ "	FROM participa p, tiempo t, competicion c"
-			+ " WHERE p.correoElec = ? AND p.id_c  = t.id_c And c.id=p.id_c"
-			+ " AND p.dorsal = t.dorsal and c.distancia>21 and c.distancia<=42"
+	private static final String OBTENER_CLASIFICACION_MARATON = "SELECT DISTINCT c.nombre_c, p.dorsal, c.fecha, p.tiempo, c.tipo as Categoria"
+			+ "	FROM participa p, competicion c"
+			+ " WHERE p.correoElec = ? AND c.id=p.id_c"
+			+ " and c.distancia>21 and c.distancia<=42"
 			+ " AND p.dorsal <> 0"
-			+ " ORDER BY CASE WHEN t.tiempo = '---' THEN 1 ELSE 0 END";
+			+ " ORDER BY CASE WHEN p.tiempo = '---' THEN 1 ELSE 0 END";
 	
 	
-	private static final String OBTENER_CLASIFICACION_ULTRA_MARATON = "SELECT DISTINCT c.nombre_c, t.dorsal, c.fecha, t.tiempo, c.tipo as Categoria"
-			+ "	FROM participa p, tiempo t, competicion c"
-			+ " WHERE p.correoElec = ? AND p.id_c  = t.id_c And c.id=p.id_c"
-			+ " AND p.dorsal = t.dorsal and c.distancia>42"
+	private static final String OBTENER_CLASIFICACION_ULTRA_MARATON = "SELECT DISTINCT c.nombre_c, p.dorsal, c.fecha, p.tiempo, c.tipo as Categoria"
+			+ "	FROM participa p,  competicion c"
+			+ " WHERE p.correoElec = ? AND c.id=p.id_c"
+			+ " and c.distancia>42"
 			+ " AND p.dorsal <> 0"
-			+ " ORDER BY CASE WHEN t.tiempo = '---' THEN 1 ELSE 0 END";
+			+ " ORDER BY CASE WHEN p.tiempo = '---' THEN 1 ELSE 0 END";
 
-//	private static final String OBTENER_CLASIFICACION_POR_SEXO = "SELECT DISTINCT a.nombre, a.sexo, t.dorsal, t.tiempo"
+//	private static final String OBTENER_CLASIFICACION_POR_SEXO = "SELECT DISTINCT a.nombre, a.sexo, p.dorsal, p.tiempo"
 //											+ "	FROM atleta a, participa p, tiempo t"
 //											+ " WHERE p.id_c = ? AND a.sexo = ? AND p.id_c  = t.id_c"
 //											+ " AND a.correoE = p.correoElec"
-//											+ " AND p.dorsal = t.dorsal"
+//											+ " AND p.dorsal = p.dorsal"
 //											+ " AND p.dorsal <> 0"
-//											+ " ORDER BY CASE WHEN t.tiempo = '---' THEN 1 ELSE 0 END";;
+//											+ " ORDER BY CASE WHEN p.tiempo = '---' THEN 1 ELSE 0 END";;
 	
 	
 	private static final String OBTENER_DISTANCIAS="SELECT distancia "
@@ -98,21 +98,16 @@ public class HistoricosModel {
 	
 	private static final String CORREOS="Select distinct correoE from Atleta a ";
 	
-	public void insertarHistorial(String correo) {
-		
-		
-		String nombreCarrera=getNombre(correo);
-		insertarTiempos(nombreCarrera);
-		String carreraId = getId(nombreCarrera);
-		String categoria=getCategoria(carreraId);
-		String fecha=getFecha(carreraId);
-		List<HistoricoEntity> tiempos = cargaDatos(carreraId);
-		String query = "INSERT INTO Historial (nombre_c, dorsal, fecha, tiempo, categoria,correoE) VALUES (?, ?, ?, ?, ?, ?)";
-		for(HistoricoEntity t: tiempos) {
-			db.executeUpdate(query, nombreCarrera, t.getDorsal(), fecha, t.getTiempo(),categoria,correo);	
-		}
-		//db.executeUpdate(ELIMINAR_CLASIFICACION, carreraId);
-	}
+//	public void insertarHistorial(String correo) {
+//		
+//		
+//		String nombreCarrera=getNombre(correo);
+//		insertarTiempos(nombreCarrera);
+//		String carreraId = getId(nombreCarrera);
+//		
+//		List<HistoricoEntity> tiempos = cargaDatos(carreraId);
+//		
+//	}
 		
 	
 	
@@ -124,19 +119,19 @@ public class HistoricosModel {
 		return false;
 	}
 
-	private List<HistoricoEntity> cargaDatos(String carreraId) {
-	return db.executeQueryPojo(HistoricoEntity.class,SELECCIONA_INFO_TIEMPOS, carreraId);
-	
-	}
+//	private List<HistoricoEntity> cargaDatos(String carreraId) {
+//	return db.executeQueryPojo(HistoricoEntity.class,SELECCIONA_INFO_TIEMPOS, carreraId);
+//	
+//	}
 
-	private String getFecha(String id) {
-		List<CarreraDisplayDTO> res = db.executeQueryPojo(CarreraDisplayDTO.class, OBTENER_FECHA, id);
-		if(res.isEmpty()) {
-			return "";
-		}
-		return res.get(0).getInicio();
-	
-	}
+//	private String getFecha(String id) {
+//		List<CarreraDisplayDTO> res = db.executeQueryPojo(CarreraDisplayDTO.class, OBTENER_FECHA, id);
+//		if(res.isEmpty()) {
+//			return "";
+//		}
+//		return res.get(0).getInicio();
+//	
+//	}
 
 	public String getNombre(String id) {
 		List<CarreraDisplayDTO> res = db.executeQueryPojo(CarreraDisplayDTO.class, OBTENER_NOMBRE, id);
@@ -198,14 +193,14 @@ public class HistoricosModel {
 		if(nombreDist.equals("Todas"))
 			tiempos=db.executeQueryPojo(HistoricoDisplayDTO.class, OBTENER_CLASIFICACION_POR_DISTANCIA, correo);
 		
-		else if(nombreDist.equals("Media Maraton"))
+		else if(nombreDist.equals("Media maraton"))
 			tiempos=db.executeQueryPojo(HistoricoDisplayDTO.class, OBTENER_CLASIFICACION_MEDIA_MARATON, correo);
 		
 		else if(nombreDist.equals("Maraton"))
 			tiempos=db.executeQueryPojo(HistoricoDisplayDTO.class, OBTENER_CLASIFICACION_MARATON, correo);
 		
 		
-		else if(nombreDist.equals("Ultra Maraton"))
+		else if(nombreDist.equals("Ultra maraton"))
 			tiempos=db.executeQueryPojo(HistoricoDisplayDTO.class, OBTENER_CLASIFICACION_ULTRA_MARATON, correo);
 		
 		int pos = 1;
@@ -216,14 +211,14 @@ public class HistoricosModel {
 		return tiempos;
 	}
 	
-	private String getCategoria(String carreraId) {
-		String sql="Select distinct tipo from competicion where id=?";
-		List<CategoriaCompeticion>cat=db.executeQueryPojo(CategoriaCompeticion.class, sql,carreraId);
-		return cat.get(0).getNombre_cat();
-	}
+//	private String getCategoria(String carreraId) {
+//		String sql="Select distinct tipo from competicion where id=?";
+//		List<CategoriaCompeticion>cat=db.executeQueryPojo(CategoriaCompeticion.class, sql,carreraId);
+//		return cat.get(0).getNombre_cat();
+//	}
 	
 	public List<String> getTipos(){
-		String sql="Select distinct tipo from competicion";
+		String sql="Select distinct tipo as nombre_cat from competicion";
 		List<CategoriaCompeticion>carreras=db.executeQueryPojo(CategoriaCompeticion.class, sql);
 		List<String>resultado=new ArrayList<String>();
 		for(int i=0;i<carreras.size();i++)
@@ -237,13 +232,28 @@ public class HistoricosModel {
 		
 		String carreraId = getId(nombreCarrera);
 		List<TiempoEntity> tiempos = cargarTiempos("src/main/java/files/" + carreraId + ".csv", carreraId);
-		db.executeUpdate(ELIMINAR_CLASIFICACION, carreraId);
-		String query = "INSERT INTO tiempo (id_c, dorsal, tiempo) VALUES (?, ?, ?)";
+		//db.executeUpdate(ELIMINAR_CLASIFICACION, carreraId);
+		String query = "UPDATE Participa set dorsal=?, tiempo=?  where id_c=?";
 		for(TiempoEntity t: tiempos) {
-			db.executeUpdate(query, carreraId, t.getDorsal(), t.getTiempo());	
+			if(!inTablaUnique(t.getDorsal(),carreraId))
+			db.executeUpdate(query, t.getDorsal(), t.getTiempo(),carreraId);	
 		}
 		
 	}
+
+
+	private boolean inTablaUnique(int dorsal, String carreraId) {
+		// TODO Auto-generated method stub
+		String sql="Select distinct id_c, dorsal from Participa p";
+		List<HistoricoDisplayDTO>data=db.executeQueryPojo(HistoricoDisplayDTO.class, sql);
+		String nombre=getNombre(carreraId);
+		for(int i=0;i<data.size();i++) {
+			if(data.get(i).getDorsal()==dorsal && data.get(i).getNombre_c().equals(nombre))
+				return true;
+		}
+		return false;
+	}
+
 
 
 	private List<TiempoEntity> cargarTiempos(String ruta, String idC) {

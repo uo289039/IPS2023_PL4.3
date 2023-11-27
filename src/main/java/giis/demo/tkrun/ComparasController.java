@@ -75,14 +75,17 @@ public class ComparasController {
 	 */
 	public void getListaAtletas() {
 		String carrera=view.getTextCompeticion().getText();
-		if(model.compruebaNombreCarrera(carrera)) {
-			List<AtletaDisplayDTO> atletas=model.getListaComparaAtletas(carrera);
+		String correo=view.getTextAtleta();
+		if(model.compruebaNombreCarrera(carrera) && model.compruebaCorreo(correo)) {
+			List<AtletaDisplayDTO> atletas=model.getListaComparaAtletas(carrera,correo);
 			view.setModeloLista(atletas);
 			view.getBtnAñadir().setEnabled(true);
 		}
-		else {
+		else if(model.compruebaCorreo(correo)){
 			view.carreraNoExiste(carrera);
 		}
+		else
+			view.avisaCorreo();
 		//Como se guarda la clave del ultimo elemento seleccionado, restaura la seleccion de los detalles
 		this.restoreDetail();
 
@@ -120,7 +123,7 @@ public class ComparasController {
 			String competicion=view.getTextCompeticion().getText();
 			
 			List<ComparaDisplayDTO>tiempos=model.getTiempos(competicion,competidores);
-			TableModel mCompara=SwingUtil.getTableModelFromPojos(tiempos,new String[] {"nombre"});
+			TableModel mCompara=SwingUtil.getTableModelFromPojos(tiempos,new String[] {"nombre","sexo", "dorsal", "t_intermedio"});
 			view.getTablaAtletas().setModel(mCompara);
 			SwingUtil.autoAdjustColumns(view.getTablaAtletas());
 		}

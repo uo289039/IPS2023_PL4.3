@@ -11,9 +11,12 @@ public class CategoriaCompeticion {
 	private int edadMax;
 	private int edadMin;
 	
+	private String tipo;
+	
 	
 	public CategoriaCompeticion() {}
-	public CategoriaCompeticion(String rowCategoria, String rowgenero,String rowNom, int rI, int rF) {
+	public CategoriaCompeticion(String rowCategoria, String rowgenero,String rowNom, int rI, int rF,
+			String rowTipo) {
 		
 		this.id_c=rowCategoria;
 		
@@ -25,6 +28,7 @@ public class CategoriaCompeticion {
 		
 		this.edadMax=rF;
 		
+		this.tipo=rowTipo;
 		}
 	
 	public String getId_c() {return this.id_c; }
@@ -50,6 +54,12 @@ public class CategoriaCompeticion {
 	}
 	public void setEdadMin(int edadMin) {
 		this.edadMin = edadMin;
+	}
+	public String getTipo() {
+		return tipo;
+	}
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
 	}
 	
 	

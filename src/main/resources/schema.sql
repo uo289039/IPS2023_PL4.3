@@ -29,6 +29,7 @@ create table Participa(correoElec varchar(15) not null, id_c int not null, estad
 						constraint pk_Participa PRIMARY KEY(correoElec,id_c), 
                         constraint FK_Participa_Competicion Foreign Key (id_c) references "Competicion" (id),
                         constraint FK_Participa_Atleta Foreign Key (correoElec) references "Atleta" (correoE),
+                        constraint UK_Participa_dorsal_id_c UNIQUE (dorsal,id_c),
                         check(estadoI in ('No Inscrito','Preinscrito','Inscrito','Participado')));
                        
 

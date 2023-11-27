@@ -20,9 +20,10 @@ public class ComparaDisplayDTO {
 	private double ritmo;
 	private double distancia;
 	private String completado;
+	private String nombre;
 	public ComparaDisplayDTO() {}
 	public ComparaDisplayDTO(String rowCorreo, double rowTiempo, int rowPuesto,
-			double rowTinterm, double rowRitmo, double rowDist, String rowEstado) {
+			double rowTinterm, double rowRitmo, double rowDist, String rowEstado, String rowNombre) {
 		
 		this.correoE=rowCorreo;
 		this.tiempo=rowTiempo;
@@ -31,6 +32,7 @@ public class ComparaDisplayDTO {
 		this.ritmo=rowRitmo;
 		this.distancia=rowDist;
 		this.completado=rowEstado;
+		this.nombre=rowNombre;
 		}
 	public String getCorreoE() {
 		return correoE;
@@ -73,6 +75,12 @@ public class ComparaDisplayDTO {
 	}
 	public void setCompletado(String completado) {
 		this.completado = completado;
+	}
+	public String getNombre() {
+		return nombre;
+	}
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
 	}
 	
 	

@@ -152,4 +152,9 @@ public class ComparasView {
 		JOptionPane.showMessageDialog(null, "Por favor seleccione al menos un competidor para poder comparar sus resultados");
 		
 	}
+	
+	public void avisaCorreo() {
+		JOptionPane.showMessageDialog(null, "Por favor introduzca un correoValido");
+		
+	}
 }

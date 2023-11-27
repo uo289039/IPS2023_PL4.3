@@ -50,12 +50,12 @@ public class HistoricosController {
 	
 	private void cargaView() {
 		List<String> tipos=model.getTipos();
-		String[] tipado=tipos.toArray(new String[tipos.size()+1]);
-		tipado[tipos.size()]="Todas";
+		tipos.add("Todas");
+		String[] tipado=tipos.toArray(new String[tipos.size()]);
 		view.fijaModeloTipo(tipado);
 		
 	}
-	/**
+	/**set dorsal=?, tiempo=?
 	 * La obtencion de la lista de carreras solo necesita obtener la lista de objetos del modelo 
 	 * y usar metodo de SwingUtil para crear un tablemodel que se asigna finalmente a la tabla.
 	 */
@@ -63,7 +63,7 @@ public class HistoricosController {
 		
 		String correo = view.getNombreCarrera();
 		if(!correo.equals("") && model.compruebaCorreo(correo)) {
-			model.insertarHistorial(correo);
+			//model.insertarHistorial(correo);
 		
 			List<HistoricoDisplayDTO> clasificacion;
 		
