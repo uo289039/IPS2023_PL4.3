@@ -161,4 +161,24 @@ public class TiemposView {
 		return this.rdbtnFemenino.isSelected();
 	}
 	
+	public JCheckBox getCbTb1() {
+		return cbTb_1;
+	}
+	
+	public JCheckBox getCbTb2() {
+		return cbTb_2;
+	}
+	
+	public JCheckBox getCbTb3() {
+		return cbTb_3;
+	}
+	
+	public JCheckBox getCbTb4() {
+		return cbTb_4;
+	}
+	
+	public JCheckBox getCbTb5() {
+		return cbTb_5;
+	}
+	
 }

@@ -55,6 +55,7 @@ public class TiemposController {
 		
 		String nombreCarrera = view.getNombreCarrera();
 		model.insertarTiempos(nombreCarrera);
+		insertarNombreTp(nombreCarrera);
 		
 		List<TiempoDisplayDto> clasificacion;
 		
@@ -89,6 +90,27 @@ public class TiemposController {
 	public void updateDetail() {
 		//Obtiene la clave seleccinada y la guarda para recordar la seleccion en futuras interacciones
 		this.lastSelectedKey=SwingUtil.getSelectedKey(view.getTablaCarreras());
+	}
+	
+	private void insertarNombreTp(String nombreCarrera) {
+		int carreraId = Integer.parseInt(model.getId(nombreCarrera));
+		CarreraEntity carrera = new CarrerasModel().getCarrera(carreraId);
+		
+		if(carrera.getTp1() != 0) {
+			view.getCbTb1().setText(carrera.getTp1() + " km");
+		}
+		if(carrera.getTp2() != 0) {
+			view.getCbTb2().setText(carrera.getTp2() + " km");
+		}
+		if(carrera.getTp3() != 0) {
+			view.getCbTb3().setText(carrera.getTp3() + " km");
+		}
+		if(carrera.getTp4() != 0) {
+			view.getCbTb4().setText(carrera.getTp4() + " km");
+		}
+		if(carrera.getTp5() != 0) {
+			view.getCbTb5().setText(carrera.getTp5() + " km");
+		}
 	}
 
 
