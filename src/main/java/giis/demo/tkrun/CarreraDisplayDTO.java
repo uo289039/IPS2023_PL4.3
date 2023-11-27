@@ -44,10 +44,6 @@ public class CarreraDisplayDTO {
 	public void setNombre_c(String nombre_c) {this.nombre_c = nombre_c;}
 	public void setnPlazas(int nPlazas) {this.nPlazas = nPlazas;}
 	
-	
-	
-	
-	
 	public String getInicio() {
 		return inicio;
 	}
