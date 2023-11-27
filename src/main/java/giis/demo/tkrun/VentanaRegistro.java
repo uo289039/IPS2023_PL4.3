@@ -5,8 +5,6 @@ import javax.swing.JPanel;
 import java.awt.Color;
 
 import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
@@ -25,13 +23,11 @@ public class VentanaRegistro extends JDialog {
 	private JButton btBorrar;
 	private JButton btPagar;
 	private JLabel lbNombre;
+	private JLabel lbDNI;
 	private JLabel lbIban;
-	private JLabel lbSucursal;
-	private JLabel lbBanco;
 	private JTextField tfNombre;
+	private JTextField tfDNI;
 	private JTextField tfIban;
-	private JTextField tfBanco;
-	private JTextField tfSucursal;
 	private JLabel lbPrecioBase;
 	private JLabel lbGastosGestion;
 	private JLabel lbTotal;
@@ -48,7 +44,7 @@ public class VentanaRegistro extends JDialog {
 		this.pm = new ParticipaModel();
 		setTitle("Datos de transferencia bancaria");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 600, 423);
+		setBounds(100, 100, 600, 372);
 		setLocationRelativeTo(null);
 		pnTransferencia = new JPanel();
 		pnTransferencia.setBackground(new Color(255, 255, 255));
@@ -58,21 +54,19 @@ public class VentanaRegistro extends JDialog {
 		pnTransferencia.add(getBtBorrar());
 		pnTransferencia.add(getBtPagar());
 		pnTransferencia.add(getLbNombre());
+		pnTransferencia.add(getLbDNI());
 		pnTransferencia.add(getLbIban());
-		pnTransferencia.add(getLbSucursal());
-		pnTransferencia.add(getLbBanco());
 		pnTransferencia.add(getTfNombre());
 		
 		JSeparator separator = new JSeparator();
-		separator.setBounds(20, 346, 228, 2);
+		separator.setBounds(20, 297, 228, 2);
 		pnTransferencia.add(separator);
 		pnTransferencia.add(getTfPrecioBase());
 		pnTransferencia.add(getTfGastosGestion());
 		pnTransferencia.add(getTfTotal());
 		pnTransferencia.add(getLbImporte());
+		pnTransferencia.add(getTfDNI());
 		pnTransferencia.add(getTfIban());
-		pnTransferencia.add(getTfBanco());
-		pnTransferencia.add(getTfSucursal());
 		pnTransferencia.add(getLbInfoGastos());
 		pnTransferencia.add(getLbPrecioBase());
 		pnTransferencia.add(getLbGastosGestion());
@@ -82,7 +76,7 @@ public class VentanaRegistro extends JDialog {
 	public JButton getBtBorrar() {
 		if (btBorrar == null) {
 			btBorrar = new JButton("Borrar datos");
-			btBorrar.setBounds(358, 352, 117, 23);
+			btBorrar.setBounds(358, 303, 117, 23);
 			btBorrar.setMnemonic('C');
 			btBorrar.setForeground(new Color(255, 255, 255));
 			btBorrar.setBackground(new Color(255, 0, 0));
@@ -100,19 +94,16 @@ public class VentanaRegistro extends JDialog {
 	
 	public void reiniciar() {
 		getTfNombre().setText("");
+		getTfDNI().setText("");
 		getTfIban().setText("");
-		getTfBanco().setText("");
-		getTfSucursal().setText("");
 	}
 	
 	private boolean comprobarCampos() {
 		if(this.getTfNombre().getText().isBlank()) {
 			return false;
+		} else if(this.getTfDNI().getText().isBlank()) {
+			return false;
 		} else if(this.getTfIban().getText().isBlank()) {
-			return false;
-		} else if(this.getTfBanco().getText().isBlank()) {
-			return false;
-		} else if(this.getTfSucursal().getText().isBlank()) {
 			return false;
 		}
 		return true;
@@ -121,7 +112,13 @@ public class VentanaRegistro extends JDialog {
 	public boolean validateFormulario() {
 		if(!comprobarCampos()) {
 			JOptionPane.showMessageDialog(null, "Tienes que rellenar todos los campos para continuar");
+
 			return false;
+
+		} else {
+			saveData();
+			dispose();
+
 		}
 		return true;
 	}
@@ -129,7 +126,7 @@ public class VentanaRegistro extends JDialog {
 	public JButton getBtPagar() {
 		if (btPagar == null) {
 			btPagar = new JButton("Pagar");
-			btPagar.setBounds(485, 352, 89, 23);
+			btPagar.setBounds(485, 303, 89, 23);
 			btPagar.setMnemonic('S');
 //			btPagar.addActionListener(new ActionListener() {
 //			public void actionPerformed(ActionEvent e) {
@@ -148,11 +145,11 @@ public class VentanaRegistro extends JDialog {
 	public void saveData() {
 		String nombre = getTfNombre().getText();
 		String correo = pv.getTextFieldCorreo().getText();
+		String dni = getTfDNI().getText();
 		String iban = getTfIban().getText();
-		String banco = getTfBanco().getText();
-		String sucursal = getTfSucursal().getText();
 		double importe = Double.parseDouble(getTfTotal().getText());
-		pm.insertaTrans(nombre, correo, iban, banco, sucursal, importe);
+		String id_c = SwingUtil.getSelectedKey(pv.getTable());;
+		pm.insertaTrans(nombre, correo, dni, iban, importe, id_c);
 	}
 	
 	private JLabel getLbNombre() {
@@ -164,31 +161,22 @@ public class VentanaRegistro extends JDialog {
 		return lbNombre;
 	}
 	
+	private JLabel getLbDNI() {
+		if (lbDNI == null) {
+			lbDNI = new JLabel("DNI del titular de la cuenta");
+			lbDNI.setBounds(20, 78, 228, 14);
+			lbDNI.setForeground(new Color(128, 128, 128));
+		}
+		return lbDNI;
+	}
+	
 	private JLabel getLbIban() {
 		if (lbIban == null) {
-			lbIban = new JLabel("N\u00FAmero de IBAN");
-			lbIban.setBounds(20, 78, 133, 14);
+			lbIban = new JLabel("Número de IBAN competición");
+			lbIban.setBounds(20, 133, 169, 14);
 			lbIban.setForeground(new Color(128, 128, 128));
 		}
 		return lbIban;
-	}
-	
-	private JLabel getLbSucursal() {
-		if (lbSucursal == null) {
-			lbSucursal = new JLabel("Direcci\u00F3n de la sucursal");
-			lbSucursal.setBounds(20, 189, 193, 14);
-			lbSucursal.setForeground(new Color(128, 128, 128));
-		}
-		return lbSucursal;
-	}
-	
-	private JLabel getLbBanco() {
-		if (lbBanco == null) {
-			lbBanco = new JLabel("Nombre del banco");
-			lbBanco.setBounds(20, 133, 169, 14);
-			lbBanco.setForeground(new Color(128, 128, 128));
-		}
-		return lbBanco;
 	}
 	
 	protected JTextField getTfNombre() {
@@ -206,7 +194,7 @@ public class VentanaRegistro extends JDialog {
 			lbPrecioBase = new JLabel("Precio base de la carrera");
 			lbPrecioBase.setForeground(Color.GRAY);
 			lbPrecioBase.setFont(new Font("Tahoma", Font.PLAIN, 13));
-			lbPrecioBase.setBounds(20, 290, 150, 23);
+			lbPrecioBase.setBounds(20, 241, 150, 23);
 		}
 		return lbPrecioBase;
 	}
@@ -215,7 +203,7 @@ public class VentanaRegistro extends JDialog {
 			lbGastosGestion = new JLabel("Gastos de gesti\u00F3n");
 			lbGastosGestion.setForeground(Color.GRAY);
 			lbGastosGestion.setFont(new Font("Tahoma", Font.PLAIN, 13));
-			lbGastosGestion.setBounds(20, 312, 150, 23);
+			lbGastosGestion.setBounds(20, 263, 150, 23);
 		}
 		return lbGastosGestion;
 	}
@@ -224,7 +212,7 @@ public class VentanaRegistro extends JDialog {
 			lbTotal = new JLabel("TOTAL");
 			lbTotal.setForeground(Color.BLACK);
 			lbTotal.setFont(new Font("Tahoma", Font.BOLD, 13));
-			lbTotal.setBounds(125, 351, 45, 23);
+			lbTotal.setBounds(125, 302, 45, 23);
 		}
 		return lbTotal;
 	}
@@ -235,9 +223,9 @@ public class VentanaRegistro extends JDialog {
 			tfPrecioBase.setToolTipText("");
 			tfPrecioBase.setColumns(10);
 			tfPrecioBase.setBackground(Color.WHITE);
-			tfPrecioBase.setBounds(180, 292, 68, 20);
-			String id=SwingUtil.getSelectedKey(pv.getTable());;
-			tfPrecioBase.setText(Double.toString(pm.getCuotaCompeticion(id).getCuota()));
+			tfPrecioBase.setBounds(180, 243, 68, 20);
+			String id=SwingUtil.getSelectedKey(pv.getTable());
+//			tfPrecioBase.setText(Double.toString(pm.getCuotaCompeticion(id).getCuota()));
 		}
 		return tfPrecioBase;
 	}
@@ -248,8 +236,8 @@ public class VentanaRegistro extends JDialog {
 			tfGastosGestion.setToolTipText("");
 			tfGastosGestion.setColumns(10);
 			tfGastosGestion.setBackground(Color.WHITE);
-			tfGastosGestion.setBounds(180, 315, 68, 20);
-			tfGastosGestion.setText(String.valueOf(Double.parseDouble(getTfPrecioBase().getText())*0.05));
+			tfGastosGestion.setBounds(180, 266, 68, 20);
+			tfGastosGestion.setText("5%");
 		}
 		return tfGastosGestion;
 	}
@@ -260,8 +248,8 @@ public class VentanaRegistro extends JDialog {
 			tfTotal.setToolTipText("");
 			tfTotal.setColumns(10);
 			tfTotal.setBackground(Color.WHITE);
-			tfTotal.setBounds(180, 353, 68, 20);
-			double a = Double.parseDouble(getTfPrecioBase().getText()) + Double.parseDouble(getTfGastosGestion().getText());
+			tfTotal.setBounds(180, 304, 68, 20);
+			double a = Double.parseDouble(getTfPrecioBase().getText()) + Double.parseDouble(getTfPrecioBase().getText())*0.05;
 			tfTotal.setText(String.valueOf(a));
 		}
 		return tfTotal;
@@ -270,39 +258,32 @@ public class VentanaRegistro extends JDialog {
 		if (lbImporte == null) {
 			lbImporte = new JLabel("Importe a pagar:");
 			lbImporte.setForeground(Color.GRAY);
-			lbImporte.setBounds(20, 265, 193, 14);
+			lbImporte.setBounds(20, 216, 193, 14);
 		}
 		return lbImporte;
+	}
+	private JTextField getTfDNI() {
+		if (tfDNI == null) {
+			tfDNI = new JTextField();
+			tfDNI.setToolTipText("Introduzca aquí el DNI de su cuenta bancaria");
+			tfDNI.setColumns(10);
+			tfDNI.setBackground(Color.WHITE);
+			tfDNI.setBounds(20, 103, 386, 20);
+		}
+		return tfDNI;
 	}
 	private JTextField getTfIban() {
 		if (tfIban == null) {
 			tfIban = new JTextField();
-			tfIban.setToolTipText("Introduzca aqu\u00ED el IBAN de su cuenta bancaria");
+			tfIban.setEditable(false);
+			tfIban.setToolTipText("");
 			tfIban.setColumns(10);
 			tfIban.setBackground(Color.WHITE);
-			tfIban.setBounds(20, 103, 386, 20);
+			tfIban.setBounds(20, 158, 386, 20);
+			String id=SwingUtil.getSelectedKey(pv.getTable());
+//			tfIban.setText(pm.getIbanCompeticion(id).getIban_c());
 		}
 		return tfIban;
-	}
-	private JTextField getTfBanco() {
-		if (tfBanco == null) {
-			tfBanco = new JTextField();
-			tfBanco.setToolTipText("Introduzca aqu\u00ED el nombre de su banco");
-			tfBanco.setColumns(10);
-			tfBanco.setBackground(Color.WHITE);
-			tfBanco.setBounds(20, 158, 386, 20);
-		}
-		return tfBanco;
-	}
-	private JTextField getTfSucursal() {
-		if (tfSucursal == null) {			
-			tfSucursal = new JTextField();
-			tfSucursal.setToolTipText("Introduzca aqu\u00ED la direcci\u00F3n de la sucursal de tu banco");
-			tfSucursal.setColumns(10);
-			tfSucursal.setBackground(Color.WHITE);
-			tfSucursal.setBounds(20, 207, 386, 20);
-		}
-		return tfSucursal;
 	}
 
 	private JLabel getLbInfoGastos() {
@@ -310,7 +291,7 @@ public class VentanaRegistro extends JDialog {
 			lbInfoGastos = new JLabel("Al importe se le a\u00F1adir\u00E1 un porcentaje en concepto de gastos de gesti\u00F3n");
 			lbInfoGastos.setFont(new Font("Tahoma", Font.PLAIN, 13));
 			lbInfoGastos.setForeground(Color.GRAY);
-			lbInfoGastos.setBounds(20, 238, 422, 23);
+			lbInfoGastos.setBounds(20, 189, 422, 23);
 		}
 		return lbInfoGastos;
 	}

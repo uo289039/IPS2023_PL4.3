@@ -90,6 +90,27 @@ public class ParticipaController {
 	
 	
 	private void validaGuarda() {
+
+		// TODO Auto-generated method stub
+//		vr.validateFormulario();
+//		saveData();
+//		JOptionPane.showMessageDialog(null, "Datos guardados");
+//		String id=SwingUtil.getSelectedKey(view.getTable());
+//		String correo=view.getTextFieldCorreo().getText();
+//		String nombre=vr.getTfNombre().getText();
+//		String nombre_c=model.getNombreCompeticion(id);
+////		double cuota=model.getCuotaCompeticion(id).getCuota();
+//		String categoria=model.getCategoria(id).getTipo();
+//		String inscripcion=model.getInscripcion(correo);
+////		model.insertaDataAtleta(nombre,nombre_c,categoria,inscripcion,cuota,id,correo); //Modificar, añadir metodos para conseguir el nombre,nombre_c,categoria,inscripcion,cuota 
+//		List<DatosAtleta> info=model.datosAtletaInscrito(correo,id);
+//		TableModel tmodel=SwingUtil.getTableModelFromPojos(info, new String[] {"nombre","nombre_c","categoria","inscripcion","cuota"});
+//		mI.setVisible(true);
+//		mI.getTable().setModel(tmodel);
+//		SwingUtil.autoAdjustColumns(mI.getTable());
+////		view.getTablaAtletas().setModel(tmodel);
+////		SwingUtil.autoAdjustColumns(view.getTablaAtletas());
+
 		
 		if(vr.validateFormulario()) {
 		vr.saveData();
@@ -121,6 +142,7 @@ public class ParticipaController {
 	
 	
 	private void validaGuardaTarjeta() {
+
 		if(saveData()) {
 			
 			String id=SwingUtil.getSelectedKey(view.getTable());
@@ -138,6 +160,24 @@ public class ParticipaController {
 			SwingUtil.autoAdjustColumns(mI.getTable());
 			JOptionPane.showMessageDialog(null, "Datos guardados");
 		}
+
+//		saveData();
+//		JOptionPane.showMessageDialog(null, "Datos guardados");
+//		String id=SwingUtil.getSelectedKey(view.getTable());
+//		String correo=view.getTextFieldCorreo().getText();
+////		String nombre=model.getTfNombre(correo);
+////		String nombre_c=model.getNombreCompeticion(id);
+//////		double cuota=model.getCuotaCompeticion(id).getCuota();
+////		String categoria=model.getCategoria(id).getTipo();
+////		String inscripcion=model.getInscripcion(correo);
+////		model.insertaDataAtleta(nombre,nombre_c,categoria,inscripcion,cuota,id,correo); //Modificar, añadir metodos para conseguir el nombre,nombre_c,categoria,inscripcion,cuota 
+//		List<DatosAtleta> info=model.datosAtletaInscrito(correo,id);
+//		TableModel tmodel=SwingUtil.getTableModelFromPojos(info, new String[] {"nombre","nombre_c","categoria","inscripcion","cuota"});
+//		mI.setVisible(true);
+//		mI.getTable().setModel(tmodel);
+//		SwingUtil.autoAdjustColumns(mI.getTable());
+		
+
 	}
 	
 	

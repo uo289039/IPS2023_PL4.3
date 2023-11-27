@@ -48,7 +48,11 @@ public class SwingMain {
 	private void initialize() {
 		frame = new JFrame();
 		frame.setTitle("Main");
+
 		frame.setBounds(0, 0, 613, 390);
+
+		frame.setBounds(0, 0, 613, 300);
+
 		frame.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 		
 		JButton btnEjecutarTkrun = new JButton("Ver Competiciones");
@@ -140,6 +144,7 @@ public class SwingMain {
 		});
 		frame.getContentPane().add(btnCrearCompeticion);
 		
+
 		JButton btnHistorico = new JButton("Historico Atleta");
 		btnHistorico.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -157,6 +162,16 @@ public class SwingMain {
 			}
 		});
 		frame.getContentPane().add(btnComparar);
+
+		JButton btnParticipacionClubes = new JButton("Participación club");
+		btnParticipacionClubes.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ClubController cc=new ClubController(new ClubModel(), new ClubView());
+				cc.initController();
+			}
+		});
+		frame.getContentPane().add(btnParticipacionClubes);
+
 		
 		
 	}

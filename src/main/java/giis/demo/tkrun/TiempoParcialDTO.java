@@ -1,3 +1,4 @@
+
 package giis.demo.tkrun;
 
 public class TiempoParcialDTO {

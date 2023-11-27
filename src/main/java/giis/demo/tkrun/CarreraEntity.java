@@ -28,9 +28,11 @@ public class CarreraEntity {
 	private int tp3;
 	private int tp4;
 	private int tp5;
+
 	
 	private String inicio; //las fechas son string (vienen de sqlite)
 	private String fin;
+
 
 	public String getId() { return this.id; }
 	public String getFecha() { return this.fecha; }
@@ -108,6 +110,7 @@ public class CarreraEntity {
 	public void setTp5(int tp5) {
 		this.tp5 = tp5;
 	}
+
 	public String getInicio() {
 		return inicio;
 	}
@@ -120,6 +123,7 @@ public class CarreraEntity {
 	public void setFin(String fin) {
 		this.fin = fin;
 	}
+
 	
 	
 	
