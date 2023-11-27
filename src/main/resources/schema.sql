@@ -27,10 +27,6 @@ create table Competicion(
     tiemposparciales boolean not null,
     tp1 decimal(4,2), tp2 decimal(4,2),
     tp3 decimal(4,2), tp4 decimal(4,2), tp5 decimal(4,2),
-<<<<<<< HEAD
-=======
-    iban varchar(40) unique,
->>>>>>> refs/heads/main
         check(tipo in('Montaña','Ruta')),
         check(cancelacion in('Si','No'))
 );
@@ -104,10 +100,19 @@ create table CategoriaCompeticion(
         constraint fk_Categoria_competicion foreign key (id_c) references "Competicion" (id));
 
 drop table if exists Plazo;
-create table Plazo(id_c int not null, 
+create table Plazo(
+    id_c int not null, 
     descr varchar(30) not null, 
     fechaIni varchar(20) not null, 
     fechaFin varchar(20) not null, 
     cuota decimal(4,2) not null,
         constraint fk_Plazo_Competicion foreign key (id_c) references "Competicion" (id));
+
+drop table if exists Club;
+create table Club(
+    id_comp int not null, 
+    id_club int not null, 
+    nombre varchar(30) not null, 
+    numAtletas varchar(20) not null, 
+        constraint fk_Plazo_Competicion foreign key (id_comp) references "Competicion" (id));
 
