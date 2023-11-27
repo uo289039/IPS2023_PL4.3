@@ -4,9 +4,9 @@ delete from CategoriaCompeticion;
 delete from Competicion;
 delete from PagosTransferencia;
 
-<<<<<<< HEAD
+
 delete from Categoria;
-=======
+
 
 insert into Competicion(id,nombre_c,fecha,descr,distancia,tipo,nPlazas,iban_c,cancelacion,devolucion,fechaCanc,tiemposparciales) values 
 	(100,'San Silvestre','2023-12-12','antes inscripcion',42,'Montaña',40,'ES12 1234 5678 9098 7545 6787','Si',10,'2023-12-08',false),
@@ -29,10 +29,10 @@ insert into Participa(correoElec,id_c,estadoI) values
 ('alexa@gmail.com',100,'Preinscrito'),('hunter@gmail.com',102,'Inscrito'),('marta@gmail.com',101,'Preinscrito'),
 ('manolin@gmail.com',100,'Inscrito'), ('mariluz@gmail.com',100,'Inscrito');
 
->>>>>>> refs/heads/main
 
 
-<<<<<<< HEAD
+
+
 insert into Competicion(id,nombre_c,fecha,descr,distancia,tipo,nPlazas,devolucion,cancelacion) values 
 	(100,'San Silvestre','2023-12-09','antes inscripcion',42,'Montaña',40,10,'Si'),
 	(101,'Media Maraton','2023-12-10','en fase 3',21,'Ruta',30,5,'Si'),
@@ -58,10 +58,10 @@ insert into Participa(correoElec,id_c,estadoI,ritmo,completado) values
 INSERT into PagosTransferencia (nombre_Completo,correoElec,dni,importe,iban,id_c)	values
 ('Alexander Graham','alex@gmail.com',1,52.5,'ES12 1234 5678 9098 7545 6787',100),
 ('Hunter Davis','hunter@gmail.com',7,52.5,'ES21 4059 0197 7333 9419 9129',103);
->>>>>>> refs/heads/main
 
 
-<<<<<<< HEAD
+
+
 
 
 INSERT into PagosTransferencia (nombre_Completo,correoElec,dni,importe,iban,id_c)	values
@@ -101,7 +101,7 @@ values ('alex@gmail.com','San Silvestre','Preinscrito','2023-09-11'),
 ('maolin@gmail.com','San Silvestre','Inscrito','2023-10-01'),
 ('mariluz@gmail.com','San Silvestre','Inscrito','2023-10-01'),
 ('alexa@gmail.com','Vuelta Ciclista','Preinscrito','2023-11-03');
-=======
+
 insert into Plazo(id_c,descr,fechaIni,fechaFin,cuota) values
 (100,'Primer plazo','2016-11-01','2016-12-04',50.0),
 (101,'Primer plazo','2023-12-30','2023-12-05',42.0),
@@ -134,4 +134,4 @@ values ('alex@gmail.com','San Silvestre','Preinscrito','2023-09-11'),
 ('maolin@gmail.com','San Silvestre','Inscrito','2023-10-01'),
 ('mariluz@gmail.com','San Silvestre','Inscrito','2023-10-01'),
 ('alexa@gmail.com','Vuelta Ciclista','Preinscrito','2023-11-03');
->>>>>>> refs/heads/main
+
