@@ -99,18 +99,23 @@ public class TiemposController {
 		if(carrera.isTiemposParciales()) {
 			if(carrera.getTp1() != 0) {
 				view.getCbTb1().setText(carrera.getTp1() + " km");
+				view.getCbTb1().setEnabled(true);
 			}
 			if(carrera.getTp2() != 0) {
 				view.getCbTb2().setText(carrera.getTp2() + " km");
+				view.getCbTb2().setEnabled(true);
 			}
 			if(carrera.getTp3() != 0) {
 				view.getCbTb3().setText(carrera.getTp3() + " km");
+				view.getCbTb3().setEnabled(true);
 			}
 			if(carrera.getTp4() != 0) {
 				view.getCbTb4().setText(carrera.getTp4() + " km");
+				view.getCbTb4().setEnabled(true);
 			}
 			if(carrera.getTp5() != 0) {
 				view.getCbTb5().setText(carrera.getTp5() + " km");
+				view.getCbTb5().setEnabled(true);
 			}
 		}
 	}

@@ -41,7 +41,6 @@ public class TiemposView {
 	private JCheckBox cbTb_2;
 	private JCheckBox cbTb_3;
 	private JCheckBox cbTb_4;
-	private JCheckBox cbTbTodos;
 
 	/**
 	 * Create the application.
@@ -100,28 +99,29 @@ public class TiemposView {
 		pnTiemposParciales.add(lbTiemposParciales);
 		
 		cbTb_1 = new JCheckBox("1");
+		cbTb_1.setEnabled(false);
 		cbTb_1.setBackground(new Color(255, 255, 255));
 		pnTiemposParciales.add(cbTb_1);
 		
 		cbTb_2 = new JCheckBox("2");
+		cbTb_2.setEnabled(false);
 		cbTb_2.setBackground(Color.WHITE);
 		pnTiemposParciales.add(cbTb_2);
 		
 		cbTb_3 = new JCheckBox("3");
+		cbTb_3.setEnabled(false);
 		cbTb_3.setBackground(Color.WHITE);
 		pnTiemposParciales.add(cbTb_3);
 		
 		cbTb_4 = new JCheckBox("4");
+		cbTb_4.setEnabled(false);
 		cbTb_4.setBackground(Color.WHITE);
 		pnTiemposParciales.add(cbTb_4);
 		
 		cbTb_5 = new JCheckBox("5");
+		cbTb_5.setEnabled(false);
 		cbTb_5.setBackground(Color.WHITE);
 		pnTiemposParciales.add(cbTb_5);
-		
-		cbTbTodos = new JCheckBox("Todos");
-		cbTbTodos.setBackground(Color.WHITE);
-		pnTiemposParciales.add(cbTbTodos);
 		JScrollPane tablePanel = new JScrollPane(tabClasificacion);
 		frame.getContentPane().add(tablePanel, "cell 0 7,grow");
 		
