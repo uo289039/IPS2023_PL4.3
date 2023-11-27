@@ -25,12 +25,15 @@ poblacion varchar(25) not null, telefono varchar(12) not null, pais varchar(30) 
 check(sexo in ('hombre','mujer')), check(formaPago in ('transferencia','tarjeta','')));
 
 drop table if exists Participa;
-create table Participa(correoElec varchar(15) not null, id_c int not null, estadoI varchar(15) not null,dorsal INTEGER unique, tiempo varchar(6),
+create table Participa(correoElec varchar(15) not null, id_c int not null, estadoI varchar(15) not null,dorsal INTEGER, tiempo varchar(6),
+ritmo decimal(4,2), completado varchar(15) not null,
 						constraint pk_Participa PRIMARY KEY(correoElec,id_c), 
                         constraint FK_Participa_Competicion Foreign Key (id_c) references "Competicion" (id),
                         constraint FK_Participa_Atleta Foreign Key (correoElec) references "Atleta" (correoE),
                         constraint UK_Participa_dorsal_id_c UNIQUE (dorsal,id_c),
-                        check(estadoI in ('No Inscrito','Preinscrito','Inscrito','Participado')));
+                        check(estadoI in ('No Inscrito','Preinscrito','Inscrito','Participado')),
+                        check(completado in('No terminada','Terminada')));
+
                        
 
 drop table if exists PagosTransferencia;

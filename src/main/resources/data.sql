@@ -23,10 +23,12 @@ insert into Atleta(dni,f_nacimiento,nombre,sexo,inscripcion,formaPago,correoE,po
 (10,'2001-11-03','Manolo','hombre','2016-10-10','transferencia','manolin@gmail.com','Ibias','624 123 894', 'España','ES22 1638 9123 0102 9860 0535'),
 (11,'2001-11-03','Mariluz','mujer','2016-10-10','transferencia','mariluz@gmail.com','Degaña','624 123 895', 'España','ES54 2123 2123 0102 9860 0535');
 
-insert into Participa(correoElec,id_c,estadoI) values 
-('alex@gmail.com',100,'Inscrito'),('emilie@gmail.com',103,'Inscrito'),
-('alexa@gmail.com',100,'Preinscrito'),('hunter@gmail.com',102,'Inscrito'),('marta@gmail.com',101,'Preinscrito'),
-('manolin@gmail.com',100,'Inscrito'), ('mariluz@gmail.com',100,'Inscrito');
+insert into Participa(correoElec,id_c,estadoI,ritmo,completado) values 
+('alex@gmail.com',100,'Inscrito',4.2,'Terminada'),('emilie@gmail.com',103,'Inscrito',4.9,'Terminada'),
+('alexa@gmail.com',100,'Preinscrito',4.6,'No terminada'),('hunter@gmail.com',102,'Inscrito',5.0,'Terminada'),
+('marta@gmail.com',101,'Preinscrito',6.1,'No terminada'),
+('manolin@gmail.com',100,'Inscrito',4.2,'Terminada'), ('mariluz@gmail.com',100,'Inscrito',7.0,'Terminada');
+
 
 
 
