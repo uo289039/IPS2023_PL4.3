@@ -15,7 +15,7 @@ public class TiemposModel {
 	private static final String OBTENER_ID = "SELECT id FROM competicion"
 													+ " WHERE nombre_c = ?";
 	
-//	private static final String ELIMINAR_CLASIFICACION = "DELETE FROM tiempo WHERE id_c = ?";
+//	private static final String ELIMINAR_TP= "DELETE FROM tiempoParcial WHERE id_c = ? and nombre=?";
 	
 	private static final String OBTENER_CLASIFICACION = "SELECT DISTINCT a.nombre, a.sexo, p.dorsal, p.tiempo"
 														+ "	FROM atleta a, participa p"
@@ -29,7 +29,11 @@ public class TiemposModel {
 											+ " WHERE p.id_c = ? AND a.sexo = ?"
 											+ " AND a.correoE = p.correoElec"
 											+ " AND p.dorsal <> 0"
-											+ " ORDER BY CASE WHEN p.tiempo = '---' THEN 1 ELSE 0 END";;
+											+ " ORDER BY CASE WHEN p.tiempo = '---' THEN 1 ELSE 0 END";
+	
+	
+	private static final String OBTENER_T_PARCIALES="Select distinct tiempo from TiempoParcial where id_c=? and dorsal=?";
+	
 	
 	public void insertarTiempos(String nombreCarrera) {
 		
@@ -37,9 +41,19 @@ public class TiemposModel {
 		List<TiempoEntity> tiempos = cargarTiempos("src/main/java/files/" + carreraId + ".csv", carreraId);
 		String query = "UPDATE participa SET tiempo = ?"
 					+ " WHERE id_c  = ? AND dorsal = ?";
+		
+		String q2="Insert into tiempoParcial (id_c,dorsal,tiempo,nombre) values (?,?,?,?)";
 		for(TiempoEntity t: tiempos) {
 			db.executeUpdate(query, t.getTiempo(), carreraId, t.getDorsal());
+			for(int i=0;i<t.gettParciales().size();i++) {
+				String nombre="tp"+carreraId+"-"+(i+1);
+				db.executeUpdate(q2,t.getIdCarrera(),t.getDorsal(),t.gettParciales().get(i),nombre);
+//				db.executeUpdate(ELIMINAR_TP,t.getIdCarrera(),nombre);
+				
+			}
 		}
+		
+		
 		
 	}
 	
@@ -69,6 +83,11 @@ public class TiemposModel {
 		int pos = 1;
 		for(TiempoDisplayDto t: tiempos) {
 			t.setPosicion(pos);
+			List<TiempoParcialDTO> tiemposP =  db.executeQueryPojo(TiempoParcialDTO.class, OBTENER_T_PARCIALES, carreraId,t.getDorsal());
+			if(tiemposP.size()>0)
+				for(int i=0;i<tiemposP.size();i++)
+					t.gettParciales().add(tiemposP.get(i).getTiempo());
+			
 			pos++;
 		}
 		return tiempos;
@@ -80,6 +99,10 @@ public class TiemposModel {
 		int pos = 1;
 		for(TiempoDisplayDto t: tiempos) {
 			t.setPosicion(pos);
+			List<TiempoParcialDTO> tiemposP =  db.executeQueryPojo(TiempoParcialDTO.class, OBTENER_T_PARCIALES, carreraId,t.getDorsal());
+			if(tiemposP.size()>0)
+				for(int i=0;i<tiemposP.size();i++)
+					t.gettParciales().add(tiemposP.get(i).getTiempo());
 			pos++;
 		}
 		return tiempos;
@@ -87,7 +110,7 @@ public class TiemposModel {
 	
 	public TiempoParcialDTO getTp(int dorsal, int carreraId, int distancia) {
 		String sql = "select * from tiempoparcial t,"
-				    +" where distancia = ? and id_c = ? and dorsal ?";
+				    +" where distancia = ? and id_c = ? and dorsal=?";
 		return db.executeQueryPojo(TiempoParcialDTO.class, sql, distancia, carreraId, dorsal).get(0);
 	}
 	

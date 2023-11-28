@@ -39,23 +39,16 @@ public class ParserCompeticion {
 			tiempo = "---";
 		}
 		
-		String tp1 = "";
-		String tp2 = "";
-		String tp3 = "";
-		String tp4 = "";
-		String tp5 = "";
 		
+		List<String>tp=new ArrayList<String>();
 		if(tokens.length > 2) {
 			for(int i=2; i<tokens.length; i++) {
-				if(i==2) tp1 = tokens[2];
-				if(i==3) tp1 = tokens[3]; 
-				if(i==4) tp1 = tokens[4]; 
-				if(i==5) tp1 = tokens[5]; 
-				if(i==6) tp1 = tokens[6]; 
+				if(!tokens[i].isEmpty())
+					tp.add(tokens[i]);
 			}
 		}
 		
-		return new TiempoEntity(idC, dorsal, tiempo, tp1, tp2, tp3, tp4, tp5);
+		return new TiempoEntity(idC, dorsal, tiempo, tp);
 		
 	}
 

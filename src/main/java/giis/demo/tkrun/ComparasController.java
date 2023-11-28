@@ -126,13 +126,14 @@ public class ComparasController {
 			view.avisaSelecciona();
 		}
 		else {
+			
 			List<String> competidores=view.getListaCompetidores().getSelectedValuesList();
 			String nombre=model.getNombreUsuario(view.getTextAtleta());
 			competidores.add(0, nombre);
 			String competicion=view.getTextCompeticion().getText();
 			
 			List<ComparaDisplayDTO>tiempos=model.getTiempos(competicion,competidores);
-			TableModel mCompara=SwingUtil.getTableModelFromPojos(tiempos,new String[] {"correoE","tiempo", "puesto", "t_intermedio","ritmo","distancia","completado"});
+			TableModel mCompara=SwingUtil.getTableModelFromPojos(tiempos,new String[] {"correoE","tiempo", "puesto", "parciales","ritmo","distancia","completado"});
 			view.getTablaAtletas().setModel(mCompara);
 			SwingUtil.autoAdjustColumns(view.getTablaAtletas());
 			view.getBtnTablaAtletas().setEnabled(true);

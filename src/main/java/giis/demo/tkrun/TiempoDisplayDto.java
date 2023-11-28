@@ -1,5 +1,8 @@
 package giis.demo.tkrun;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class TiempoDisplayDto {
 	
 	private String nombre;
@@ -7,20 +10,20 @@ public class TiempoDisplayDto {
 	private String tiempo;
 	private String sexo;
 	private int posicion;
+	private String parciales;
 	
-	private String tp1;
-	private String tp2;
-	private String tp3;
-	private String tp4;
-	private String tp5;
+	private List<String> tParciales=new ArrayList<String>();
 	
-	public TiempoDisplayDto(int posicion, String nombre, String sexo, int dorsal, String tiempo) {
+	public TiempoDisplayDto(int posicion, String nombre, String sexo, int dorsal, String tiempo,
+			List<String> tp5, String p) {
 		super();
 		this.setPosicion(posicion);
 		this.setNombre(nombre);
 		this.setDorsal(dorsal);
 		this.setTiempo(tiempo);
 		this.setSexo(sexo);
+		this.tParciales=tp5;
+		parciales=p;
 	}
 	public TiempoDisplayDto() {}
 	public String getTiempo() { return tiempo; }
@@ -33,36 +36,25 @@ public class TiempoDisplayDto {
 	public void setNombre(String nombre) { this.nombre = nombre; }
 	public int getPosicion() { return posicion; }
 	public void setPosicion(int posicion) { this.posicion = posicion; }
+	public List<String> gettParciales() {
+		return tParciales;
+	}
 	
-	public String getTp1() {
-		return tp1;
+	
+	public String getParciales() {
+		parciales="";
+		for(int i=0;i<tParciales.size();i++)
+			parciales+=tParciales.get(i)+";";
+		
+		return parciales;
 	}
-	public void setTp1(String tp1) {
-		this.tp1 = tp1;
+	public void setParciales(String parciales) {
+		this.parciales = parciales;
 	}
-	public String getTp2() {
-		return tp2;
+	public void settParciales(List<String> tParciales) {
+		this.tParciales = tParciales;
 	}
-	public void setTp2(String tp2) {
-		this.tp2 = tp2;
-	}
-	public String getTp3() {
-		return tp3;
-	}
-	public void setTp3(String tp3) {
-		this.tp3 = tp3;
-	}
-	public String getTp4() {
-		return tp4;
-	}
-	public void setTp4(String tp4) {
-		this.tp4 = tp4;
-	}
-	public String getTp5() {
-		return tp5;
-	}
-	public void setTp5(String tp5) {
-		this.tp5 = tp5;
-	}
+	
+	
 	
 }

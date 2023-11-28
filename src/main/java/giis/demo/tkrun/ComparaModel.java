@@ -30,7 +30,7 @@ public class ComparaModel {
 			+ "and p.id_c =c.id and c.nombre_c =? and a.correoE!=? and p.estadoI='Inscrito'";
 	
 	
-	private static final String OBTENER_CLASIFICACION = "SELECT DISTINCT a.correoE, p.tiempo,p.ritmo,c.distancia,p.completado"
+	private static final String OBTENER_CLASIFICACION = "SELECT DISTINCT a.correoE, p.tiempo,p.ritmo,c.distancia,p.completado, p.dorsal"
 			+ "	FROM atleta a, participa p, TiempoParcial tp,competicion c"
 			+ " WHERE p.id_c = ? and p.id_c=c.id and p.id_c=tp.id_c"
 			+ " AND a.correoE = p.correoElec"
@@ -45,6 +45,8 @@ public class ComparaModel {
 	
 	
 	private static final String LISTA_NOMBRES_C="Select distinct nombre_c from Competicion c";
+	
+	private static final String OBTENER_T_PARCIALES="Select distinct tiempo from TiempoParcial where id_c=? and dorsal=?";
 	/**
 	 * Obtiene la lista de carreras futuras (posteriores a una fecha dada) con el id, descripcion
 	 * y la indicacion de si tienen inscripcion abierta.
@@ -148,6 +150,10 @@ public class ComparaModel {
 		int pos = 1;
 		for(ComparaDisplayDTO t: tiempos) {
 			t.setPuesto(pos);
+			List<TiempoParcialDTO> tiemposP =  db.executeQueryPojo(TiempoParcialDTO.class, OBTENER_T_PARCIALES, carreraId,t.getDorsal());
+			if(tiemposP.size()>0)
+				for(int i=0;i<tiemposP.size();i++)
+					t.gettParciales().add(tiemposP.get(i).getTiempo());
 			pos++;
 		}
 		return tiempos;
@@ -189,22 +195,16 @@ public class ComparaModel {
 	}
 	
 	
-	public void insertarTiempos(String nombreCarrera) {
-		
-		String carreraId = getId(nombreCarrera);
-		List<TiempoEntity> tiempos = cargarTiempos("src/main/java/files/" + carreraId + ".csv", carreraId);
-		String query = "UPDATE TiempoParcial SET tiempo = ?"
-					+ " WHERE id_c  = ? AND nombre = ?";
-		for(TiempoEntity t: tiempos) {
-			db.executeUpdate(query, t.getTiempo(), carreraId, t.getDorsal());
-		}
-		
-	}
+	public void insertTp(TiempoParcialDTO tP) {
+		String sql = "insert into tiempoparcial (id_c, dorsal, distancia, tiempo)"
+					+ " values (?,?,?,?)";
+		db.executeUpdate(sql, tP.getId_c(), tP.getDorsal(), tP.getDistancia(), tP.getTiempo());
+	}	
 
 
-	private List<TiempoEntity> cargarTiempos(String ruta, String idC) {
-		return new ParserCompeticion().parseLines(new FileUtil().readLines(ruta), idC);
-	}
+//	private List<TiempoEntity> cargarTiempos(String ruta, String idC) {
+//		return new ParserCompeticion().parseLines(new FileUtil().readLines(ruta), idC);
+//	}
 	
 	
 }

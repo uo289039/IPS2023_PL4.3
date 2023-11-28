@@ -68,9 +68,10 @@ public class TiemposController {
 			clasificacion = model.getTiempos(nombreCarrera);
 		}
 		
-		TableModel tmodel=SwingUtil.getTableModelFromPojos(clasificacion, new String[] {"posicion", "nombre", "sexo", "dorsal", "tiempo", "tp1", "tp2", "tp3", "tp4", "tp5"});
+		TableModel tmodel=SwingUtil.getTableModelFromPojos(clasificacion, new String[] {"posicion", "nombre", "sexo", "dorsal", "tiempo", "parciales"});
 		view.getTablaCarreras().setModel(tmodel);
 		SwingUtil.autoAdjustColumns(view.getTablaCarreras());
+		//O comentamos el getSelectedKey o guardar la posicion como un  string
 		//Como se guarda la clave del ultimo elemento seleccionado, restaura la seleccion de los detalles
 		this.restoreDetail();
 		

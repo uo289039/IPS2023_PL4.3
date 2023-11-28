@@ -9,6 +9,8 @@ public class TiempoParcialDTO {
 	private int dorsal;
 	private String tiempo;
 	
+	
+	public TiempoParcialDTO() {}
 	public TiempoParcialDTO(String nombre, double distancia, int id_c) {
 		super();
 		this.nombre = nombre;
@@ -44,5 +46,22 @@ public class TiempoParcialDTO {
 	public Object getDorsal() {
 		return dorsal;
 	}
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+	public void setDistancia(double distancia) {
+		this.distancia = distancia;
+	}
+	public void setId_c(int id_c) {
+		this.id_c = id_c;
+	}
+	public void setDorsal(int dorsal) {
+		this.dorsal = dorsal;
+	}
+	public void setTiempo(String tiempo) {
+		this.tiempo = tiempo;
+	}
+	
+	
 	
 }

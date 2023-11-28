@@ -1,6 +1,7 @@
 package giis.demo.tkrun;
 
-
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Cada una de las filas que muestran al usuario las carreras y su estado
@@ -16,23 +17,31 @@ public class ComparaDisplayDTO {
 	private String correoE;
 	private double tiempo;
 	private int puesto;
-	private double t_intermedio;
 	private double ritmo;
 	private double distancia;
 	private String completado;
 	private String nombre;
+	private String parciales;
+	private int dorsal;
+	
+	private List<String> tParciales=new ArrayList<String>();
+	
 	public ComparaDisplayDTO() {}
 	public ComparaDisplayDTO(String rowCorreo, double rowTiempo, int rowPuesto,
-			double rowTinterm, double rowRitmo, double rowDist, String rowEstado, String rowNombre) {
+			double rowTinterm, double rowRitmo, double rowDist, String rowEstado, String rowNombre,
+			List<String> tp5, String p, int dorsal ) {
 		
 		this.correoE=rowCorreo;
 		this.tiempo=rowTiempo;
 		this.puesto=rowPuesto;
-		this.t_intermedio=rowTinterm;
+		this.setDorsal(dorsal);
+		
 		this.ritmo=rowRitmo;
 		this.distancia=rowDist;
 		this.completado=rowEstado;
 		this.nombre=rowNombre;
+		this.tParciales=tp5;
+		parciales=p;
 		}
 	public String getCorreoE() {
 		return correoE;
@@ -52,12 +61,7 @@ public class ComparaDisplayDTO {
 	public void setPuesto(int puesto) {
 		this.puesto = puesto;
 	}
-	public double getT_intermedio() {
-		return t_intermedio;
-	}
-	public void setT_intermedio(double t_intermedio) {
-		this.t_intermedio = t_intermedio;
-	}
+	
 	public double getRitmo() {
 		return ritmo;
 	}
@@ -81,6 +85,29 @@ public class ComparaDisplayDTO {
 	}
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
+	}
+	
+	public String getParciales() {
+		parciales="";
+		for(int i=0;i<tParciales.size();i++)
+			parciales+=tParciales.get(i)+";";
+		
+		return parciales;
+	}
+	public void setParciales(String parciales) {
+		this.parciales = parciales;
+	}
+	public void settParciales(List<String> tParciales) {
+		this.tParciales = tParciales;
+	}
+	public List<String> gettParciales() {
+		return tParciales;
+	}
+	public int getDorsal() {
+		return dorsal;
+	}
+	public void setDorsal(int dorsal) {
+		this.dorsal = dorsal;
 	}
 	
 	
